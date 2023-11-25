@@ -1,0 +1,15 @@
+h1 {
+    color: blue;
+    font-size: 40px;
+    font-family: 'Lucida Sans'; 
+ }
+ h2 {
+     color: orange;
+     font-size: 35px;
+     font-family: 'Times New Roman';
+ }
+ h3 {
+     color: red;
+     font-size: 30px;
+     font-family: Verdana;
+ }
