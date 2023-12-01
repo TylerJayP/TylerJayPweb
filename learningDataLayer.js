@@ -6,7 +6,7 @@ window.dataLayer.push({
 
 },{
     'event': 'login',
-    'userID': '29fhjd563shf4',
+    'userID': randomId(10),
     'client type': 'vip',
     'loginMethod': 'email',
 } 
