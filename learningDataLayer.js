@@ -15,9 +15,3 @@ window.dataLayer.push({
     'dimension1': 'vip',
     'metic1': 'logged in',
 });
-
-window.dataLayer.push({
-    'event': 'linkClicked',
-    'url': 'https://www.youtube.com/watch?v=qbuw27d6Ack',
-    'text': 'Juice Wrld',
-});
