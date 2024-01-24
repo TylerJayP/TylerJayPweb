@@ -1,15 +1,29 @@
-h1 {
-    color: blue;
-    font-size: 40px;
-    font-family: 'Lucida Sans'; 
+table, th, td { 
+    border: 2px solid grey; 
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Lucida Sans';
+ } 
+ 
+ table{
+     table-layout: fixed;
+     width: 60%;
+ 
+     th, td {
+         width: 20%;
+         word-wrap: break-word;        
+     }
  }
- h2 {
-     color: orange;
-     font-size: 35px;
-     font-family: 'Times New Roman';
+ 
+ body {
+     font-family: 'Georgia';
  }
- h3 {
-     color: red;
-     font-size: 30px;
-     font-family: Verdana;
+ 
+ html{
+     background-color: aliceblue;
+ }
+ 
+ ol, ul{
+ text-indent: 4px;
+ list-style-position: inside;
  }
