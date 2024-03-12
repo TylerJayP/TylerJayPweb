@@ -1,0 +1,12 @@
+    /*colors for dark mode:
+    #E4E4E4 - light white/grey
+    */
+
+.darkMode .tylerJayContainer{
+    background-color: #282828;
+}
+
+.darkMode .tylerJayContainer h1{
+
+    color: #E4E4E4;
+} 

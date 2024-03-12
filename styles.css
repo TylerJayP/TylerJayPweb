@@ -1,0 +1,110 @@
+body{
+    font-family: "Poppins", sans-serif;
+}
+
+.tylerJayContainer{
+    width: 100%;
+    height: 100vh;
+    background-color: #FFF7F1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.tylerJayContainer h1{
+    font-size: 55px;
+    font-weight: 500;
+    color: #545454;
+}
+
+span{
+    color: #8ec6d1;
+}
+
+.mewLoaderWrapper #jsTypedLoading {
+    color: red;
+    z-index: 9999;
+}
+
+.mewLoaderWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #FFF7F1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 100;
+}
+
+.mewLoaderWrapper #jsTypedLoading{
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 62.5%;
+}
+
+.mewLoaderWrapper img{
+    transform: scale(.5);
+}
+
+.loading-bar {
+    width: 0%;
+    max-width: 10vw;
+    height: 20px;
+    background-color: #8ec6d1; /* Change the color as needed */
+    transition: width 0.5s ease-in-out; /* Smooth transition effect */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9997;
+    position: fixed;
+    top: calc(65%);
+    border-radius: 7px;
+}
+
+@media screen and (max-width:1024px) {
+    .loading-bar {
+        width: 0%;
+        max-width: 20vw;
+        height: 20px;
+        background-color: #8ec6d1; /* Change the color as needed */
+        transition: width 0.5s ease-in-out; /* Smooth transition effect */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9997;
+        position: fixed;
+        top: calc(70%);
+        border-radius: 7px;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .loading-bar {
+        width: 0%;
+        max-width: 20vw;
+        height: 20px;
+        background-color: #8ec6d1; /* Change the color as needed */
+        transition: width 0.5s ease-in-out; /* Smooth transition effect */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9997;
+        position: fixed;
+        top: calc(70%);
+        border-radius: 7px;
+    }
+
+    .mewLoaderWrapper img{
+        transform: scale(.35);
+    }
+}
+
