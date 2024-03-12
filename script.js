@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-function toggleDarkMode(color){
+function toggleDarkMode(){
     var element = document.body;
     element.classList.toggle("darkMode");
     element.style.background = color;

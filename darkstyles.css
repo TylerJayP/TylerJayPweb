@@ -1,0 +1,13 @@
+.darkMode{
+    background-color: #282828;
+}
+
+.darkMode .tylerJayContainer{
+    background-color: #282828;
+}
+
+.darkMode .tylerJayContainer h1{
+    font-size:  55px;
+    font-weight: 500;
+    color: #e1e1e1;
+}
