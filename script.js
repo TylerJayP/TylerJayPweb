@@ -14,55 +14,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 typeSpeed: 100,
                 loop: false
                 });
-
         }, 500); // Wait for the transition to complete before hiding the element
 
      // Wait for the transition to complete before hiding the element
-    }, 2000); // 3000 milliseconds = 3 seconds
-
-    var loadingBar = document.getElementById("loadingBar");
-
-    // Simulate loading process
-    var progress = 0;
-    var interval = setInterval(function() {
-        progress += 1; // Increment progress
-        loadingBar.style.width = progress + "%"; // Update width of loading bar
-    }); // Adjust the interval duration as needed for desired speed
+    }, 4000); // 3000 milliseconds = 3 seconds
 
 });
-
-
-
-    const loadingTextToType = "Loading";
-
-
-    // Fade out the newLoaderWrapper after 3 seconds (3000 milliseconds)
-    setTimeout(function() {
-        var mewLoaderWrapper = document.getElementById("mewLoaderWrapper");
-        mewLoaderWrapper.style.opacity = "0";
-        setTimeout(function() {
-            mewLoaderWrapper.style.display = "none";
-            var typedLoading = new Typed("#jsTypedLoading", {
-                strings: ["Loading"],
-                typeSpeed: 100,
-                loop: false
-                });
-
-        }, 500); // Wait for the transition to complete before hiding the element
-
-     // Wait for the transition to complete before hiding the element
-    }, 2000); // 3000 milliseconds = 3 seconds
-
-    var loadingBar = document.getElementById("loadingBar");
-
-    // Simulate loading process
-    var progress = 0;
-    var interval = setInterval(function() {
-        progress += 1; // Increment progress
-        loadingBar.style.width = progress + "%"; // Update width of loading bar
-    }); // Adjust the interval duration as needed for desired speed
-
-
 
 
     function toggleDarkMode() {
@@ -118,5 +75,11 @@ function fadeIn(element, duration) {
 setTimeout(function() {
     var navBarDelay = document.getElementById('navLinks');
     document.getElementById('navLinks').style.display = 'flex';
-    fadeIn(navBarDelay, 2000); // Fade in over 3000 milliseconds (3 seconds)
-}, 2000);
+    fadeIn(navBarDelay, 4000); // Fade in over 3000 milliseconds (3 seconds)
+}, 4000);
+
+setTimeout(function() {
+    var navBarDelay = document.getElementById('aboutMe');
+    document.getElementById('aboutMe').style.display = 'flex';
+    fadeIn(navBarDelay, 4000); // Fade in over 3000 milliseconds (3 seconds)
+}, 3000);

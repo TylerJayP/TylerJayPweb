@@ -1,5 +1,41 @@
+/* text color: #e1e1e1; */
+/* mew color: #8ec6d1; */
+
 .darkMode{
     background-color: #282828;
+}
+
+.darkMode .tylerJayContainer{
+    width: 100%;
+    height: 100vh;
+    background-color: #282828;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.darkMode .tylerJayContainer h1{
+    font-size: 60px;
+    font-weight: 500;
+    color: #e1e1e1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 0px;
+}
+
+.darkMode .tylerJayContainer .aboutMe{
+    color:#e1e1e1;
+}
+
+.darkMode span{
+    color: #8ec6d1;
+    margin: 0 0 0 15px;
+}
+
+.darkMode span:last-child{
+    margin-left: 0px;
 }
 
 .darkMode .mewLoaderWrapper {
@@ -18,42 +54,17 @@
     opacity: 100;
 }
 
-.darkMode .tylerJayContainer{
-    background-color: #282828;
-}
-
-.darkMode .tylerJayContainer h1{
-    font-size: 60px;
-    font-weight: 500;
-    color: #e1e1e1;
-}
-
-.darkMode nav{
-    max-width: 1200px;
-    margin: auto;
-    padding: 2rem 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-    color: #e1e1e1;
-}
-
-.darkMode .nav-links{
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5rem;
-    color: #e1e1e1;
+.darkMode .mewLoaderWrapper img{
+    content: url("images/shinyMew.gif");
+    transform: scale(.7);
 }
 
 .darkMode .link a {
     position: relative;
     text-decoration: none;
     padding-bottom: 0.75rem;
-    color: #e1e1e1;
-
+    color: #e1e1e1;;
+    font-size: 25px;
 }
 
 .darkMode .link a::after{
@@ -70,3 +81,89 @@
 .darkMode .link a:hover::after{
     width: 100%;
 }
+
+.darkMode .changeModeButton {
+    width: 30px; /* Adjust width and height to fit your SVG */
+    height: 40px;
+    background-color: transparent; /* Remove default button background */
+    position: fixed;
+    left: 2%;
+    top: 3%;
+    content: url("images/sun.svg");
+}
+
+#load {
+    width:600px;
+    height:36px;
+    left:50%;
+    top:40%;
+    margin-left:-300px;
+    overflow:visible;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+  }
+  
+.darkMode #load div {
+    position:absolute;
+    width:20px;
+    height:36px;
+    opacity:0;
+    font-family:Helvetica, Arial, sans-serif;
+    animation:move 3s linear infinite;
+    -o-animation:move 3s linear infinite;
+    -moz-animation:move 3s linear infinite;
+    -webkit-animation:move 3s linear infinite;
+    transform:rotate(180deg);
+    -o-transform:rotate(180deg);
+    -moz-transform:rotate(180deg);
+    -webkit-transform:rotate(180deg);
+    color:#8ec6d1;
+  }
+  
+.darkMode #load div:nth-child(2) {
+    animation-delay:0.2s;
+    -o-animation-delay:0.2s;
+    -moz-animation-delay:0.2s;
+    -webkit-animation-delay:0.2s;
+  }
+
+.darkMode #load div:nth-child(3) {
+    animation-delay:0.4s;
+    -o-animation-delay:0.4s;
+    -webkit-animation-delay:0.4s;
+    -webkit-animation-delay:0.4s;
+  }
+
+.darkMode #load div:nth-child(4) {
+    animation-delay:0.6s;
+    -o-animation-delay:0.6s;
+    -moz-animation-delay:0.6s;
+    -webkit-animation-delay:0.6s;
+  }
+
+.darkMode #load div:nth-child(5) {
+    animation-delay:0.8s;
+    -o-animation-delay:0.8s;
+    -moz-animation-delay:0.8s;
+    -webkit-animation-delay:0.8s;
+  }
+
+.darkMode #load div:nth-child(6) {
+    animation-delay:1s;
+    -o-animation-delay:1s;
+    -moz-animation-delay:1s;
+    -webkit-animation-delay:1s;
+  }
+
+.darkMode #load div:nth-child(7) {
+    animation-delay:1.2s;
+    -o-animation-delay:1.2s;
+    -moz-animation-delay:1.2s;
+    -webkit-animation-delay:1.2s;
+  }
+
+  .darkMode .aboutMe span{
+    margin: 0 5px;
+  }
