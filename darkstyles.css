@@ -92,7 +92,7 @@
     content: url("images/sun.svg");
 }
 
-#load {
+.darkMode #load {
     width:600px;
     height:36px;
     left:50%;

@@ -160,9 +160,11 @@ span:last-child{
     z-index: 9999;
     transition: opacity 0.5s ease-in-out;
     opacity: 100;
+    margin-bottom: 0;
 }
 
 .mewLoaderWrapper img{
+    content: url("images/pinkMew.gif");
     transform: scale(.5);
 }
 
@@ -273,7 +275,7 @@ button .changeModeButton:hover{
     width:600px;
     height:36px;
     left:50%;
-    top:40%;
+    top:0%;
     margin-left:-300px;
     overflow:visible;
     -webkit-user-select:none;
@@ -286,6 +288,7 @@ button .changeModeButton:hover{
     position:absolute;
     width:20px;
     height:36px;
+    top: 60%;
     opacity:0;
     font-family:Helvetica, Arial, sans-serif;
     animation:move 3s linear infinite;
