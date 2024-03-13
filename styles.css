@@ -1,3 +1,8 @@
+@keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
 body{
     font-family: "Poppins", sans-serif;
 }
@@ -9,17 +14,24 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-
 }
 
 .tylerJayContainer h1{
-    font-size: 55px;
+    font-size: 60px;
     font-weight: 500;
     color: #545454;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 span{
     color: #8ec6d1;
+    margin-left: 20px;
+}
+
+span:last-child{
+    margin-left: 0px;
 }
 
 .mewLoaderWrapper #jsTypedLoading {
@@ -68,6 +80,63 @@ span{
     position: fixed;
     top: calc(65%);
     border-radius: 7px;
+}
+
+nav{
+    max-width: 1200px;
+    margin: auto;
+    padding: 2rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.nav-links{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5rem;
+    position: relative;
+    right: 4%;
+}
+
+.link a {
+    position: relative;
+    text-decoration: none;
+    padding-bottom: 0.75rem;
+    color: #545454;
+    font-size: 25px;
+}
+
+.link a::after{
+    content: "";
+    position: absolute;
+    height: 2px;
+    width: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #8ec6d1;
+    transition: all .3s ease;
+}
+
+.link a:hover::after{
+    width: 100%;
+}
+
+button{
+
+        max-width: 1200px;
+        margin: auto;
+        padding: 2rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        position: fixed;
+        top: 0;
+        left: 0;
 }
 
 @media screen and (max-width:1024px) {

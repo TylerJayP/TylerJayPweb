@@ -2,12 +2,71 @@
     background-color: #282828;
 }
 
+.darkMode .mewLoaderWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #282828;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 100;
+}
+
 .darkMode .tylerJayContainer{
     background-color: #282828;
 }
 
 .darkMode .tylerJayContainer h1{
-    font-size:  55px;
+    font-size: 60px;
     font-weight: 500;
     color: #e1e1e1;
+}
+
+.darkMode nav{
+    max-width: 1200px;
+    margin: auto;
+    padding: 2rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    color: #e1e1e1;
+}
+
+.darkMode .nav-links{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5rem;
+    color: #e1e1e1;
+}
+
+.darkMode .link a {
+    position: relative;
+    text-decoration: none;
+    padding-bottom: 0.75rem;
+    color: #e1e1e1;
+
+}
+
+.darkMode .link a::after{
+    content: "";
+    position: absolute;
+    height: 2px;
+    width: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #8ec6d1;
+    transition: all .3s ease;
+}
+
+.darkMode .link a:hover::after{
+    width: 100%;
 }
