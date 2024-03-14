@@ -5,6 +5,10 @@
     background-color: #282828;
 }
 
+.darkMode body{
+  background-color:#282828;
+}
+
 .darkMode .tylerJayContainer{
     width: 100%;
     height: 100vh;
@@ -83,13 +87,19 @@
 }
 
 .darkMode .changeModeButton {
-    width: 30px; /* Adjust width and height to fit your SVG */
-    height: 40px;
-    background-color: transparent; /* Remove default button background */
-    position: fixed;
-    left: 2%;
-    top: 3%;
-    content: url("images/sun.svg");
+  width: 30px; /* Adjust width and height to fit your SVG */
+  height: 40px;
+  background-color: transparent; /* Remove default button background */
+  position: relative;
+  content: url("images/sun.svg");
+}
+
+.darkMode button {
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  top: 4%;
+  left: 3%;
 }
 
 .darkMode #load {
@@ -275,4 +285,8 @@
       .darkMode .menu.active {
         display: flex;
       }
+
+      .darkMode .mewLoaderWrapper img{
+        transform: scale(.5);
+    }
 }

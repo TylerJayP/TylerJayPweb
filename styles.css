@@ -230,15 +230,16 @@ nav{
     width: 30px; /* Adjust width and height to fit your SVG */
     height: 40px;
     background-color: transparent; /* Remove default button background */
-    position: fixed;
-    left: 2%;
-    top: 3%;
+    position: relative;
     content: url("images/moon.svg");
 }
 
 button {
     background-color: transparent;
     border: none;
+    position: absolute;
+    top: 4%;
+    left: 3%;
 }
 
 button .changeModeButton:hover{
