@@ -14,6 +14,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 typeSpeed: 100,
                 loop: false
                 });
+            var typed = new Typed("#jsMobileTyped", {
+                    strings: [characters.join('')],
+                    typeSpeed: 100,
+                    loop: false
+            });
         }, 500); // Wait for the transition to complete before hiding the element
 
      // Wait for the transition to complete before hiding the element
@@ -70,7 +75,7 @@ function fadeIn(element, duration) {
 
     // Start the animation
     window.requestAnimationFrame(fade);
-}
+};
 
 setTimeout(function() {
     var navBarDelay = document.getElementById('navLinks');
@@ -83,3 +88,12 @@ setTimeout(function() {
     document.getElementById('aboutMe').style.display = 'flex';
     fadeIn(navBarDelay, 4000); // Fade in over 3000 milliseconds (3 seconds)
 }, 3000);
+
+
+function toggleMenu() {
+    var menu = document.querySelector('.menu');
+    menu.classList.toggle('active');
+
+    var icon = document.querySelector('.icon');
+    icon.classList.toggle('active');
+  }

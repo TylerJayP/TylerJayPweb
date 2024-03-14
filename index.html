@@ -40,8 +40,33 @@
                 <h2 class="aboutMe" id="aboutMe">Currently a Junior studying <span> Computer Science </span> at Utah Valley University</h2>
             </nav>
         </div>
-        <button onclick="toggleDarkMode()"><img src="images/sun.svg" class="changeModeButton"/></button>
+
+        <div id="mobileContainer">
+            <div class="topPart">
+                <h1>Hi, I'm</h1>
+            </div>
+
+            <div class="bottomPart">
+            <h1><span id="jsMobileTyped"></span></h1>
+            </div>
+
+            <div class="mobileNav">
+                <a class="icon" onclick="toggleMenu()"><i class="fa fa-bars"></i></a>
+                <ul class="menu">
+                  <li><a href="#">About</a></li>
+                  <li><a href="#">Projects</a></li>
+                  <li><a href="#">Resume</a></li>
+                  <li><a href="#">Contact</a></li>
+                </ul>
+              </div>
+        </div>
     </main> 
+
+
+    
+
+        <button onclick="toggleDarkMode()"><img src="images/sun.svg" class="changeModeButton"/></button>
+
 
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
     <script src="script.js"></script>
