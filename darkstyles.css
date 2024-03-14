@@ -201,19 +201,20 @@
     }
 
     .darkMode .changeModeButton {
-        width: 20px; /* Adjust width and height to fit your SVG */
-        height: 30px;
-        background-color: transparent; /* Remove default button background */
-        position: fixed;
-        left: 5%;
-        top: 4%;
-        content: url("images/sun.svg");
-    }
-    
-    .darkMode button {
-        background-color: transparent;
-        border: none;
-    }
+      width: 20px; /* Adjust width and height to fit your SVG */
+      height: 40px;
+      background-color: transparent; /* Remove default button background */
+      position: relative;
+      content: url("images/sun.svg");
+  }
+  
+  .darkMode button {
+      background-color: transparent;
+      border: none;
+      position: absolute;
+      top: 3%;
+      left: 4%;
+  }
     
     .darkMode #mobileContainer .topPart h1{
         margin: 0;

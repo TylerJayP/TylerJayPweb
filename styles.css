@@ -279,17 +279,18 @@ button .changeModeButton:hover{
 
     .changeModeButton {
         width: 15px; /* Adjust width and height to fit your SVG */
-        height: 30px;
+        height: 40px;
         background-color: transparent; /* Remove default button background */
-        position: fixed;
-        left: 5%;
-        top: 4%;
+        position: relative;
         content: url("images/moon.svg");
     }
     
     button {
         background-color: transparent;
         border: none;
+        position: absolute;
+        top: 3%;
+        left: 4%;
     }
     
     #mobileContainer .topPart h1{
