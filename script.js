@@ -96,4 +96,6 @@ function toggleMenu() {
 
     var icon = document.querySelector('.icon');
     icon.classList.toggle('active');
-  }
+  };
+
+  

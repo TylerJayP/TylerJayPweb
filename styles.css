@@ -360,6 +360,10 @@ button .changeModeButton:hover{
         top: 15px;
       }
 
+      .menu li a:active{
+        color: #C19BA6;
+      }
+
       .menu.active {
         display: flex;
       }

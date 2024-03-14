@@ -283,6 +283,10 @@
         top: 15px;
       }
 
+      .menu li a:active{
+        color: #8ec6d1;
+      }
+
       .darkMode .menu.active {
         display: flex;
       }
