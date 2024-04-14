@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Save the user's preference for dark mode in localStorage
         var isDarkMode = element.classList.contains("darkMode");
         localStorage.setItem("darkMode", isDarkMode);
-    }
+    };
     
     // Check user's preference for dark mode from localStorage and set the page accordingly
     function setInitialColorScheme() {
@@ -44,11 +44,22 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             document.body.classList.remove('darkMode'); // Set the page to light mode if the user prefers it
         }
-    }
+    };
+
+    function setFirstSession() {
+        var isFirstSession = localStorage.getItem("firstSession");
+        if(isFirstSession === null){
+            //user first time on site
+            localStorage.setItem("firstSession", "false");
+            document.getElementById('mewLoaderWrapper');
+        }else if (isFirstSession === "true") {
+            document.getElementById('mewLoaderWrapper').style.display = 'none';
+        }
+    };
     
     // Call the function to set the initial color scheme when the page loads
     setInitialColorScheme();
-
+    setFirstSession();
 
 
 function fadeIn(element, duration) {
@@ -84,9 +95,15 @@ setTimeout(function() {
 }, 4000);
 
 setTimeout(function() {
-    var navBarDelay = document.getElementById('aboutMe');
+    var aboutMeDelay = document.getElementById('aboutMe');
     document.getElementById('aboutMe').style.display = 'flex';
-    fadeIn(navBarDelay, 4000); // Fade in over 3000 milliseconds (3 seconds)
+    fadeIn(aboutMeDelay, 4000); // Fade in over 3000 milliseconds (3 seconds)
+}, 3000);
+
+setTimeout(function() {
+    var registerUserDelay = document.getElementById('registerLog');
+    document.getElementById('registerLog').style.display = 'flex';
+    fadeIn(registerUserDelay, 4000); // Fade in over 3000 milliseconds (3 seconds)
 }, 3000);
 
 
@@ -98,4 +115,19 @@ function toggleMenu() {
     icon.classList.toggle('active');
   };
 
-  
+
+const textarea = document.getElementById('comments');
+textarea.addEventListener('input', () => {
+    textarea.style.height = 'auto'; // Reset height to auto
+    textarea.style.height = textarea.scrollHeight + 'px'; // Set the new height
+});
+
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}

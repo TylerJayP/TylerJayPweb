@@ -34,12 +34,119 @@
                     <li class="link"><a href="">About</a></li> 
                     <li class="link"><a href="">Projects</a></li> 
                     <li class="link"><a href="">Resume</a></li> 
-                    <li class="link"><a href="">Contact</a></li> 
+                    <li class="link"><a href="contact.html">Contact</a></li> 
+                    <li class="link"><a href="visitor.html">Vistor Log</a></li>
                 </ul>
                 <h1>Hi, I'm <span id="jsTyped"></span></h1>
                 <h2 class="aboutMe" id="aboutMe">Currently a Junior studying <span> Computer Science </span> at Utah Valley University</h2>
+                <div class="registerUser">
+                    <button id="registerLog" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Log Your Visit</button>
+                    </div>
             </nav>
+
         </div>
+            <div id="id01" class="modal">
+              <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+              <form id="validateForm">
+                <p>Please fill out the Registration form below</p>
+                <h1>**No information is saved when you click the "Register" button**</h1>
+                <div>
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName">
+                 </div>
+            
+                 <div>
+                     <label for="lastName">Last Name</label>
+                     <input type="text" id="lastName" name="lastName">
+                  </div>
+            
+                 <div>
+                     <label for="address">Address</label>
+                     <input type="text" id="address" name="address">
+                  </div>
+            
+                  <div>
+                     <label for="city">City</label>
+                     <input type="text" id="city" name="city" >
+                  </div>    
+            
+                  <div>
+                     <label for="state">State</label>
+                     <input type="text" id="state" name="state">
+                  </div>
+            
+                  <div>
+                     <label for="zip">Zip</label>
+                     <input type="text" id="zip" name="zip" >
+                  </div>
+            
+                  <div>
+                     <label for="phoneNumber">Phone Number</label>
+                     <input type="text" id="phoneNumber" name="phoneNumber">
+                  </div>
+            
+                  <div>
+                     <label for="email">Email</label>
+                     <input type="email" id="email" name="email" >
+                  </div>
+            
+                  <div>
+                    <label for="findOut">How'd you find me</label>
+                  </div>
+            
+                  <!--I want to add css to make my checkboxes custom, but it's not
+                 something required for my assignment so, I'll hold off for now as I
+                 know I will get too caught up into getting it right when I could spend
+                 my time on things that matter for my project :)-->
+                  <div>
+                    <label>
+                       <input type="checkbox" name="check" value="Internet">
+                       Internet
+                   </label>
+                  </div>
+            
+                  <div>
+                   <label>
+                       <input type="checkbox" name="check" value="Friend">
+                       Friend
+                   </label>
+                  </div>
+            
+                  <div>
+                   <label>
+                       <input type="checkbox" name="check" value="Google">
+                       Google
+                   </label>
+                  </div>
+            
+                  <div>
+                   <label>
+                       <input type="checkbox" name="check" value="Other">
+                       Other
+                   </label>
+                 </div>
+            
+                 <div id="additionalComments">
+                    <label for="comments">Additional Comments (Optional)</label>
+                    <textarea id="comments" name="comments" style="resize: vertical;" rows="1"></textarea>
+                 </div>
+            
+                 <div id="formErrors"></div>
+            
+                 <div>
+            
+                  <div>
+                    <input type="submit" id="submit" value="Register">
+                  </div>
+                </div>
+              </form>
+              <div id="thankYouMessage" style="display: none;">
+                <h1>Thank you for your submission!</h1>
+                <p>PLEASE REMEMBER, NONE OF YOUR DATA WAS ACTUALLY RECORDED.</p>
+                <p>Click anywhere or the X to close this screen</p>
+               </div>
+            </div>
+
 
         <div id="mobileContainer">
             <div class="topPart">
@@ -62,14 +169,8 @@
         </div>
         <button onclick="toggleDarkMode()"><img src="images/sun.svg" class="changeModeButton"/></button>
     </main> 
-
-
-    
-
-        
-
-
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
     <script src="script.js"></script>
+    <script src="validate.js"></script>
 </body>
 </html>
