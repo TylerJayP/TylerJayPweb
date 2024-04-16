@@ -1,3 +1,16 @@
+//This is all of my validation code that I wrote. I used some W3 schools code to help create my 
+//Modal that would open when my other button was clicked and would make my form open and use these
+//validations. 
+
+//As you can see, when you submit my from, it will refresh the page so that you can fill out the form
+//again. I'm currently going to implement the ability for the form to reload itself inside of the DOM
+//without displaying my load screen animation. In my script.js, that's something I've been trying to 
+//figure out, but I've been on this code cleanup expedition and making things a lot cleaner and better
+//because as you can see, it's quite messy and some things just aren't necessary. But yea, overall
+//This was a lot of fun figuring out how to make my form validate things correctly and make sure it's
+//checking fields correct. It was also really nice to learn regex more and apply it to this, it felt like
+//this really helped me learn and apply regex and understand it more.
+
 document.addEventListener('DOMContentLoaded', function() {
     const myForm = document.getElementById('validateForm');
 
@@ -157,7 +170,8 @@ function validateCheckbox(errorMessages){
             if(!checkboxInputs[i].checked) {
                 checkboxInputs[i].classList.add('error');
             } else {
-                checkboxInputs[i].classList.remove('error'); // Remove 'error' class if previously added
+                // Remove 'error' class if previously added
+                checkboxInputs[i].classList.remove('error'); 
             }
         }
     } else {

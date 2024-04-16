@@ -227,9 +227,9 @@ nav{
 }
 
 .changeModeButton {
-    width: 30px; /* Adjust width and height to fit your SVG */
+    width: 30px; 
     height: 40px;
-    background-color: transparent; /* Remove default button background */
+    background-color: transparent; 
     position: relative;
     content: url("images/moon.svg");
 }
@@ -398,7 +398,6 @@ button .changeModeButton:hover{
  }
  
    input[type=text]:focus, textarea:focus, input[type=email]:focus {
-    /* background-color: rgba(193, 155, 166, .5); */
     background-color: lightpink
  }
  
@@ -425,7 +424,7 @@ button .changeModeButton:hover{
     text-align: center;
 }
 
-/* Full-width input fields */
+
 input[type=text], input[type=email], textarea {
   width: 100%;
   padding: 15px;
@@ -435,35 +434,35 @@ input[type=text], input[type=email], textarea {
   background: #f1f1f1;
 }
 
-/* The Modal (background) */
+
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  display: none; 
+  position: fixed; 
+  z-index: 1;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
   background-color: #474e5d;
   padding-top: 20px;
 }
 
-/* Modal Content/Box */
+
 #validateForm {
   background-color: #fefefe;
-  margin: 0 auto 10% auto; /* 5% from the top, 15% from the bottom and centered */
+  margin: 0 auto 10% auto; 
   border: 1px solid #888;
-  width: 50%; /* Could be more or less, depending on screen size */
+  width: 50%;
 }
 
-/* Style the horizontal ruler */
+
 hr {
   border: 1px solid #f1f1f1;
   margin-bottom: 25px;
 }
  
-/* The Close Button (x) */
+
 .close {
   position: absolute;
   right: 35px;
@@ -529,9 +528,9 @@ hr {
     }
 
     .changeModeButton {
-        width: 15px; /* Adjust width and height to fit your SVG */
+        width: 15px;
         height: 40px;
-        background-color: transparent; /* Remove default button background */
+        background-color: transparent; 
         position: relative;
         content: url("images/moon.svg");
     }
@@ -590,7 +589,6 @@ hr {
         margin: 0;
         flex-direction: column;
         position: absolute;
-        /* background-color: #333;  use this color soon*/
         top: 10%;
         padding: 10px;
         padding-top:10px;
@@ -673,7 +671,6 @@ hr {
      }
      
        input[type=text]:focus, textarea:focus, input[type=email]:focus {
-        /* background-color: rgba(193, 155, 166, .5); */
         background-color: lightpink
      }
      
@@ -700,7 +697,6 @@ hr {
         text-align: center;
     }
     
-    /* Full-width input fields */
     input[type=text], input[type=email], textarea {
       width: 100%;
       padding: 15px;
@@ -710,42 +706,40 @@ hr {
       background: #f1f1f1;
     }
     
-    /* The Modal (background) */
+    
     .modal {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 5; /* Sit on top */
+      display: none; 
+      position: fixed; 
+      z-index: 5; 
       left: 0;
       top: 0;
-      width: 100%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
+      width: 100%; 
+      height: 100%; 
+      overflow: auto; 
       background-color: #474e5d;
       padding-top: 20px;
     }
     
-    /* Modal Content/Box */
+    
     #validateForm {
       background-color: #fefefe;
-      margin: 0 auto 10% auto; /* 5% from the top, 15% from the bottom and centered */
+      margin: 0 auto 10% auto; 
       border: 1px solid #888;
-      width: 80%; /* Could be more or less, depending on screen size */
+      width: 80%; 
     }
     
-    /* Style the horizontal ruler */
     hr {
       border: 1px solid #f1f1f1;
       margin-bottom: 25px;
     }
      
-    /* The Close Button (x) */
     .close {
       position: absolute;
       right: 35px;
       top: 15px;
       font-size: 40px;
       font-weight: bold;
-      color: #f1f1f1;
+      color: lightpink;
     }
     
     .close:hover,

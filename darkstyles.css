@@ -87,9 +87,9 @@
 }
 
 .darkMode .changeModeButton {
-  width: 30px; /* Adjust width and height to fit your SVG */
+  width: 30px;
   height: 40px;
-  background-color: transparent; /* Remove default button background */
+  background-color: transparent;
   position: relative;
   content: url("images/sun.svg");
 }
@@ -236,7 +236,6 @@
  .darkMode input[type=text]:focus, 
  .darkMode textarea:focus, 
  .darkMode input[type=email]:focus {
-    /* background-color: rgba(193, 155, 166, .5); */
     background-color: #8ec6d1;
  }
  
@@ -263,7 +262,7 @@
     text-align: center;
 }
 
-/* Full-width input fields */
+
 .darkMode input[type=text], 
 .darkMode input[type=email], 
 .darkMode textarea {
@@ -275,35 +274,35 @@
   background: #f1f1f1;
 }
 
-/* The Modal (background) */
+
 .darkMode .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
   background-color: #474e5d;
   padding-top: 20px;
 }
 
-/* Modal Content/Box */
+
 .darkMode #validateForm {
   background-color: #fefefe;
-  margin: 0 auto 10% auto; /* 5% from the top, 15% from the bottom and centered */
+  margin: 0 auto 10% auto; 
   border: 1px solid #888;
-  width: 50%; /* Could be more or less, depending on screen size */
+  width: 50%; 
 }
 
-/* Style the horizontal ruler */
+
 .darkMode hr {
   border: 1px solid #f1f1f1;
   margin-bottom: 25px;
 }
  
-/* The Close Button (x) */
+
 .darkMode .close {
   position: absolute;
   right: 35px;
@@ -360,9 +359,9 @@
     }
 
     .darkMode .changeModeButton {
-      width: 20px; /* Adjust width and height to fit your SVG */
+      width: 20px;
       height: 40px;
-      background-color: transparent; /* Remove default button background */
+      background-color: transparent;
       position: relative;
       content: url("images/sun.svg");
   }
@@ -421,7 +420,6 @@
         margin: 0;
         flex-direction: column;
         position: absolute;
-        /* background-color: #333;  use this color soon*/
         top: 10%;
         padding: 10px;
         padding-top:10px;
@@ -512,7 +510,6 @@
    .darkMode input[type=text]:focus, 
    .darkMode textarea:focus, 
    .darkMode input[type=email]:focus {
-      /* background-color: rgba(193, 155, 166, .5); */
       background-color: #8ec6d1;
    }
    
@@ -539,7 +536,7 @@
       text-align: center;
   }
   
-  /* Full-width input fields */
+  
   .darkMode input[type=text], 
   .darkMode input[type=email], 
   .darkMode textarea {
@@ -551,42 +548,42 @@
     background: #f1f1f1;
   }
   
-  /* The Modal (background) */
+  
   .darkMode .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 5; /* Sit on top */
+    display: none; 
+    position: fixed; 
+    z-index: 5; 
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
     background-color: #474e5d;
     padding-top: 20px;
   }
   
-  /* Modal Content/Box */
+  
   .darkMode #validateForm {
     background-color: #fefefe;
-    margin: 0 auto 10% auto; /* 5% from the top, 15% from the bottom and centered */
+    margin: 0 auto 10% auto; /
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 80%; 
   }
   
-  /* Style the horizontal ruler */
+  
   .darkMode hr {
     border: 1px solid #f1f1f1;
     margin-bottom: 25px;
   }
    
-  /* The Close Button (x) */
+  
   .darkMode .close {
     position: absolute;
     right: 35px;
     top: 15px;
     font-size: 40px;
     font-weight: bold;
-    color: #f1f1f1;
+    color: #8ec6d1;
   }
   
   .darkMode .close:hover,
