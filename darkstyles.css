@@ -178,6 +178,165 @@
     margin: 0 5px;
   }
 
+  .darkMode #validateForm {
+    display: flex;
+    flex-direction: column;
+    background-color: #eee;
+    font: 14px "Poppins", sans-serif;
+    padding: 20px;
+    width: 400px;
+  }
+
+  .darkMode #validateForm p{
+    text-align: center;
+  }
+
+  .darkMode #validateForm h1 {
+    margin-top: 5px;
+    font-size: small;
+    text-align: center;
+ }
+ 
+ .darkMode .hide {
+     display: none;
+ }
+ 
+ .darkMode #formErrors {
+    color: red;
+ }
+ 
+ .darkMode input[type=text], 
+ .darkMode input[type=email], 
+ .darkMode input[type=password]{
+    width: 400px;
+    padding: 8px;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    box-sizing: border-box;
+ }
+
+ .darkMode input[type=checkbox]{
+  padding: 5px;
+  margin: 5px 5px 15px 0px;
+
+ }
+
+ .darkMode textarea {
+    box-sizing: border-box;
+    width: 400px;
+    padding: 8px;
+    margin-top: 8px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    min-height: 50px;
+ }
+ 
+ .darkMode input[type=text]:focus, 
+ .darkMode textarea:focus, 
+ .darkMode input[type=email]:focus {
+    /* background-color: rgba(193, 155, 166, .5); */
+    background-color: #8ec6d1;
+ }
+ 
+ .darkMode input[type=submit] {
+    width: 100%;
+    color: black;
+    background-color: #8ec6d1;
+    padding: 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+ }
+ 
+ .darkMode input[type=submit]:hover {
+    background-color: #669aa5;
+ }
+ 
+ .darkMode #id01 input.error  {
+    border: 2px solid #8ec6d1;
+ }
+
+ .darkMode #thankYouMessage {
+    text-align: center;
+}
+
+/* Full-width input fields */
+.darkMode input[type=text], 
+.darkMode input[type=email], 
+.darkMode textarea {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* The Modal (background) */
+.darkMode .modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: #474e5d;
+  padding-top: 20px;
+}
+
+/* Modal Content/Box */
+.darkMode #validateForm {
+  background-color: #fefefe;
+  margin: 0 auto 10% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
+}
+
+/* Style the horizontal ruler */
+.darkMode hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+ 
+/* The Close Button (x) */
+.darkMode .close {
+  position: absolute;
+  right: 35px;
+  top: 15px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #f1f1f1;
+}
+
+.darkMode .close:hover,
+.darkMode .close:focus {
+  color: #8ec6d1;
+  cursor: pointer;
+}
+
+.darkMode .registerUser{
+  position: relative;
+  width: 14%;
+  margin-top: 50px;
+}
+
+.darkMode .registerUser button{
+  color: #e1e1e1;
+  transform: scale(2);
+  border: 1px solid #e1e1e1;
+}
+
+.darkMode .registerUser button:hover{
+  transform: scale(2.2);
+  color: #8ec6d1;
+  border: 1px solid #8ec6d1;
+}
+
   @media screen and (max-width:450px) {
     /* background color: #FFF7F1; */
     /* Mew Text color: #C19BA6; */
@@ -294,4 +453,163 @@
       .darkMode .mewLoaderWrapper img{
         transform: scale(.5);
     }
+
+    .darkMode #validateForm {
+      display: flex;
+      flex-direction: column;
+      background-color: #eee;
+      font: 14px "Poppins", sans-serif;
+      padding: 20px;
+      width: 400px;
+    }
+  
+    .darkMode #validateForm p{
+      text-align: center;
+    }
+  
+    .darkMode #validateForm h1 {
+      margin-top: 5px;
+      font-size: small;
+      text-align: center;
+   }
+   
+   .darkMode .hide {
+       display: none;
+   }
+   
+   .darkMode #formErrors {
+      color: red;
+   }
+   
+   .darkMode input[type=text], 
+   .darkMode input[type=email], 
+   .darkMode input[type=password]{
+      width: 400px;
+      padding: 8px;
+      margin-top: 4px;
+      margin-bottom: 12px;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      box-sizing: border-box;
+   }
+  
+   .darkMode input[type=checkbox]{
+    padding: 5px;
+    margin: 5px 5px 15px 0px;
+  
+   }
+  
+   .darkMode textarea {
+      box-sizing: border-box;
+      width: 400px;
+      padding: 8px;
+      margin-top: 8px;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      min-height: 50px;
+   }
+   
+   .darkMode input[type=text]:focus, 
+   .darkMode textarea:focus, 
+   .darkMode input[type=email]:focus {
+      /* background-color: rgba(193, 155, 166, .5); */
+      background-color: #8ec6d1;
+   }
+   
+   .darkMode input[type=submit] {
+      width: 100%;
+      color: black;
+      background-color: #8ec6d1;
+      padding: 15px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+   }
+   
+   .darkMode input[type=submit]:hover {
+      background-color: #669aa5;
+   }
+   
+   .darkMode #id01 input.error  {
+      border: 2px solid #8ec6d1;
+   }
+  
+   .darkMode #thankYouMessage {
+      text-align: center;
+  }
+  
+  /* Full-width input fields */
+  .darkMode input[type=text], 
+  .darkMode input[type=email], 
+  .darkMode textarea {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+  }
+  
+  /* The Modal (background) */
+  .darkMode .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 5; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #474e5d;
+    padding-top: 20px;
+  }
+  
+  /* Modal Content/Box */
+  .darkMode #validateForm {
+    background-color: #fefefe;
+    margin: 0 auto 10% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  
+  /* Style the horizontal ruler */
+  .darkMode hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+  }
+   
+  /* The Close Button (x) */
+  .darkMode .close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #f1f1f1;
+  }
+  
+  .darkMode .close:hover,
+  .darkMode .close:focus {
+    color: #8ec6d1;
+    cursor: pointer;
+  }
+  
+  .darkMode .registerUser{
+    position: relative;
+    width: 28%;
+    margin-top: 50px;
+  }
+  
+  .darkMode .registerUser button{
+    color: #e1e1e1;
+    transform: scale(2);
+    border: 1px solid #e1e1e1;
+  }
+  
+  .darkMode .registerUser button:hover{
+    transform: scale(2.2);
+    color: #8ec6d1;
+    border: 1px solid #8ec6d1;
+  }
 }

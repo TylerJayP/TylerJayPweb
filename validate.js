@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', function() {
     const myForm = document.getElementById('validateForm');
 
@@ -10,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if(isValid){
             console.log("FORM IS VALID... SUBMITTING");
             document.getElementById('thankYouMessage').style.display = 'block';
-            myForm.remove();
+            myForm.remove();      
         }else{
             console.log("FORM IS INVALID.");
         }
@@ -28,6 +26,7 @@ function checkForm() {
     const emailInput = document.getElementById('email');
     const commentsInput = document.getElementById('comments');
     const formErrorsDiv = document.getElementById('formErrors');
+    const myForm = document.getElementById('validateForm');
     const errorMessages = [];
 
     //Reset my error styles when they don't fill something in

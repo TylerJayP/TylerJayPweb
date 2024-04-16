@@ -124,10 +124,23 @@ textarea.addEventListener('input', () => {
 
 // Get the modal
 var modal = document.getElementById('id01');
+const myForm = document.getElementById('validateForm');
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
+
   if (event.target == modal) {
     modal.style.display = "none";
+    window.location.reload();
   }
+};
+
+function closeModal() {
+    var modal = document.getElementById('id01');
+
+    // Close the modal
+    modal.style.display = 'none';
+
+    // Reload the page
+    window.location.reload();
 }

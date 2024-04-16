@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Project:  Project5-Refactoring and Form Validation
+    Name: <Tyler Perkins>
+    Submitted: <04/15/2024>
+ 
+    I declare that the following source code was written by me, or provided
+    by the instructor for this project. I understand that copying source
+    code from any other source, providing source code to another student, 
+    or leaving my code on a public web site constitutes cheating.
+    I acknowledge that  If I am found in violation of this policy this may result
+    in a zero grade, a permanent record on file and possibly immediate failure of the class.
+ 
+    Reflection (1+ paragraphs):  I decided to use my main website for this project to show my adjustments to my Javascript
+    and overall make this look great on my website-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,9 +53,8 @@
                 <h2 class="aboutMe" id="aboutMe">Currently a Junior studying <span> Computer Science </span> at Utah Valley University</h2>
                 <div class="registerUser">
                     <button id="registerLog" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Log Your Visit</button>
-                    </div>
+                </div>
             </nav>
-
         </div>
             <div id="id01" class="modal">
               <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
@@ -143,6 +155,7 @@
                 <h1>Thank you for your submission!</h1>
                 <p>PLEASE REMEMBER, NONE OF YOUR DATA WAS ACTUALLY RECORDED.</p>
                 <p>Click anywhere or the X to close this screen</p>
+                <p>The page will refresh to allow new entries (for now)</p>
                </div>
             </div>
 
@@ -156,14 +169,119 @@
             <h1><span id="jsMobileTyped"></span></h1>
             </div>
 
+            <div class="registerUser">
+              <button id="registerLog" onclick="document.getElementById('id01').style.display='block'" style="width:auto;" onclick="">Log Your Visit</button>
+            </div>
+
             <div class="mobileNav">
-                <a class="icon" onclick="toggleMenu()"><i class="fa fa-bars"></i></a>
+                <a id="menuIcon" class="icon" onclick="toggleMenu()"><i class="fa fa-bars"></i></a>
                 <ul class="menu">
                   <li><a href="#">About</a></li>
                   <li><a href="#">Projects</a></li>
                   <li><a href="#">Resume</a></li>
                   <li><a href="#">Contact</a></li>
                 </ul>
+              </div>
+              <div id="id01" class="modal">
+                <span onclick="closeModal()" class="close" title="Close Modal">&times;</span>
+                <form id="validateForm">
+                  <p>Please fill out the Registration form below</p>
+                  <h1>**No information is saved when you click the "Register" button**</h1>
+                  <div>
+                      <label for="firstName">First Name</label>
+                      <input type="text" id="firstName" name="firstName">
+                   </div>
+              
+                   <div>
+                       <label for="lastName">Last Name</label>
+                       <input type="text" id="lastName" name="lastName">
+                    </div>
+              
+                   <div>
+                       <label for="address">Address</label>
+                       <input type="text" id="address" name="address">
+                    </div>
+              
+                    <div>
+                       <label for="city">City</label>
+                       <input type="text" id="city" name="city" >
+                    </div>    
+              
+                    <div>
+                       <label for="state">State</label>
+                       <input type="text" id="state" name="state">
+                    </div>
+              
+                    <div>
+                       <label for="zip">Zip</label>
+                       <input type="text" id="zip" name="zip" >
+                    </div>
+              
+                    <div>
+                       <label for="phoneNumber">Phone Number</label>
+                       <input type="text" id="phoneNumber" name="phoneNumber">
+                    </div>
+              
+                    <div>
+                       <label for="email">Email</label>
+                       <input type="email" id="email" name="email" >
+                    </div>
+              
+                    <div>
+                      <label for="findOut">How'd you find me</label>
+                    </div>
+              
+                    <!--I want to add css to make my checkboxes custom, but it's not
+                   something required for my assignment so, I'll hold off for now as I
+                   know I will get too caught up into getting it right when I could spend
+                   my time on things that matter for my project :)-->
+                    <div>
+                      <label>
+                         <input type="checkbox" name="check" value="Internet">
+                         Internet
+                     </label>
+                    </div>
+              
+                    <div>
+                     <label>
+                         <input type="checkbox" name="check" value="Friend">
+                         Friend
+                     </label>
+                    </div>
+              
+                    <div>
+                     <label>
+                         <input type="checkbox" name="check" value="Google">
+                         Google
+                     </label>
+                    </div>
+              
+                    <div>
+                     <label>
+                         <input type="checkbox" name="check" value="Other">
+                         Other
+                     </label>
+                   </div>
+              
+                   <div id="additionalComments">
+                      <label for="comments">Additional Comments (Optional)</label>
+                      <textarea id="comments" name="comments" style="resize: vertical;" rows="1"></textarea>
+                   </div>
+              
+                   <div id="formErrors"></div>
+              
+                   <div>
+              
+                    <div>
+                      <input type="submit" id="submit" value="Register">
+                    </div>
+                  </div>
+                </form>
+                <div id="thankYouMessage" style="display: none;">
+                  <h1>Thank you for your submission!</h1>
+                  <p>PLEASE REMEMBER, NONE OF YOUR DATA WAS ACTUALLY RECORDED.</p>
+                  <p>Click anywhere or the X to close this screen</p>
+                 </div>
               </div>
         </div>
         <button onclick="toggleDarkMode()"><img src="images/sun.svg" class="changeModeButton"/></button>
