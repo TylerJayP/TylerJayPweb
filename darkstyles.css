@@ -2,611 +2,460 @@
 /* mew color: #8ec6d1; */
 
 .darkMode{
-    background-color: #282828;
+  background-color: #282828;
 }
 
 .darkMode body{
-  background-color:#282828;
+background-color:#282828;
 }
 
 .darkMode .tylerJayContainer{
-    width: 100%;
-    height: 100vh;
-    background-color: #282828;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #282828;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .darkMode .tylerJayContainer h1{
-    font-size: 60px;
-    font-weight: 500;
-    color: #e1e1e1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
-    margin-bottom: 0px;
+  font-size: 60px;
+  font-weight: 500;
+  color: #e1e1e1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 0px;
 }
 
 .darkMode .tylerJayContainer .aboutMe{
-    color:#e1e1e1;
+  color:#e1e1e1;
 }
 
 .darkMode span{
-    color: #8ec6d1;
-    margin: 0 0 0 15px;
+  color: #8ec6d1;
+  margin: 0 0 0 15px;
 }
 
 .darkMode span:last-child{
-    margin-left: 0px;
+  margin-left: 0px;
 }
 
 .darkMode .mewLoaderWrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #282828;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 0.5s ease-in-out;
-    opacity: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #282828;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 100;
 }
 
 .darkMode .mewLoaderWrapper img{
-    content: url("images/shinyMew.gif");
-    transform: scale(.7);
+  content: url("images/shinyMew.gif");
+  transform: scale(.7);
 }
 
 .darkMode .link a {
-    position: relative;
-    text-decoration: none;
-    padding-bottom: 0.75rem;
-    color: #e1e1e1;;
-    font-size: 25px;
+  position: relative;
+  text-decoration: none;
+  padding-bottom: 0.75rem;
+  color: #e1e1e1;;
+  font-size: 25px;
 }
 
 .darkMode .link a::after{
-    content: "";
-    position: absolute;
-    height: 2px;
-    width: 0;
-    bottom: 0;
-    left: 0;
-    background-color: #8ec6d1;
-    transition: all .3s ease;
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #8ec6d1;
+  transition: all .3s ease;
 }
 
 .darkMode .link a:hover::after{
-    width: 100%;
+  width: 100%;
 }
 
 .darkMode .changeModeButton {
-  width: 30px;
-  height: 40px;
-  background-color: transparent;
-  position: relative;
-  content: url("images/sun.svg");
+width: 30px;
+height: 40px;
+background-color: transparent;
+position: relative;
+content: url("images/sun.svg");
 }
 
 .darkMode button {
-  background-color: transparent;
-  border: none;
-  position: absolute;
-  top: 4%;
-  left: 3%;
+background-color: transparent;
+border: none;
+position: absolute;
+top: 4%;
+left: 3%;
 }
 
 .darkMode #load {
-    width:600px;
-    height:36px;
-    left:50%;
-    top:40%;
-    margin-left:-300px;
-    overflow:visible;
-    -webkit-user-select:none;
-    -moz-user-select:none;
-    -ms-user-select:none;
-    user-select:none;
-  }
-  
+  width:600px;
+  height:36px;
+  left:50%;
+  top:40%;
+  margin-left:-300px;
+  overflow:visible;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}
+
 .darkMode #load div {
-    position:absolute;
-    width:20px;
-    height:36px;
-    opacity:0;
-    font-family:Helvetica, Arial, sans-serif;
-    animation:move 3s linear infinite;
-    -o-animation:move 3s linear infinite;
-    -moz-animation:move 3s linear infinite;
-    -webkit-animation:move 3s linear infinite;
-    transform:rotate(180deg);
-    -o-transform:rotate(180deg);
-    -moz-transform:rotate(180deg);
-    -webkit-transform:rotate(180deg);
-    color:#8ec6d1;
-  }
-  
+  position:absolute;
+  width:20px;
+  height:36px;
+  opacity:0;
+  font-family:Helvetica, Arial, sans-serif;
+  animation:move 3s linear infinite;
+  -o-animation:move 3s linear infinite;
+  -moz-animation:move 3s linear infinite;
+  -webkit-animation:move 3s linear infinite;
+  transform:rotate(180deg);
+  -o-transform:rotate(180deg);
+  -moz-transform:rotate(180deg);
+  -webkit-transform:rotate(180deg);
+  color:#8ec6d1;
+}
+
 .darkMode #load div:nth-child(2) {
-    animation-delay:0.2s;
-    -o-animation-delay:0.2s;
-    -moz-animation-delay:0.2s;
-    -webkit-animation-delay:0.2s;
-  }
+  animation-delay:0.2s;
+  -o-animation-delay:0.2s;
+  -moz-animation-delay:0.2s;
+  -webkit-animation-delay:0.2s;
+}
 
 .darkMode #load div:nth-child(3) {
-    animation-delay:0.4s;
-    -o-animation-delay:0.4s;
-    -webkit-animation-delay:0.4s;
-    -webkit-animation-delay:0.4s;
-  }
+  animation-delay:0.4s;
+  -o-animation-delay:0.4s;
+  -webkit-animation-delay:0.4s;
+  -webkit-animation-delay:0.4s;
+}
 
 .darkMode #load div:nth-child(4) {
-    animation-delay:0.6s;
-    -o-animation-delay:0.6s;
-    -moz-animation-delay:0.6s;
-    -webkit-animation-delay:0.6s;
-  }
+  animation-delay:0.6s;
+  -o-animation-delay:0.6s;
+  -moz-animation-delay:0.6s;
+  -webkit-animation-delay:0.6s;
+}
 
 .darkMode #load div:nth-child(5) {
-    animation-delay:0.8s;
-    -o-animation-delay:0.8s;
-    -moz-animation-delay:0.8s;
-    -webkit-animation-delay:0.8s;
-  }
+  animation-delay:0.8s;
+  -o-animation-delay:0.8s;
+  -moz-animation-delay:0.8s;
+  -webkit-animation-delay:0.8s;
+}
 
 .darkMode #load div:nth-child(6) {
-    animation-delay:1s;
-    -o-animation-delay:1s;
-    -moz-animation-delay:1s;
-    -webkit-animation-delay:1s;
-  }
+  animation-delay:1s;
+  -o-animation-delay:1s;
+  -moz-animation-delay:1s;
+  -webkit-animation-delay:1s;
+}
 
 .darkMode #load div:nth-child(7) {
-    animation-delay:1.2s;
-    -o-animation-delay:1.2s;
-    -moz-animation-delay:1.2s;
-    -webkit-animation-delay:1.2s;
-  }
+  animation-delay:1.2s;
+  -o-animation-delay:1.2s;
+  -moz-animation-delay:1.2s;
+  -webkit-animation-delay:1.2s;
+}
 
-  .darkMode .aboutMe span{
-    margin: 0 5px;
-  }
+.darkMode .aboutMe span{
+  margin: 0 5px;
+}
 
-  .darkMode #validateForm {
-    display: flex;
-    flex-direction: column;
-    background-color: #eee;
-    font: 14px "Poppins", sans-serif;
-    padding: 20px;
-    width: 400px;
-  }
+.darkMode #validateForm {
+  display: flex;
+  flex-direction: column;
+  background-color: #eee;
+  font: 14px "Poppins", sans-serif;
+  padding: 20px;
+  width: 400px;
+}
 
-  .darkMode #validateForm p{
-    text-align: center;
-  }
+.darkMode #validateForm p{
+  text-align: center;
+}
 
-  .darkMode #validateForm h1 {
-    margin-top: 5px;
-    font-size: small;
-    text-align: center;
- }
- 
- .darkMode .hide {
-     display: none;
- }
- 
- .darkMode #formErrors {
-    color: red;
- }
- 
- .darkMode input[type=text], 
- .darkMode input[type=email], 
- .darkMode input[type=password]{
-    width: 400px;
-    padding: 8px;
-    margin-top: 4px;
-    margin-bottom: 12px;
-    border: 1px solid #aaa;
-    border-radius: 4px;
-    box-sizing: border-box;
- }
+.darkMode #validateForm h1 {
+  margin-top: 5px;
+  font-size: small;
+  text-align: center;
+}
 
- .darkMode input[type=checkbox]{
-  padding: 5px;
-  margin: 5px 5px 15px 0px;
+.darkMode .hide {
+   display: none;
+}
 
- }
+.darkMode #formErrors {
+  color: red;
+}
 
- .darkMode textarea {
-    box-sizing: border-box;
-    width: 400px;
-    padding: 8px;
-    margin-top: 8px;
-    border: 1px solid #aaa;
-    border-radius: 4px;
-    min-height: 50px;
- }
- 
- .darkMode input[type=text]:focus, 
- .darkMode textarea:focus, 
- .darkMode input[type=email]:focus {
-    background-color: #8ec6d1;
- }
- 
- .darkMode input[type=submit] {
-    width: 100%;
-    color: black;
-    background-color: #8ec6d1;
-    padding: 15px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
- }
- 
- .darkMode input[type=submit]:hover {
-    background-color: #669aa5;
- }
- 
- .darkMode #id01 input.error  {
-    border: 2px solid #8ec6d1;
- }
+.darkMode input[type=text], 
+.darkMode input[type=email], 
+.darkMode input[type=password]{
+  width: 400px;
+  padding: 8px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
 
- .darkMode #thankYouMessage {
-    text-align: center;
+.darkMode input[type=checkbox]{
+padding: 5px;
+margin: 5px 5px 15px 0px;
+
+}
+
+.darkMode textarea {
+  box-sizing: border-box;
+  width: 400px;
+  padding: 8px;
+  margin-top: 8px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  min-height: 50px;
+}
+
+.darkMode input[type=text]:focus, 
+.darkMode textarea:focus, 
+.darkMode input[type=email]:focus {
+  background-color: #8ec6d1;
+}
+
+.darkMode input[type=submit] {
+  width: 100%;
+  color: black;
+  background-color: #8ec6d1;
+  padding: 15px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.darkMode input[type=submit]:hover {
+  background-color: #669aa5;
+}
+
+.darkMode #id01 input.error  {
+  border: 2px solid #8ec6d1;
+}
+
+.darkMode #thankYouMessage {
+  text-align: center;
 }
 
 
 .darkMode input[type=text], 
 .darkMode input[type=email], 
 .darkMode textarea {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
-  border: none;
-  background: #f1f1f1;
+width: 100%;
+padding: 15px;
+margin: 5px 0 22px 0;
+display: inline-block;
+border: none;
+background: #f1f1f1;
 }
 
 
 .darkMode .modal {
-  display: none; 
-  position: fixed; 
-  z-index: 1; 
-  left: 0;
-  top: 0;
-  width: 100%; 
-  height: 100%; 
-  overflow: auto; 
-  background-color: #474e5d;
-  padding-top: 20px;
+display: none; 
+position: fixed; 
+z-index: 1; 
+left: 0;
+top: 0;
+width: 100%; 
+height: 100%; 
+overflow: auto; 
+background-color: #474e5d;
+padding-top: 20px;
 }
 
 
 .darkMode #validateForm {
-  background-color: #fefefe;
-  margin: 0 auto 10% auto; 
-  border: 1px solid #888;
-  width: 50%; 
+background-color: #fefefe;
+margin: 0 auto 10% auto; 
+border: 1px solid #888;
+width: 50%; 
 }
 
 
 .darkMode hr {
-  border: 1px solid #f1f1f1;
-  margin-bottom: 25px;
+border: 1px solid #f1f1f1;
+margin-bottom: 25px;
 }
- 
+
 
 .darkMode .close {
-  position: absolute;
-  right: 35px;
-  top: 15px;
-  font-size: 40px;
-  font-weight: bold;
-  color: #f1f1f1;
+position: absolute;
+right: 35px;
+top: 15px;
+font-size: 40px;
+font-weight: bold;
+color: #f1f1f1;
 }
 
 .darkMode .close:hover,
 .darkMode .close:focus {
-  color: #8ec6d1;
-  cursor: pointer;
+color: #8ec6d1;
+cursor: pointer;
 }
 
 .darkMode .registerUser{
-  position: relative;
-  width: 14%;
-  margin-top: 50px;
+position: relative;
+width: 14%;
+margin-top: 50px;
 }
 
 .darkMode .registerUser button{
-  color: #e1e1e1;
-  transform: scale(2);
-  border: 1px solid #e1e1e1;
+color: #e1e1e1;
+transform: scale(2);
+border: 1px solid #e1e1e1;
 }
 
 .darkMode .registerUser button:hover{
-  transform: scale(2.2);
-  color: #8ec6d1;
-  border: 1px solid #8ec6d1;
+transform: scale(2.2);
+color: #8ec6d1;
+border: 1px solid #8ec6d1;
 }
 
-  @media screen and (max-width:450px) {
-    /* background color: #FFF7F1; */
-    /* Mew Text color: #C19BA6; */
-    /* Text color: #545454; */
+@media screen and (max-width:450px) {
 
+.darkMode #mobileContainer {
+    margin: 0;
+    padding: 0;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #282828;
+}
 
+.darkMode .tylerJayContainer {
+    display: none;
+}
 
-    .darkMode #mobileContainer {
-        margin: 0;
-        padding: 0;
-        height: 90%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        background-color: #282828;
-    }
-
-    .darkMode .tylerJayContainer {
-        display: none;
-    }
-
-    .darkMode .changeModeButton {
-      width: 20px;
-      height: 40px;
-      background-color: transparent;
-      position: relative;
-      content: url("images/sun.svg");
-  }
-  
-  .darkMode button {
-      background-color: transparent;
-      border: none;
-      position: absolute;
-      top: 3%;
-      left: 4%;
-  }
-    
-    .darkMode #mobileContainer .topPart h1{
-        margin: 0;
-        padding: 0;
-        color: #e1e1e1;
-    }
-    .darkMode #mobileContainer .bottomPart h1{
-        color: #C19BA6;
-        margin-top: 2px;
-        padding: 2px;
-        position: relative;
-        font-size: 2em;
-    }
-
-
-    .darkMode .mobileNav {
-        padding: 10px 20px;
-        width: 80px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        position: absolute;
-        right: 2%;
-        top: 3%;
-      }
-      
-      .darkMode .icon {
-        color: #8ec6d1;
-        font-size: 24px;
-        cursor: pointer;
-        display: block;
-        z-index: 3;
-        margin-bottom: 30px;
-      }
-
-      .darkMode .icon.active{
-        color: #8ec6d1;
-      }
-      
-      .darkMode .menu {
-        display: none;
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        flex-direction: column;
-        position: absolute;
-        top: 10%;
-        padding: 10px;
-        padding-top:10px;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        background-color: #333;
-      }
-      
-      .darkMode .menu li a {
-        color: #e1e1e1;
-        text-decoration: none;
-        display: flex;
-        justify-content: center;
-        margin: 20px;
-        padding-top: 10px;
-        opacity: 1;
-        position: relative;
-        top: 15px;
-      }
-
-      .menu li a:active{
-        color: #8ec6d1;
-      }
-
-      .darkMode .menu.active {
-        display: flex;
-      }
-
-      .darkMode .mewLoaderWrapper img{
-        transform: scale(.5);
-    }
-
-    .darkMode #validateForm {
-      display: flex;
-      flex-direction: column;
-      background-color: #eee;
-      font: 14px "Poppins", sans-serif;
-      padding: 20px;
-      width: 400px;
-    }
-  
-    .darkMode #validateForm p{
-      text-align: center;
-    }
-  
-    .darkMode #validateForm h1 {
-      margin-top: 5px;
-      font-size: small;
-      text-align: center;
-   }
-   
-   .darkMode .hide {
-       display: none;
-   }
-   
-   .darkMode #formErrors {
-      color: red;
-   }
-   
-   .darkMode input[type=text], 
-   .darkMode input[type=email], 
-   .darkMode input[type=password]{
-      width: 400px;
-      padding: 8px;
-      margin-top: 4px;
-      margin-bottom: 12px;
-      border: 1px solid #aaa;
-      border-radius: 4px;
-      box-sizing: border-box;
-   }
-  
-   .darkMode input[type=checkbox]{
-    padding: 5px;
-    margin: 5px 5px 15px 0px;
-  
-   }
-  
-   .darkMode textarea {
-      box-sizing: border-box;
-      width: 400px;
-      padding: 8px;
-      margin-top: 8px;
-      border: 1px solid #aaa;
-      border-radius: 4px;
-      min-height: 50px;
-   }
-   
-   .darkMode input[type=text]:focus, 
-   .darkMode textarea:focus, 
-   .darkMode input[type=email]:focus {
-      background-color: #8ec6d1;
-   }
-   
-   .darkMode input[type=submit] {
-      width: 100%;
-      color: black;
-      background-color: #8ec6d1;
-      padding: 15px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-   }
-   
-   .darkMode input[type=submit]:hover {
-      background-color: #669aa5;
-   }
-   
-   .darkMode #id01 input.error  {
-      border: 2px solid #8ec6d1;
-   }
-  
-   .darkMode #thankYouMessage {
-      text-align: center;
-  }
-  
-  
-  .darkMode input[type=text], 
-  .darkMode input[type=email], 
-  .darkMode textarea {
-    width: 100%;
-    padding: 15px;
-    margin: 5px 0 22px 0;
-    display: inline-block;
-    border: none;
-    background: #f1f1f1;
-  }
-  
-  
-  .darkMode .modal {
-    display: none; 
-    position: fixed; 
-    z-index: 5; 
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto; 
-    background-color: #474e5d;
-    padding-top: 20px;
-  }
-  
-  
-  .darkMode #validateForm {
-    background-color: #fefefe;
-    margin: 0 auto 10% auto; /
-    border: 1px solid #888;
-    width: 80%; 
-  }
-  
-  
-  .darkMode hr {
-    border: 1px solid #f1f1f1;
-    margin-bottom: 25px;
-  }
-   
-  
-  .darkMode .close {
-    position: absolute;
-    right: 35px;
-    top: 15px;
-    font-size: 40px;
-    font-weight: bold;
-    color: #8ec6d1;
-  }
-  
-  .darkMode .close:hover,
-  .darkMode .close:focus {
-    color: #8ec6d1;
-    cursor: pointer;
-  }
-  
-  .darkMode .registerUser{
+.darkMode .changeModeButton {
+    width: 15px;
+    height: 40px;
+    background-color: transparent; 
     position: relative;
-    width: 28%;
-    margin-top: 50px;
-  }
-  
-  .darkMode .registerUser button{
+    content: url("images/sun.svg");
+}
+
+.darkMode #mobileContainer .aboutMeMobile {
+  font-size: 1.5rem;
+  text-align: center;
+  line-height: 1.5;  /* Adjust line height for spacing */
+  color: #e1e1e1;
+}
+
+.darkMode #mobileContainer .aboutMeMobile span {
+  display: block;  /* Makes the text inside the <span> start on a new line */
+  margin-top: 5px;  /* Optional, adds some spacing between lines */
+  color: #8ec6d1;
+}
+
+.darkMode button {
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 3%;
+    left: 4%;
+}
+
+.darkMode #mobileContainer .topPart h1{
+    margin: 0;
+    padding: 0;
     color: #e1e1e1;
-    transform: scale(2);
-    border: 1px solid #e1e1e1;
+}
+.darkMode #mobileContainer .bottomPart h1{
+    color: #e1e1e1;
+    margin-top: 2px;
+    padding: 2px;
+    position: relative;
+    font-size: 2em;
+}
+
+
+.darkMode .mobileNav {
+    padding: 10px 20px;
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    right: 2%;
+    top: 3%;
   }
   
-  .darkMode .registerUser button:hover{
-    transform: scale(2.2);
+  .darkMode .icon {
     color: #8ec6d1;
-    border: 1px solid #8ec6d1;
+    font-size: 24px;
+    cursor: pointer;
+    display: block;
+    z-index: 3;
+    margin-bottom: 30px;
   }
+
+  .darkMode .icon.active{
+    color: #8ec6d1;
+  }
+  
+  .darkMode .menu {
+    display: none;
+    list-style-type: none;
+    padding: 0;
+    margin: 0px;
+    flex-direction: column;
+    position: absolute;
+    top: 10%;
+    border-radius: 5px;
+    padding-bottom: 2px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    background-color: #333;
+  }
+  
+  .darkMode .menu li a {
+    color: #e1e1e1;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+    padding-top: 10px;
+    opacity: 1;
+    position: relative;
+    top: 15px;
+  }
+
+  .darkMode .menu li a:active{
+    color: #8ec6d1;
+  }
+
+  .darkMode .menu.active {
+    display: flex;
+  }
+
+  .darkMode .mewLoaderWrapper img{
+    transform: scale(.5);
+}
 }
