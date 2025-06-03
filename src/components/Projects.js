@@ -25,8 +25,8 @@ const Projects = () => {
   image: "./images/MoodJournalPic.png"
     },
 {
-  title: "Virtual Dyno Pro",
-  description: "A professional automotive dyno analysis tool that processes AccessPort and OBD2 datalog files to generate accurate horsepower and torque curves. Features advanced algorithms for AFR correction, knock retard penalties, atmospheric compensation, and gear-specific calculations calibrated against real dyno results.",
+  title: "Virtual Dyno",
+  description: "A personal automotive dyno analysis tool that processes AccessPort and OBD2 datalog files to generate accurate horsepower and torque curves. Features advanced algorithms for AFR correction, knock retard penalties, atmospheric compensation, and gear-specific calculations calibrated against real dyno results.",
   tech: ["C# ASP.NET Core", "Entity Framework", "React", "Chart.js", "CSV Processing", "REST APIs"],
   github: "https://github.com/TylerJayP/VirtualDyno",
   live: "https://github.com/TylerJayP/VirtualDyno/blob/master/ReadMe.md", 
