@@ -1,0 +1,256 @@
+.about {
+  padding: 6rem 0;
+  background: var(--bg-secondary);
+  overflow: hidden; /* Ensure section doesn't overflow */
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.about-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.about-card {
+  background: var(--bg-primary);
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px var(--shadow);
+  transition: transform 0.3s ease;
+  width: 100%; /* Ensure cards don't overflow */
+}
+
+.about-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+.card-icon {
+  color: var(--accent-primary);
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.about-card h3 {
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--text-primary);
+  word-wrap: break-word; /* Prevent text overflow */
+}
+
+.about-card p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  word-wrap: break-word; /* Prevent text overflow */
+}
+
+.skills-section {
+  background: var(--bg-primary);
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px var(--shadow);
+  height: fit-content;
+  position: sticky;
+  top: 2rem;
+  overflow: hidden; /* Ensure skills section doesn't overflow */
+  width: 100%; /* Ensure it doesn't exceed container */
+}
+
+.skills-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+/* Fixed Scrolling Tech Skills Styles */
+.tech-scroll-container {
+  width: 100%;
+  max-width: 100%; /* Ensure it doesn't exceed container */
+  overflow: hidden;
+  position: relative; /* Add positioning context */
+  mask: linear-gradient(
+    90deg,
+    transparent,
+    white 20%,
+    white 80%,
+    transparent
+  );
+  -webkit-mask: linear-gradient(
+    90deg,
+    transparent,
+    white 20%,
+    white 80%,
+    transparent
+  );
+}
+
+.tech-scroll-track {
+  display: flex;
+  animation: scroll 20s linear infinite;
+  width: max-content; /* Changed from fit-content */
+  will-change: transform;
+  transform: translateX(0); /* Ensure starting position */
+}
+
+.tech-logo-item {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 1.5rem;
+  padding: 1rem;
+  transition: transform 0.3s ease;
+  width: 80px;
+  min-width: 80px; /* Ensure consistent width */
+}
+
+.tech-logo-item:hover {
+  transform: scale(1.1);
+}
+
+.tech-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  filter: grayscale(1) opacity(0.7);
+  transition: all 0.3s ease;
+}
+
+.tech-logo-item:hover .tech-logo {
+  filter: grayscale(0) opacity(1);
+  transform: translateY(-2px);
+}
+
+.tech-name {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+  text-align: center;
+  font-weight: 500;
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% / 3));
+  }
+}
+
+/* Theme-specific adjustments */
+[data-theme="dark"] .tech-logo {
+  filter: grayscale(1) opacity(0.6) brightness(1.2);
+}
+
+[data-theme="dark"] .tech-logo-item:hover .tech-logo {
+  filter: grayscale(0) opacity(1) brightness(1);
+}
+
+@media (max-width: 768px) {
+  .about {
+    padding: 4rem 0;
+  }
+  
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .skills-section {
+    position: static;
+    margin: 0; /* Remove any margin that could cause overflow */
+  }
+  
+  .about-card {
+    padding: 1.5rem;
+    margin: 0; /* Ensure no margin overflow */
+  }
+
+  .card-header {
+    gap: 0.75rem;
+  }
+
+  .card-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .about-card h3 {
+    font-size: 1.3rem;
+  }
+
+  .tech-logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .tech-logo-item {
+    margin: 0 1rem;
+    width: 60px;
+    min-width: 60px;
+  }
+
+  .tech-scroll-track {
+    animation-duration: 15s;
+  }
+
+  /* Ensure scrolling animation works on all screen sizes */
+  @media (max-width: 480px) {
+    .tech-scroll-container {
+      /* Keep the mask for the fade effect */
+      mask: linear-gradient(
+        90deg,
+        transparent,
+        white 15%,
+        white 85%,
+        transparent
+      );
+      -webkit-mask: linear-gradient(
+        90deg,
+        transparent,
+        white 15%,
+        white 85%,
+        transparent
+      );
+    }
+    
+    .tech-scroll-track {
+      /* Keep the animation but make it slower and more contained */
+      animation: scroll 25s linear infinite;
+    }
+    
+    .tech-logo-item {
+      /* Slightly smaller items on very small screens */
+      margin: 0 0.75rem;
+      width: 50px;
+      min-width: 50px;
+    }
+    
+    .tech-logo {
+      width: 32px;
+      height: 32px;
+    }
+    
+    .tech-name {
+      font-size: 0.7rem;
+    }
+  }
+}
