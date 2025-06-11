@@ -185,7 +185,41 @@ const Resume = () => {
             <h2 className="section-title">Personal Projects</h2>
             
             <div className="project-item">
+              <h3>Virtual Dyno</h3>
+              <div className="project-repository">
+                <strong>Repository: </strong>
+                <a 
+                  href="https://github.com/TylerJayP/VirtualDyno"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="repo-link"
+                >
+                  https://github.com/TylerJayP/VirtualDyno
+                </a>
+              </div>
+              <ul className="project-details">
+                <li>Developed a full-stack dyno analysis application that processes AccessPort, Hondata, and OBD2 datalog files to generate accurate horsepower and torque curves.</li>
+                <li>Implemented algorithms for AFR (Air/Fuel ratio) correction, knock retard (timing pulled) penalties, atmospheric compensation, and gear-specific calculations.</li>
+                <li>Built using C# ASP.NET Core backend with Entity Framework for data management and React frontend for interactive data visualization.</li>
+                <li>Integrated Chart.js for dynamic graphing capabilities and CSV processing for seamless data import and analysis.</li>
+                <li>Designed an authentication system with login/signup pages (frontend implementation complete).</li>
+                <li>Designed RESTful APIs to handle data calculations and provide real-time performance metrics.</li>
+              </ul>
+            </div>
+
+            <div className="project-item">
               <h3>Personal Mood Journal Web Application</h3>
+                <div className="project-repository">
+                <strong>Website: </strong>
+                <a 
+                  href="https://personalmoodjournal.netlify.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="repo-link"
+                >
+                  https://personalmoodjournal.netlify.app
+                </a>
+              </div>
               <div className="project-repository">
                 <strong>Repository: </strong>
                 <a 
@@ -214,6 +248,38 @@ const Resume = () => {
                 <li>Training an AI bot to learn game mechanics, positioning, and strategic decision-making through reinforcement learning algorithms.</li>
                 <li>Implementing reward systems and training loops to optimize bot performance.</li>
                 <li>Exploring deep reinforcement learning techniques to create an agent capable of advanced Rocket League gameplay.</li>
+              </ul>
+            </div>
+
+              <div className="project-item">
+              <h3>Personal Website</h3>
+              <div className="project-repository">
+                <strong>Website: </strong>
+                <a 
+                  href="https://www.tylerjayp.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="repo-link"
+                >
+                  https://www.tylerjayp.com
+                </a>
+              </div>
+              <div className="project-repository">
+                <strong>Repository: </strong>
+                <a 
+                  href="https://github.com/TylerJayP/TylerJayPweb"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="repo-link"
+                >
+                  https://github.com/TylerJayP/TylerJayPweb
+                </a>
+              </div>
+              <ul className="project-details">
+                <li>Developed a modern, responsive portfolio website showcasing projects, skills, and other experiences I’ve gained either through myself or class.</li>
+                <li>Implemented smooth animations and interactive elements using Framer Motion.</li>
+                <li>Built a responsive design with a dark/light theme toggle and persistent user preferences using localStorage.</li>
+                <li>Created a downloadable PDF resume and print-optimized styling.</li>
               </ul>
             </div>
           </motion.section>
