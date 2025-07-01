@@ -74,6 +74,7 @@ const Hero = () => {
         animate={{ opacity: inView ? 1 : 0 }}
         transition={{ duration: 0.8, delay: 1.3 }}
       >
+        <div className="scroll-text">Scroll Down</div>
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
