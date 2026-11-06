@@ -272,11 +272,11 @@
 }
 .sr .rline.rv:not(.rvin),
 .sr .rv:not(.rvin) .rline {
-  border-top-color: transparent !important;
+  border-top-color: transparent;
 }
 .sr .rpanel.rv:not(.rvin) {
-  background-color: transparent !important;
-  border-color: transparent !important;
+  background-color: transparent;
+  border-color: transparent;
 }
 .sr .rboard.rv:not(.rvin) {
   mask-image: radial-gradient(circle at 50% 55%, #000 0%, transparent 0%);

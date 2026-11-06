@@ -1,32 +1,67 @@
-import type { ReactNode } from 'react';
+import type { ComponentType } from 'react';
 import { MARK_PATHS, MARK_VIEWBOX, site } from '../../content/site';
-import { useTheme } from '../../hooks/theme';
-import { LAYER_COUNT, type useCardRig } from './useCardRig';
+import { useTheme } from '../../hooks/useTheme';
+import { classNames } from '../../lib/classNames';
+import type { CardView, useCardRig } from './useCardRig';
 import styles from './BusinessCard.module.css';
 
 type Rig = ReturnType<typeof useCardRig>;
 
-/** Where each layer's leader-line dot sits, as a percentage of the card. */
-const DOTS: readonly [left: number, top: number][] = [
-  [96, 88],
-  [100, 58],
-  [100, 8],
-  [83, 67],
-  [66, 22],
-  [62, 14],
+interface CardLayer {
+  name: string;
+  /** One line on how it is made; `accent` is the foil color for the current theme. */
+  spec: (accent: string) => string;
+  /** Where its leader-line dot sits, as a percentage of the card. */
+  dot: { left: number; top: number };
+  Content: ComponentType;
+}
+
+/**
+ * The card's print layers, bottom first, in stacking order. Each one gets its label, dot and leader line
+ * from this list. Their depths in the stack live in cardPhysics.ts (STACKED_DEPTHS), one per layer.
+ */
+const LAYERS: readonly CardLayer[] = [
+  {
+    name: 'Back print',
+    spec: () => 'Email, GitHub, LinkedIn and website.',
+    dot: { left: 96, top: 88 },
+    Content: BackLayer,
+  },
+  {
+    name: 'Card stock',
+    spec: () => 'Heavy 32 pt board, 3.5 by 2 inches.',
+    dot: { left: 100, top: 58 },
+    Content: StockLayer,
+  },
+  {
+    name: 'Painted edge',
+    spec: (accent) => `All four edges painted ${accent}.`,
+    dot: { left: 100, top: 8 },
+    Content: EdgeLayer,
+  },
+  {
+    name: 'Ink',
+    spec: () => 'Name and title, printed in one color.',
+    dot: { left: 83, top: 67 },
+    Content: InkLayer,
+  },
+  {
+    name: 'Foil mark',
+    spec: (accent) => `The TJP monogram, stamped in ${accent} foil.`,
+    dot: { left: 66, top: 22 },
+    Content: FoilLayer,
+  },
+  {
+    name: 'Spot gloss',
+    spec: () => 'Clear gloss on the mark only, so it catches the light.',
+    dot: { left: 62, top: 14 },
+    Content: GlossLayer,
+  },
 ];
 
-function layerSpecs(accent: string) {
-  // Listed bottom layer first, matching the stacking order.
-  return [
-    { name: 'Back print', spec: 'Email, GitHub, LinkedIn and website.' },
-    { name: 'Card stock', spec: 'Heavy 32 pt board, 3.5 by 2 inches.' },
-    { name: 'Painted edge', spec: `All four edges painted ${accent}.` },
-    { name: 'Ink', spec: 'Name and title, printed in one color.' },
-    { name: 'Foil mark', spec: `The TJP monogram, stamped in ${accent} foil.` },
-    { name: 'Spot gloss', spec: 'Clear gloss on the mark only, so it catches the light.' },
-  ];
-}
+const MODEL_LABEL = `My business card, shown as its ${LAYERS.length} layers: ${new Intl.ListFormat(
+  'en',
+).format(LAYERS.map((layer) => layer.name.toLowerCase()))}`;
 
 const BACK_DETAILS = [
   ['Email', site.email],
@@ -41,128 +76,182 @@ interface BusinessCardProps {
 }
 
 /** My business card in 3D, built from its six print layers so it can be taken apart. */
-export function BusinessCard({ rig, className = '' }: BusinessCardProps) {
-  const { theme } = useTheme();
-  const { view, refs, actions } = rig;
-  const specs = layerSpecs(theme === 'dark' ? 'red' : 'pink');
-  const isActive = (layer: number) => view.pinned === layer || view.highlighted === layer;
+export function BusinessCard({ rig, className }: BusinessCardProps) {
+  const { view, refs } = rig;
+  return (
+    <div
+      ref={refs.stage}
+      className={classNames(
+        styles.stage,
+        view.exploded && styles.exploded,
+        view.flipped && styles.flipped,
+        className,
+      )}
+    >
+      <div className={styles.scene}>
+        <CardModel rig={rig} />
+      </div>
+      <LeaderLines rig={rig} />
+      <LayerLabels rig={rig} />
+    </div>
+  );
+}
 
-  const layers: ReactNode[] = [
+const isActive = (view: CardView, layer: number) => view.pinned === layer || view.highlighted === layer;
+
+/** The stacked layers themselves. Their positions are written by the rig each animation frame. */
+function CardModel({ rig }: { rig: Rig }) {
+  const { view, refs, actions } = rig;
+  return (
+    <div ref={refs.model} className={styles.model} role="img" aria-label={MODEL_LABEL}>
+      {LAYERS.map(({ name, dot, Content }, i) => (
+        <div
+          key={name}
+          ref={(element) => {
+            refs.layers.current[i] = element;
+          }}
+          className={classNames(
+            styles.layer,
+            isActive(view, i) && styles.active,
+            view.pinned >= 0 && view.pinned !== i && styles.dimmed,
+          )}
+          onPointerEnter={() => actions.highlight(i)}
+          onPointerLeave={() => actions.highlight(-1)}
+          onClick={() => actions.pick(i)}
+        >
+          <Content />
+          <span className={styles.plane} aria-hidden="true" />
+          <span
+            ref={(element) => {
+              refs.dots.current[i] = element;
+            }}
+            className={styles.dot}
+            style={{ left: `${dot.left}%`, top: `${dot.top}%` }}
+            aria-hidden="true"
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** One line per layer from its dot to its label. The rig draws the paths. */
+function LeaderLines({ rig }: { rig: Rig }) {
+  const { view, refs } = rig;
+  return (
+    <svg className={styles.lines} aria-hidden="true">
+      {LAYERS.map(({ name }, i) => (
+        <path
+          key={name}
+          ref={(element) => {
+            refs.lines.current[i] = element;
+          }}
+          className={classNames(styles.line, isActive(view, i) && styles.lineActive)}
+          d="M0 0"
+          opacity={0}
+        />
+      ))}
+    </svg>
+  );
+}
+
+/** The layer names, top layer first. Choosing one lifts that layer out and shows how it is made. */
+function LayerLabels({ rig }: { rig: Rig }) {
+  const { view, refs, actions } = rig;
+  const { theme } = useTheme();
+  const accent = theme === 'dark' ? 'red' : 'pink';
+  const topFirst = LAYERS.map((layer, i) => ({ layer, i })).reverse();
+
+  return (
+    <ol className={styles.labels}>
+      {topFirst.map(({ layer, i }, row) => {
+        const pinned = view.pinned === i;
+        return (
+          <li key={layer.name}>
+            <button
+              type="button"
+              ref={(element) => {
+                refs.labels.current[row] = element;
+              }}
+              className={classNames(
+                styles.label,
+                isActive(view, i) && styles.labelActive,
+                pinned && styles.labelPinned,
+              )}
+              onPointerEnter={() => actions.highlight(i)}
+              onPointerLeave={() => actions.highlight(-1)}
+              onFocus={() => actions.highlight(i)}
+              onBlur={() => actions.highlight(-1)}
+              onClick={() => actions.pick(i)}
+              aria-pressed={pinned}
+              tabIndex={view.exploded ? 0 : -1}
+            >
+              <span className={styles.labelHead}>
+                <span className={styles.labelNumber}>{i + 1}</span>
+                <span className={styles.labelName}>{layer.name}</span>
+              </span>
+              {pinned && <span className={styles.labelSpec}>{layer.spec(accent)}</span>}
+            </button>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+function BackLayer() {
+  return (
     <>
-      <div className={`${styles.face} ${styles.back}`}>
+      <div className={classNames(styles.face, styles.back)}>
         <div className={styles.backGhost}>
           <BackPrint />
         </div>
       </div>
-      <div className={`${styles.face} ${styles.back} ${styles.backFlipped}`}>
+      <div className={classNames(styles.face, styles.back, styles.backFlipped)}>
         <BackPrint />
       </div>
-    </>,
+    </>
+  );
+}
+
+function StockLayer() {
+  return (
     <>
-      <div className={`${styles.face} ${styles.slab}`} style={{ transform: 'translateZ(-2px)' }} />
-      <div className={`${styles.face} ${styles.slab}`} style={{ transform: 'translateZ(-1px)' }} />
-      <div className={`${styles.face} ${styles.stock}`} />
+      <div className={classNames(styles.face, styles.slab)} style={{ transform: 'translateZ(-2px)' }} />
+      <div className={classNames(styles.face, styles.slab)} style={{ transform: 'translateZ(-1px)' }} />
+      <div className={classNames(styles.face, styles.stock)} />
       <Dimensions />
-    </>,
-    <div className={`${styles.face} ${styles.edge}`} />,
+    </>
+  );
+}
+
+function EdgeLayer() {
+  return <div className={classNames(styles.face, styles.edge)} />;
+}
+
+function InkLayer() {
+  return (
     <div className={styles.face}>
       <div className={styles.ink}>
         <span className={styles.inkName}>{site.name}</span>
         <span className={styles.inkTag}>Software developer · Salt Lake City</span>
       </div>
-    </div>,
+    </div>
+  );
+}
+
+function FoilLayer() {
+  return (
     <div className={styles.markSlot}>
       <span className={styles.foil} />
-    </div>,
+    </div>
+  );
+}
+
+function GlossLayer() {
+  return (
     <div className={styles.markSlot}>
       <span className={styles.gloss} />
-    </div>,
-  ];
-
-  return (
-    <div
-      ref={refs.stage}
-      className={`${styles.stage} ${view.exploded ? styles.exploded : ''} ${view.flipped ? styles.flipped : ''} ${className}`}
-    >
-      <div className={styles.scene}>
-        <div
-          ref={refs.model}
-          className={styles.model}
-          role="img"
-          aria-label="My business card, shown as its six layers: back print, card stock, painted edge, ink, foil mark and spot gloss"
-        >
-          {layers.map((content, i) => (
-            <div
-              key={i}
-              ref={(element) => {
-                refs.layers.current[i] = element;
-              }}
-              className={`${styles.layer} ${isActive(i) ? styles.active : ''} ${
-                view.pinned >= 0 && view.pinned !== i ? styles.dimmed : ''
-              }`}
-              onPointerEnter={() => actions.highlight(i)}
-              onPointerLeave={() => actions.highlight(-1)}
-              onClick={() => actions.pick(i)}
-            >
-              {content}
-              <span className={styles.plane} aria-hidden="true" />
-              <span
-                ref={(element) => {
-                  refs.dots.current[i] = element;
-                }}
-                className={styles.dot}
-                style={{ left: `${DOTS[i]![0]}%`, top: `${DOTS[i]![1]}%` }}
-                aria-hidden="true"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <svg className={styles.lines} aria-hidden="true">
-        {Array.from({ length: LAYER_COUNT }, (_, i) => (
-          <path
-            key={i}
-            ref={(element) => {
-              refs.lines.current[i] = element;
-            }}
-            className={`${styles.line} ${isActive(i) ? styles.lineActive : ''}`}
-            d="M0 0"
-            opacity={0}
-          />
-        ))}
-      </svg>
-
-      <ol className={styles.labels}>
-        {[...specs].reverse().map((layer, j) => {
-          const i = LAYER_COUNT - 1 - j;
-          const pinned = view.pinned === i;
-          return (
-            <li key={layer.name}>
-              <button
-                type="button"
-                ref={(element) => {
-                  refs.labels.current[j] = element;
-                }}
-                className={`${styles.label} ${isActive(i) ? styles.labelActive : ''} ${pinned ? styles.labelPinned : ''}`}
-                onPointerEnter={() => actions.highlight(i)}
-                onPointerLeave={() => actions.highlight(-1)}
-                onFocus={() => actions.highlight(i)}
-                onBlur={() => actions.highlight(-1)}
-                onClick={() => actions.pick(i)}
-                aria-pressed={pinned}
-                tabIndex={view.exploded ? 0 : -1}
-              >
-                <span className={styles.labelHead}>
-                  <span className={styles.labelNumber}>{i + 1}</span>
-                  <span className={styles.labelName}>{layer.name}</span>
-                </span>
-                {pinned && <span className={styles.labelSpec}>{layer.spec}</span>}
-              </button>
-            </li>
-          );
-        })}
-      </ol>
     </div>
   );
 }

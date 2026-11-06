@@ -1,7 +1,8 @@
 import { useCallback, useImperativeHandle, useRef, useState, type Ref } from 'react';
 import { buildFrame, TERMINAL_GONE_AT, type BuildFrame } from '../../lib/buildTerminal';
-import { formatClock } from '../../lib/format';
 import { useElapsed } from '../../hooks/useIntro';
+import { classNames } from '../../lib/classNames';
+import { formatClock } from '../../lib/format';
 import { ReplayIcon } from '../icons';
 import { IntroPlayer, type IntroPlayerHandle } from './IntroPlayer';
 import playerStyles from './IntroPlayer.module.css';
@@ -49,6 +50,11 @@ export function Intro({ ref, buildStartsAt, rebuild, onReplay, onSkipToVideo }: 
     );
   }, []);
 
+  const watchAgain = () => {
+    setEnded({ ended: false, duration: ended.duration });
+    player.current?.playFrom(0);
+  };
+
   const replay = () => {
     setPendingClip(undefined);
     setEnded({ ended: false, duration: 0 });
@@ -56,12 +62,12 @@ export function Intro({ ref, buildStartsAt, rebuild, onReplay, onSkipToVideo }: 
   };
 
   return (
-    <div className={`${styles.hero} intro-hero`}>
+    <div className={classNames(styles.hero, 'intro-hero')}>
       <div className={styles.stage}>
         {frame.showTerminal && <BuildTerminal frame={frame} />}
         {frame.showPlayer && (
           <>
-            <div className={`${playerStyles.player} ${styles.wipeIn}`}>
+            <div className={classNames(playerStyles.player, styles.wipeIn)}>
               <IntroPlayer ref={player} startAt={pendingClip} onEnded={onEnded} key={buildStartsAt} />
             </div>
             <div className={styles.wipeLine} aria-hidden="true" />
@@ -69,13 +75,7 @@ export function Intro({ ref, buildStartsAt, rebuild, onReplay, onSkipToVideo }: 
         )}
         {frame.showPlayer && ended.ended && (
           <>
-            <EndScreen
-              duration={ended.duration}
-              onWatchAgain={() => {
-                setEnded({ ended: false, duration: ended.duration });
-                player.current?.playFrom(0);
-              }}
-            />
+            <EndScreen duration={ended.duration} onWatchAgain={watchAgain} />
             <div className={styles.wipeLineDown} aria-hidden="true" />
           </>
         )}
@@ -115,10 +115,10 @@ function BuildTerminal({ frame }: { frame: BuildFrame }) {
               {step.active && <Cursor />}
             </span>
             <span
-              className={`${styles.leader} ${step.showLeader ? styles.leaderOn : ''}`}
+              className={classNames(styles.leader, step.showLeader && styles.leaderOn)}
               aria-hidden="true"
             />
-            <span className={`${styles.status} ${step.done ? styles.statusDone : ''}`}>{step.status}</span>
+            <span className={classNames(styles.status, step.done && styles.statusDone)}>{step.status}</span>
           </p>
         ))}
         {frame.built && <p className={styles.doneMessage}>{frame.doneMessage}</p>}
@@ -136,7 +136,7 @@ function BuildTerminal({ frame }: { frame: BuildFrame }) {
 
 function EndScreen({ duration, onWatchAgain }: { duration: number; onWatchAgain: () => void }) {
   return (
-    <div className={`${styles.terminal} ${styles.wipeDown}`}>
+    <div className={classNames(styles.terminal, styles.wipeDown)}>
       <div className={styles.titleBar}>
         <span>tjp ~/portfolio</span>
         <span>exit 0</span>
@@ -150,7 +150,7 @@ function EndScreen({ duration, onWatchAgain }: { duration: number; onWatchAgain:
           </p>
         </div>
         <div className={styles.choices}>
-          <a href="#contact" className={`${styles.choice} ${styles.choicePrimary}`}>
+          <a href="#contact" className={classNames(styles.choice, styles.choicePrimary)}>
             <span className={styles.choiceKey}>[1]</span>Get in touch
           </a>
           <a href="#work" className={styles.choice}>

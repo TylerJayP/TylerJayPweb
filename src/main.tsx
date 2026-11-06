@@ -7,7 +7,12 @@ import './styles/intro.css';
 import './styles/reveal.css';
 import { App } from './App';
 
-createRoot(document.getElementById('root')!).render(
+const root = document.getElementById('root');
+if (!root) {
+  throw new Error('index.html needs a <div id="root"> to render into');
+}
+
+createRoot(root).render(
   <StrictMode>
     <App />
   </StrictMode>,

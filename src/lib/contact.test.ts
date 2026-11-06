@@ -1,4 +1,13 @@
-import { buildMailto, contactCardUrl, findProblems, isReady, OTHER_TOPIC, subjectFor } from './contact';
+import {
+  buildMailto,
+  contactCardUrl,
+  findProblems,
+  formStatus,
+  isReady,
+  NO_PROBLEMS,
+  OTHER_TOPIC,
+  subjectFor,
+} from './contact';
 
 const draft = { name: 'Sam', topic: -1, customSubject: '', message: 'Hi Tyler' };
 
@@ -23,9 +32,22 @@ describe('message drafts', () => {
   });
 });
 
+describe('formStatus', () => {
+  it('names whatever is still missing', () => {
+    expect(formStatus({ name: true, message: true }, false)).toBe('Add your name and a message first.');
+    expect(formStatus({ name: true, message: false }, false)).toBe('Add your name first.');
+    expect(formStatus({ name: false, message: true }, false)).toBe('Add a message first.');
+  });
+
+  it('confirms once the message is on its way, and says nothing before', () => {
+    expect(formStatus(NO_PROBLEMS, true)).toBe('Your email app should be opening with your message.');
+    expect(formStatus(NO_PROBLEMS, false)).toBe('');
+  });
+});
+
 describe('contactCardUrl', () => {
   it('is a vCard with my details', () => {
-    const card = decodeURIComponent(contactCardUrl().split(',')[1]!);
+    const card = decodeURIComponent(contactCardUrl().split(',')[1] ?? '');
     expect(card.startsWith('BEGIN:VCARD\r\nVERSION:3.0')).toBe(true);
     expect(card).toContain('EMAIL;TYPE=INTERNET:tylerjayp12@gmail.com');
     expect(card.endsWith('END:VCARD')).toBe(true);

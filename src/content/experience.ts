@@ -1,7 +1,6 @@
 /** The Experience and Education lists on the page (the resume dialog has the longer versions). */
 
 export interface Job {
-  key: string;
   role: string;
   where: string;
   date: string;
@@ -11,7 +10,6 @@ export interface Job {
 
 export const jobs: Job[] = [
   {
-    key: 'exp1',
     role: 'Teaching Assistant',
     where: 'Utah Valley University · Orem, Utah',
     date: 'Aug 2026 – now',
@@ -20,14 +18,12 @@ export const jobs: Job[] = [
       'I grade, tutor and teach for CS 1380 Modern Programming Essentials, CS 3250 Java Software Development, CS 3370 C++ Software Development, CS 3520 Database Theory and CS 4450 Analysis of Programming Languages.',
   },
   {
-    key: 'exp2',
     role: 'Assistant Store Manager',
     where: 'K1 Speed · Salt Lake City, Utah',
     date: '2+ years',
     summary: 'More than two years in management at an indoor karting center.',
   },
   {
-    key: 'exp3',
     role: 'Freelance Developer',
     where: 'HoneyABA Portal',
     date: '2026',
@@ -35,7 +31,6 @@ export const jobs: Job[] = [
       "Built a role-based portal for an ABA therapy practice. RBTs submit requests, work through assigned task checklists and file reimbursements, while admins build forms and task templates, review submissions and manage the team. Sign-in is Microsoft-only through MSAL, limited to the practice's work accounts.",
   },
   {
-    key: 'exp4',
     role: 'Software Engineering Intern',
     where: 'Treehouse Strategy & Communication · Remote',
     date: 'Jul – Oct 2021',
@@ -44,7 +39,6 @@ export const jobs: Job[] = [
 ];
 
 export interface School {
-  key: string;
   degree: string;
   school: string;
   date: string;
@@ -53,11 +47,10 @@ export interface School {
 
 export const schools: School[] = [
   {
-    key: 'edu1',
     degree: 'M.S. Computer Science',
     school: 'Utah Valley University',
     date: 'Expected 2028',
     current: true,
   },
-  { key: 'edu2', degree: 'B.S. Computer Science', school: 'Utah Valley University', date: 'April 2026' },
+  { degree: 'B.S. Computer Science', school: 'Utah Valley University', date: 'April 2026' },
 ];

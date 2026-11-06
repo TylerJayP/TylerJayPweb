@@ -1,127 +1,60 @@
-import { useEffect, useRef, useState } from 'react';
-import { site } from '../../content/site';
-import { contactCardUrl, copyText } from '../../lib/contact';
-import { revealDelay, useReveal, useRevealEnabled } from '../../hooks/reveal';
+import { useEffect } from 'react';
+import { revealDelay, useReveal, useRevealEnabled } from '../../hooks/useReveal';
+import { classNames } from '../../lib/classNames';
 import { RevealWords } from '../common/RevealWords';
-import { CopyIcon, DownloadIcon, FlipIcon, LayersIcon, ShareIcon } from '../icons';
 import { BusinessCard } from './BusinessCard';
+import { CardToolbar } from './CardToolbar';
 import { MessageForm } from './MessageForm';
 import { useCardRig } from './useCardRig';
+import { useCardSharing } from './useCardSharing';
 import styles from './Contact.module.css';
 
-const SHARE_TEXT = `${site.name} · Software developer in Salt Lake City · ${site.email} · ${site.github.label}`;
-const STATUS_MS = 1800;
-
-type CardStatus = '' | 'email' | 'card' | 'failed' | 'shared';
-
-const STATUS_TEXT: Record<CardStatus, string> = {
-  '': '',
-  email: 'Email copied.',
-  card: 'Card details copied, ready to paste.',
-  failed: "Couldn't copy. Flip the card and select the text.",
-  shared: 'Shared.',
-};
-
 export function Contact() {
-  const heading = useReveal('contact');
+  const heading = useReveal('contact-heading');
   const rig = useCardRig();
+  const sharing = useCardSharing();
   const revealsOn = useRevealEnabled();
-  const card = useReveal('ccard', { onReveal: rig.actions.introduce, onHide: rig.actions.prepare });
-  const [status, setStatus] = useState<CardStatus>('');
-  const statusTimer = useRef(0);
+  const { introduce, prepare, toggleApart, flip } = rig.actions;
+  const card = useReveal('business-card', { onReveal: introduce, onHide: prepare });
 
   // With scroll reveals on, the card waits taken apart until it scrolls into view and builds itself.
-  const { prepare } = rig.actions;
   useEffect(() => {
-    if (revealsOn) prepare();
+    if (revealsOn) {
+      prepare();
+    }
   }, [revealsOn, prepare]);
 
-  useEffect(() => () => window.clearTimeout(statusTimer.current), []);
-
-  const showStatus = (next: CardStatus) => {
-    setStatus(next);
-    window.clearTimeout(statusTimer.current);
-    if (next === 'email' || next === 'card')
-      statusTimer.current = window.setTimeout(() => setStatus(''), STATUS_MS);
-  };
-
-  const copy = async (text: string, kind: 'email' | 'card') =>
-    showStatus((await copyText(text)) ? kind : 'failed');
-
-  const share = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: site.name, text: SHARE_TEXT });
-        showStatus('shared');
-      } catch {
-        // dismissed: nothing to report
-      }
-      return;
-    }
-    await copy(SHARE_TEXT, 'card');
-  };
-
-  const { view, actions } = rig;
-
   return (
-    <section id="contact" className={`page-section ${styles.section}`}>
-      <div ref={heading.ref} className={`rv ${heading.className} ${styles.heading}`}>
+    <section id="contact" className={classNames('page-section', styles.section)}>
+      <div ref={heading.ref} className={classNames(heading.className, styles.heading)}>
         <div className={styles.titles}>
           <p className="eyebrow rvi" style={revealDelay(0)}>
             Contact
           </p>
-          <h2 className={`display ${styles.title}`}>
+          <h2 className={classNames('display', styles.title)}>
             <RevealWords text="Need something built, or someone to build it?" from={1} />
           </h2>
         </div>
-        <p className={`rvi ${styles.lead}`} style={revealDelay(9)}>
+        <p className={classNames('rvi', styles.lead)} style={revealDelay(9)}>
           A project, a role, or just an idea. Take my card with you, or write to me right here.
         </p>
       </div>
 
       <div className={styles.columns}>
-        <div ref={card.ref} className={`rv ${card.className} ${styles.cardColumn}`}>
+        <div ref={card.ref} className={classNames(card.className, styles.cardColumn)}>
           <BusinessCard rig={rig} className="rfade" />
-          <div
-            className={`rvi ${styles.dock}`}
+          <CardToolbar
+            className={classNames('rvi', styles.dock)}
             style={revealDelay(6)}
-            role="toolbar"
-            aria-label="My business card"
-          >
-            <button
-              type="button"
-              className={styles.tool}
-              onClick={actions.toggleApart}
-              aria-pressed={view.exploded}
-            >
-              <LayersIcon />
-              <span>{view.exploded ? 'Put together' : 'Take apart'}</span>
-            </button>
-            <button type="button" className={styles.tool} onClick={actions.flip} aria-pressed={view.flipped}>
-              <FlipIcon />
-              <span>{view.flipped ? 'Front' : 'Flip'}</span>
-            </button>
-            <span className={styles.separator} aria-hidden="true" />
-            <button type="button" className={styles.tool} onClick={() => copy(site.email, 'email')}>
-              <CopyIcon />
-              <span>{status === 'email' ? 'Copied' : 'Copy email'}</span>
-            </button>
-            <a
-              className={styles.tool}
-              href={contactCardUrl()}
-              download="tyler-jay-perkins.vcf"
-              aria-label="Save my contact card"
-            >
-              <DownloadIcon strokeWidth={1.6} />
-              <span>Save</span>
-            </a>
-            <button type="button" className={styles.tool} onClick={share}>
-              <ShareIcon />
-              <span>Share</span>
-            </button>
-          </div>
+            view={rig.view}
+            onToggleApart={toggleApart}
+            onFlip={flip}
+            emailCopied={sharing.status === 'email'}
+            onCopyEmail={sharing.copyEmail}
+            onShare={sharing.share}
+          />
           <p role="status" className={styles.status}>
-            {STATUS_TEXT[status]}
+            {sharing.message}
           </p>
         </div>
 

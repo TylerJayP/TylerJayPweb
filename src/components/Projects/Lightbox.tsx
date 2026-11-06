@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import type { Screenshot } from '../../content/types';
 import { useExitAnimation, useModal } from '../../hooks/useDialog';
+import { classNames } from '../../lib/classNames';
 import { ChevronLeftIcon, ChevronRightIcon, CloseIcon } from '../icons';
 import styles from './Lightbox.module.css';
 
@@ -14,6 +15,8 @@ interface LightboxProps {
 }
 
 const EXIT_MS = 180;
+/** Keys that step through the screenshots, and which way. */
+const STEP_KEYS: Partial<Record<string, number>> = { ArrowLeft: -1, ArrowRight: 1 };
 
 /** Full-size screenshots. Arrow keys step through them; Escape or the backdrop closes it. */
 export function Lightbox({ open, projectName, screenshots, current, onStep, onClose }: LightboxProps) {
@@ -26,19 +29,23 @@ export function Lightbox({ open, projectName, screenshots, current, onStep, onCl
     initialFocusRef: closeButton,
     onClose,
     onKeyDown: (event) => {
-      if (event.key === 'ArrowLeft') onStep(-1);
-      if (event.key === 'ArrowRight') onStep(1);
+      const delta = STEP_KEYS[event.key];
+      if (delta) {
+        onStep(delta);
+      }
     },
   });
 
   const shot = screenshots[current];
-  if (!mounted || !shot) return null;
+  if (!mounted || !shot) {
+    return null;
+  }
   const many = screenshots.length > 1;
 
   return (
     <div
       ref={container}
-      className={`${styles.lightbox} ${closing ? styles.closing : ''}`}
+      className={classNames(styles.lightbox, closing && styles.closing)}
       role="dialog"
       aria-modal="true"
       aria-label={`Screenshots of ${projectName}`}
@@ -73,26 +80,30 @@ export function Lightbox({ open, projectName, screenshots, current, onStep, onCl
         />
         <figcaption className={styles.caption}>{shot.caption}</figcaption>
       </figure>
-      {many && (
-        <>
-          <button
-            type="button"
-            className={`${styles.button} ${styles.nav} ${styles.prev}`}
-            onClick={() => onStep(-1)}
-            aria-label="Previous screenshot"
-          >
-            <ChevronLeftIcon />
-          </button>
-          <button
-            type="button"
-            className={`${styles.button} ${styles.nav} ${styles.next}`}
-            onClick={() => onStep(1)}
-            aria-label="Next screenshot"
-          >
-            <ChevronRightIcon />
-          </button>
-        </>
-      )}
+      {many && <StepArrows onStep={onStep} />}
     </div>
+  );
+}
+
+function StepArrows({ onStep }: { onStep: (delta: number) => void }) {
+  return (
+    <>
+      <button
+        type="button"
+        className={classNames(styles.button, styles.nav, styles.prev)}
+        onClick={() => onStep(-1)}
+        aria-label="Previous screenshot"
+      >
+        <ChevronLeftIcon />
+      </button>
+      <button
+        type="button"
+        className={classNames(styles.button, styles.nav, styles.next)}
+        onClick={() => onStep(1)}
+        aria-label="Next screenshot"
+      >
+        <ChevronRightIcon />
+      </button>
+    </>
   );
 }

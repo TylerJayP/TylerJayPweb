@@ -1,8 +1,9 @@
 import type { MouseEvent } from 'react';
-import { revealDelay, useReveal } from '../../hooks/reveal';
+import { jobs, schools, type Job, type School } from '../../content/experience';
+import { revealDelay, useReveal } from '../../hooks/useReveal';
+import { classNames } from '../../lib/classNames';
 import { RevealWords } from '../common/RevealWords';
 import { ArrowRightIcon, DocumentIcon } from '../icons';
-import { jobs, schools, type Job, type School } from '../../content/experience';
 import styles from './Experience.module.css';
 
 interface ExperienceProps {
@@ -10,14 +11,14 @@ interface ExperienceProps {
 }
 
 export function Experience({ onOpenResume }: ExperienceProps) {
-  const side = useReveal('hexp');
-  const educationTitle = useReveal('hedu');
+  const side = useReveal('experience-heading');
+  const educationTitle = useReveal('education-heading');
 
   return (
-    <section id="experience" className={`page-section ${styles.section}`}>
+    <section id="experience" className={classNames('page-section', styles.section)}>
       <div className={styles.group}>
-        <div ref={side.ref} className={`rv ${side.className} ${styles.side}`}>
-          <h2 className={`display ${styles.title}`}>
+        <div ref={side.ref} className={classNames(side.className, styles.side)}>
+          <h2 className={classNames('display', styles.title)}>
             <RevealWords text="Experience" from={1} />
           </h2>
           <a
@@ -33,8 +34,8 @@ export function Experience({ onOpenResume }: ExperienceProps) {
           </a>
         </div>
         <div className={styles.list}>
-          {jobs.map((job) => (
-            <JobRow key={job.key} job={job} />
+          {jobs.map((job, i) => (
+            <JobRow key={job.role} job={job} index={i} />
           ))}
         </div>
       </div>
@@ -42,13 +43,13 @@ export function Experience({ onOpenResume }: ExperienceProps) {
       <div className={styles.group}>
         <h2
           ref={educationTitle.ref}
-          className={`rv display ${educationTitle.className} ${styles.title} ${styles.side}`}
+          className={classNames(educationTitle.className, 'display', styles.title, styles.side)}
         >
           <RevealWords text="Education" from={1} />
         </h2>
         <div className={styles.list}>
-          {schools.map((school) => (
-            <SchoolRow key={school.key} school={school} />
+          {schools.map((school, i) => (
+            <SchoolRow key={school.degree} school={school} index={i} />
           ))}
         </div>
       </div>
@@ -56,33 +57,36 @@ export function Experience({ onOpenResume }: ExperienceProps) {
   );
 }
 
-function JobRow({ job }: { job: Job }) {
-  const reveal = useReveal(job.key);
+function JobRow({ job, index }: { job: Job; index: number }) {
+  const reveal = useReveal(`job-${index}`);
   return (
-    <article ref={reveal.ref} className={`rv rline ${reveal.className} ${styles.job}`}>
-      <div className={`rvi ${styles.top}`} style={revealDelay(2)}>
+    <article ref={reveal.ref} className={classNames(reveal.className, 'rline', styles.job)}>
+      <div className={classNames('rvi', styles.top)} style={revealDelay(2)}>
         <h3 className={styles.role}>{job.role}</h3>
-        <span className={`${styles.date} ${job.current ? styles.current : ''}`}>{job.date}</span>
+        <span className={classNames(styles.date, job.current && styles.current)}>{job.date}</span>
       </div>
-      <p className={`rvi ${styles.where}`} style={revealDelay(3)}>
+      <p className={classNames('rvi', styles.where)} style={revealDelay(3)}>
         {job.where}
       </p>
-      <p className={`rvi ${styles.summary}`} style={revealDelay(4)}>
+      <p className={classNames('rvi', styles.summary)} style={revealDelay(4)}>
         {job.summary}
       </p>
     </article>
   );
 }
 
-function SchoolRow({ school }: { school: School }) {
-  const reveal = useReveal(school.key);
+function SchoolRow({ school, index }: { school: School; index: number }) {
+  const reveal = useReveal(`school-${index}`);
   return (
-    <div ref={reveal.ref} className={`rv rline ${reveal.className} ${styles.school}`}>
+    <div ref={reveal.ref} className={classNames(reveal.className, 'rline', styles.school)}>
       <div className="rvi" style={{ ...revealDelay(2), minWidth: 0 }}>
         <h3 className={styles.role}>{school.degree}</h3>
         <p className={styles.where}>{school.school}</p>
       </div>
-      <span className={`rvi ${styles.date} ${school.current ? styles.current : ''}`} style={revealDelay(3)}>
+      <span
+        className={classNames('rvi', styles.date, school.current && styles.current)}
+        style={revealDelay(3)}
+      >
         {school.date}
       </span>
     </div>

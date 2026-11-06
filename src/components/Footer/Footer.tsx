@@ -1,17 +1,21 @@
-import type { CSSProperties, MouseEvent } from 'react';
+import type { MouseEvent } from 'react';
 import { MARK_PATHS, MARK_VIEWBOX, site } from '../../content/site';
-import { revealDelay, useReveal } from '../../hooks/reveal';
+import { revealDelay, useReveal } from '../../hooks/useReveal';
+import { classNames } from '../../lib/classNames';
 import styles from './Footer.module.css';
+
+/** The footer mark draws one letter after another, this far apart. */
+const MARK_LETTER_GAP_MS = 130;
 
 interface FooterProps {
   onOpenResume: (event: MouseEvent) => void;
 }
 
 export function Footer({ onOpenResume }: FooterProps) {
-  const reveal = useReveal('foot');
+  const reveal = useReveal('footer');
 
   return (
-    <footer ref={reveal.ref} className={`rv ${reveal.className} ${styles.footer}`}>
+    <footer ref={reveal.ref} className={classNames(reveal.className, styles.footer)}>
       <div className={styles.inner}>
         {/* The mark draws itself, letter by letter, as the footer scrolls in. */}
         <svg
@@ -26,7 +30,7 @@ export function Footer({ onOpenResume }: FooterProps) {
             <path
               key={d}
               className="rfp"
-              style={{ '--rvd': `${i * 130}ms` } as CSSProperties}
+              style={{ '--rvd': `${i * MARK_LETTER_GAP_MS}ms` }}
               pathLength={1}
               stroke="currentColor"
               strokeWidth={30}
@@ -35,7 +39,7 @@ export function Footer({ onOpenResume }: FooterProps) {
             />
           ))}
         </svg>
-        <nav aria-label="Elsewhere" className={`rvi ${styles.links}`} style={revealDelay(8)}>
+        <nav aria-label="Elsewhere" className={classNames('rvi', styles.links)} style={revealDelay(8)}>
           <a href={`mailto:${site.email}`}>Email</a>
           <a href={site.linkedin.url} target="_blank" rel="noopener noreferrer">
             LinkedIn

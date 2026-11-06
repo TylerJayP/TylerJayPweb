@@ -26,13 +26,32 @@ export interface DraftProblems {
   message: boolean;
 }
 
+export const NO_PROBLEMS: DraftProblems = { name: false, message: false };
+
 export function findProblems(draft: MessageDraft): DraftProblems {
   return { name: !draft.name.trim(), message: !draft.message.trim() };
 }
 
+export function hasProblems(problems: DraftProblems): boolean {
+  return problems.name || problems.message;
+}
+
 export function isReady(draft: MessageDraft): boolean {
-  const problems = findProblems(draft);
-  return !problems.name && !problems.message;
+  return !hasProblems(findProblems(draft));
+}
+
+/** The line under the send button: what's still missing, or that the email app is opening. */
+export function formStatus(problems: DraftProblems, sent: boolean): string {
+  if (problems.name && problems.message) {
+    return 'Add your name and a message first.';
+  }
+  if (problems.name) {
+    return 'Add your name first.';
+  }
+  if (problems.message) {
+    return 'Add a message first.';
+  }
+  return sent ? 'Your email app should be opening with your message.' : '';
 }
 
 export function subjectFor(draft: MessageDraft): string {
@@ -68,26 +87,35 @@ export function contactCardUrl(): string {
 
 /** Copies text, falling back to a hidden textarea where the async Clipboard API isn't available. */
 export async function copyText(text: string): Promise<boolean> {
-  try {
-    if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(text);
-      return true;
-    }
-  } catch {
-    // fall through to the older approach
+  return (await copyWithClipboardApi(text)) || copyWithTextarea(text);
+}
+
+async function copyWithClipboardApi(text: string): Promise<boolean> {
+  if (!navigator.clipboard?.writeText) {
+    return false;
   }
   try {
-    const area = document.createElement('textarea');
-    area.value = text;
-    area.setAttribute('readonly', '');
-    area.style.position = 'fixed';
-    area.style.opacity = '0';
-    document.body.appendChild(area);
-    area.select();
-    const ok = document.execCommand('copy');
-    area.remove();
-    return ok;
+    await navigator.clipboard.writeText(text);
+    return true;
   } catch {
     return false;
+  }
+}
+
+/** The older way, for browsers without the Clipboard API: select text in a hidden field and copy it. */
+function copyWithTextarea(text: string): boolean {
+  const area = document.createElement('textarea');
+  area.value = text;
+  area.setAttribute('readonly', '');
+  area.style.position = 'fixed';
+  area.style.opacity = '0';
+  document.body.appendChild(area);
+  try {
+    area.select();
+    return document.execCommand('copy');
+  } catch {
+    return false;
+  } finally {
+    area.remove();
   }
 }

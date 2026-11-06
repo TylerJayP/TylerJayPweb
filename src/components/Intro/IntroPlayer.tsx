@@ -1,23 +1,28 @@
 import { useCallback, useImperativeHandle, useRef, useState, type Ref } from 'react';
 import { introCaptions } from '../../content/captions';
 import { site } from '../../content/site';
-import { captionAt } from '../../lib/captions';
-import { formatClock } from '../../lib/format';
+import { useLatest } from '../../hooks/useLatest';
 import { prefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import { captionAt } from '../../lib/captions';
+import { classNames } from '../../lib/classNames';
+import { formatClock } from '../../lib/format';
 import { MutedIcon, PauseIcon, PlayIcon, SoundIcon } from '../icons';
+import {
+  INITIAL_PLAYBACK,
+  type PlaybackState,
+  playWithSound,
+  readPlayback,
+  scrollIntoViewIfHidden,
+  seekTo,
+  togglePlayback,
+  toggleSound,
+  tryPlay,
+} from './videoControls';
 import styles from './IntroPlayer.module.css';
 
 export interface IntroPlayerHandle {
   /** Plays from `seconds` with sound, scrolling the video into view if needed. */
   playFrom: (seconds: number) => void;
-}
-
-interface PlaybackState {
-  current: number;
-  duration: number;
-  playing: boolean;
-  muted: boolean;
-  ended: boolean;
 }
 
 interface IntroPlayerProps {
@@ -33,82 +38,66 @@ interface IntroPlayerProps {
  */
 export function IntroPlayer({ ref, startAt, onEnded }: IntroPlayerProps) {
   const video = useRef<HTMLVideoElement | null>(null);
-  const [state, setState] = useState<PlaybackState>({
-    current: 0,
-    duration: 0,
-    playing: false,
-    muted: true,
-    ended: false,
-  });
+  const [state, setState] = useState(INITIAL_PLAYBACK);
   const [captionsOn, setCaptionsOn] = useState(true);
 
+  /** Copies the video's state into React whenever one of its events fires. */
   const sync = useCallback(() => {
-    const v = video.current;
-    if (!v) return;
-    const next = {
-      current: v.currentTime,
-      duration: Number.isFinite(v.duration) ? v.duration : 0,
-      playing: !v.paused && !v.ended,
-      muted: v.muted,
-      ended: v.ended,
-    };
+    if (!video.current) {
+      return;
+    }
+    const next = readPlayback(video.current);
     setState(next);
     onEnded(next.ended, next.duration);
   }, [onEnded]);
 
   const playFrom = useCallback(
     (seconds: number) => {
-      const v = video.current;
-      if (!v) return;
-      v.currentTime = seconds;
-      v.muted = false;
-      v.play().catch(() => {
-        // Sound needs a user gesture on some browsers: fall back to playing muted.
-        v.muted = true;
-        v.play().catch(() => sync());
-      });
-      const box = v.getBoundingClientRect();
-      if (box.top < 0 || box.bottom > window.innerHeight)
-        v.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      const element = video.current;
+      if (!element) {
+        return;
+      }
+      seekTo(element, seconds);
+      playWithSound(element, sync);
+      scrollIntoViewIfHidden(element);
     },
     [sync],
   );
 
   useImperativeHandle(ref, () => ({ playFrom }), [playFrom]);
 
+  // The video starts once, when it is attached: from a requested clip, or muted from the top.
+  const onAttach = useLatest({ startAt, playFrom, sync });
   const attach = useCallback(
     (element: HTMLVideoElement | null) => {
       video.current = element;
-      if (!element) return;
-      if (startAt !== undefined) {
-        playFrom(startAt);
+      if (!element) {
+        return;
+      }
+      const { startAt: clip, playFrom: playClip, sync: update } = onAttach.current;
+      if (clip !== undefined) {
+        playClip(clip);
         return;
       }
       element.muted = true;
-      if (!prefersReducedMotion()) element.play().catch(() => sync());
+      if (!prefersReducedMotion()) {
+        tryPlay(element, update);
+      }
     },
-    // Attach once per element; startAt only matters at that moment.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [onAttach],
   );
 
-  const togglePlay = () => {
-    const v = video.current;
-    if (!v) return;
-    if (v.paused || v.ended) v.play().catch(() => {});
-    else v.pause();
+  /** Runs a control on the video, if it is there. */
+  const withVideo = (action: (element: HTMLVideoElement) => void) => {
+    if (video.current) {
+      action(video.current);
+    }
   };
-
-  const toggleMute = () => {
-    const v = video.current;
-    if (!v) return;
-    v.muted = !v.muted;
-    if (!v.muted && v.paused) v.play().catch(() => {});
-  };
+  const togglePlay = () => withVideo(togglePlayback);
+  const toggleMute = () => withVideo(toggleSound);
+  const seek = (seconds: number) => withVideo((element) => seekTo(element, seconds));
 
   const caption = captionsOn && !state.ended ? captionAt(introCaptions, state.current) : '';
-  const time = formatClock(state.current);
-  const total = formatClock(state.duration);
 
   return (
     <>
@@ -139,49 +128,80 @@ export function IntroPlayer({ ref, startAt, onEnded }: IntroPlayerProps) {
           <span>{caption}</span>
         </p>
       )}
-      <div className={styles.controls}>
-        <button
-          type="button"
-          className={styles.control}
-          onClick={togglePlay}
-          aria-label={state.playing ? 'Pause' : 'Play'}
-        >
-          {state.playing ? <PauseIcon /> : <PlayIcon />}
-        </button>
-        <input
-          type="range"
-          className={styles.seek}
-          min={0}
-          max={state.duration}
-          step={0.1}
-          value={state.current}
-          onChange={(event) => {
-            if (video.current) video.current.currentTime = Number(event.target.value) || 0;
-          }}
-          aria-label="Seek"
-          aria-valuetext={`${time} of ${total}`}
-        />
-        <span className={styles.time}>
-          {time} / {total}
-        </span>
-        <button
-          type="button"
-          className={`${styles.control} ${styles.cc} ${captionsOn ? '' : styles.ccOff}`}
-          onClick={() => setCaptionsOn((on) => !on)}
-          aria-pressed={captionsOn}
-          aria-label="Captions"
-        >
-          CC
-        </button>
-        <button
-          type="button"
-          className={styles.control}
-          onClick={toggleMute}
-          aria-label={state.muted ? 'Turn sound on' : 'Mute'}
-        >
-          {state.muted ? <MutedIcon /> : <SoundIcon />}
-        </button>
-      </div>
+      <PlayerControls
+        playback={state}
+        captionsOn={captionsOn}
+        onTogglePlay={togglePlay}
+        onSeek={seek}
+        onToggleCaptions={() => setCaptionsOn((on) => !on)}
+        onToggleMute={toggleMute}
+      />
     </>
+  );
+}
+
+interface PlayerControlsProps {
+  playback: PlaybackState;
+  captionsOn: boolean;
+  onTogglePlay: () => void;
+  onSeek: (seconds: number) => void;
+  onToggleCaptions: () => void;
+  onToggleMute: () => void;
+}
+
+/** Play/pause, the seek bar, the time, captions and sound. */
+function PlayerControls({
+  playback,
+  captionsOn,
+  onTogglePlay,
+  onSeek,
+  onToggleCaptions,
+  onToggleMute,
+}: PlayerControlsProps) {
+  const time = formatClock(playback.current);
+  const total = formatClock(playback.duration);
+
+  return (
+    <div className={styles.controls}>
+      <button
+        type="button"
+        className={styles.control}
+        onClick={onTogglePlay}
+        aria-label={playback.playing ? 'Pause' : 'Play'}
+      >
+        {playback.playing ? <PauseIcon /> : <PlayIcon />}
+      </button>
+      <input
+        type="range"
+        className={styles.seek}
+        min={0}
+        max={playback.duration}
+        step={0.1}
+        value={playback.current}
+        onChange={(event) => onSeek(Number(event.target.value) || 0)}
+        aria-label="Seek"
+        aria-valuetext={`${time} of ${total}`}
+      />
+      <span className={styles.time}>
+        {time} / {total}
+      </span>
+      <button
+        type="button"
+        className={classNames(styles.control, styles.cc, !captionsOn && styles.ccOff)}
+        onClick={onToggleCaptions}
+        aria-pressed={captionsOn}
+        aria-label="Captions"
+      >
+        CC
+      </button>
+      <button
+        type="button"
+        className={styles.control}
+        onClick={onToggleMute}
+        aria-label={playback.muted ? 'Turn sound on' : 'Mute'}
+      >
+        {playback.muted ? <MutedIcon /> : <SoundIcon />}
+      </button>
+    </div>
   );
 }

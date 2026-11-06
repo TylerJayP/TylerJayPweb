@@ -1,6 +1,5 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
-
-export type Theme = 'light' | 'dark';
+import { type ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { type Theme, ThemeContext } from './themeContext';
 
 const STORAGE_KEY = 'tjp-theme';
 
@@ -12,19 +11,22 @@ function isTheme(value: unknown): value is Theme {
 function initialTheme(): Theme {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (isTheme(saved)) return saved;
+    if (isTheme(saved)) {
+      return saved;
+    }
   } catch {
     // storage blocked (private mode): fall back to the system setting
   }
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-interface ThemeContextValue {
-  theme: Theme;
-  toggleTheme: () => void;
+function saveTheme(theme: Theme): void {
+  try {
+    localStorage.setItem(STORAGE_KEY, theme);
+  } catch {
+    // the choice just won't persist
+  }
 }
-
-const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(initialTheme);
@@ -36,31 +38,21 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   // Keep other open tabs in step.
   useEffect(() => {
     const onStorage = (event: StorageEvent) => {
-      if (event.key === STORAGE_KEY && isTheme(event.newValue)) setTheme(event.newValue);
+      if (event.key === STORAGE_KEY && isTheme(event.newValue)) {
+        setTheme(event.newValue);
+      }
     };
     window.addEventListener('storage', onStorage);
     return () => window.removeEventListener('storage', onStorage);
   }, []);
 
+  // Only a choice the visitor makes is saved; until then the page follows the system setting.
   const toggleTheme = useCallback(() => {
-    setTheme((current) => {
-      const next = current === 'dark' ? 'light' : 'dark';
-      try {
-        localStorage.setItem(STORAGE_KEY, next);
-      } catch {
-        // the choice just won't persist
-      }
-      return next;
-    });
-  }, []);
+    const next = theme === 'dark' ? 'light' : 'dark';
+    saveTheme(next);
+    setTheme(next);
+  }, [theme]);
 
   const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export function useTheme(): ThemeContextValue {
-  const value = useContext(ThemeContext);
-  if (!value) throw new Error('useTheme must be used inside <ThemeProvider>');
-  return value;
 }

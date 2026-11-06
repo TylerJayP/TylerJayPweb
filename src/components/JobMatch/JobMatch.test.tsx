@@ -29,7 +29,11 @@ describe('<JobMatch>', () => {
     const user = userEvent.setup();
     const onHear = vi.fn();
     renderWithProviders(<JobMatch onHear={onHear} />);
-    await user.click(screen.getAllByRole('button', { name: /Hear it/ })[0]!);
+    const [firstClip] = screen.getAllByRole('button', { name: /Hear it/ });
+    if (!firstClip) {
+      throw new Error('Expected at least one "Hear it" button');
+    }
+    await user.click(firstClip);
     expect(onHear).toHaveBeenCalledWith(expect.closeTo(147.56, 2));
   });
 

@@ -1,5 +1,5 @@
-import type { CSSProperties } from 'react';
 import { projects } from '../../content/projects';
+import { classNames } from '../../lib/classNames';
 import styles from './Logo.module.css';
 
 /** Each piece starts drawing 110 ms after the one before it. */
@@ -17,7 +17,7 @@ export function Logo() {
           <path
             key={project.piece}
             className="logo-piece"
-            style={{ '--draw-at': `${i * DRAW_STEP_MS}ms` } as CSSProperties}
+            style={{ '--draw-at': `${i * DRAW_STEP_MS}ms` }}
             d={project.path}
             pathLength={1}
             strokeWidth={9}
@@ -25,8 +25,8 @@ export function Logo() {
           />
         ))}
       </svg>
-      <span className={`${styles.foilWrap} logo-foil-wrap`}>
-        <span className={`${styles.foil} logo-foil`} />
+      <span className={classNames(styles.foilWrap, 'logo-foil-wrap')}>
+        <span className={classNames(styles.foil, 'logo-foil')} />
       </span>
     </span>
   );

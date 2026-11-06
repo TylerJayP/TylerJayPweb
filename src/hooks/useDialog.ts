@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState, type RefObject } from 'react';
+import { type RefObject, useEffect, useState } from 'react';
+import { useLatest } from './useLatest';
+
+/** Focus moves into a dialog after this long, once it has started to appear. */
+const FOCUS_DELAY_MS = 30;
+/** What Tab can land on inside a dialog. */
+const FOCUSABLE = 'a[href], button:not([disabled])';
 
 /**
  * Keeps a dialog mounted while its closing animation plays: `open` flips immediately,
@@ -11,11 +17,15 @@ export function useExitAnimation(open: boolean, exitMs: number) {
   // Mount as soon as it opens (adjusting state during render, as React recommends for derived state).
   if (open !== wasOpen) {
     setWasOpen(open);
-    if (open) setMounted(true);
+    if (open) {
+      setMounted(true);
+    }
   }
 
   useEffect(() => {
-    if (open || !mounted) return;
+    if (open || !mounted) {
+      return undefined;
+    }
     const timer = window.setTimeout(() => setMounted(false), exitMs);
     return () => window.clearTimeout(timer);
   }, [open, mounted, exitMs]);
@@ -41,49 +51,83 @@ export function useModal(
   active: boolean,
   { containerRef, initialFocusRef, onClose, onKeyDown }: ModalOptions,
 ) {
-  const handlers = useRef({ onClose, onKeyDown });
-  useEffect(() => {
-    handlers.current = { onClose, onKeyDown };
-  });
-
-  useEffect(() => {
-    if (!active) return;
-    const opener = document.activeElement as HTMLElement | null;
-    const root = document.documentElement;
-    const previousOverflow = root.style.overflow;
-    root.style.overflow = 'hidden';
-    const focusTimer = window.setTimeout(() => initialFocusRef.current?.focus({ preventScroll: true }), 30);
-
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        handlers.current.onClose();
-        return;
-      }
-      if (event.key === 'Tab') trapFocus(event, containerRef.current);
-      handlers.current.onKeyDown?.(event);
-    };
-    window.addEventListener('keydown', onKey);
-
-    return () => {
-      window.clearTimeout(focusTimer);
-      window.removeEventListener('keydown', onKey);
-      root.style.overflow = previousOverflow;
-      opener?.focus?.({ preventScroll: true });
-    };
-  }, [active, containerRef, initialFocusRef]);
+  useScrollLock(active);
+  useFocusHandoff(active, initialFocusRef);
+  useDialogKeys(active, containerRef, { onClose, onKeyDown });
 }
 
+/** Stops the page behind from scrolling while `active`. */
+function useScrollLock(active: boolean) {
+  useEffect(() => {
+    if (!active) {
+      return undefined;
+    }
+    const root = document.documentElement;
+    const previous = root.style.overflow;
+    root.style.overflow = 'hidden';
+    return () => {
+      root.style.overflow = previous;
+    };
+  }, [active]);
+}
+
+/** Moves focus to `target` while `active`, and back to whatever had it before afterwards. */
+function useFocusHandoff(active: boolean, target: RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    if (!active) {
+      return undefined;
+    }
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const timer = window.setTimeout(() => target.current?.focus({ preventScroll: true }), FOCUS_DELAY_MS);
+    return () => {
+      window.clearTimeout(timer);
+      opener?.focus({ preventScroll: true });
+    };
+  }, [active, target]);
+}
+
+/** While `active`: Escape closes, Tab stays inside the container, and other keys go to `onKeyDown`. */
+function useDialogKeys(
+  active: boolean,
+  containerRef: RefObject<HTMLElement | null>,
+  handlers: Pick<ModalOptions, 'onClose' | 'onKeyDown'>,
+) {
+  const latest = useLatest(handlers);
+  useEffect(() => {
+    if (!active) {
+      return undefined;
+    }
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        latest.current.onClose();
+        return;
+      }
+      if (event.key === 'Tab') {
+        trapFocus(event, containerRef.current);
+      }
+      latest.current.onKeyDown?.(event);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [active, containerRef, latest]);
+}
+
+/** Wraps Tab from the last control back to the first (and Shift+Tab the other way). */
 function trapFocus(event: KeyboardEvent, container: HTMLElement | null) {
-  if (!container) return;
-  const focusable = [...container.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')];
+  const focusable = container ? [...container.querySelectorAll<HTMLElement>(FOCUSABLE)] : [];
   const first = focusable[0];
   const last = focusable[focusable.length - 1];
-  if (!first || !last) return;
+  if (!container || !first || !last) {
+    return;
+  }
   const current = document.activeElement;
-  if (event.shiftKey && (current === first || !container.contains(current))) {
+  const leavingBackward = event.shiftKey && (current === first || !container.contains(current));
+  const leavingForward = !event.shiftKey && current === last;
+  if (leavingBackward) {
     event.preventDefault();
     last.focus();
-  } else if (!event.shiftKey && current === last) {
+  }
+  if (leavingForward) {
     event.preventDefault();
     first.focus();
   }

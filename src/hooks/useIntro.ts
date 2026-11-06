@@ -4,6 +4,10 @@ import { useCallback, useEffect, useState } from 'react';
 const TERMINAL_DELAY_MS = 1800;
 /** Long enough for the browser to paint the reset state before the animations start again. */
 const RESTART_GAP_MS = 60;
+/** Far enough in the past that the build has finished and the video is up. */
+const SKIP_BACK_MS = 7000;
+/** How often the build terminal's clock ticks. */
+const TICK_MS = 50;
 
 export interface IntroState {
   /** Root class: `reset` holds everything at its start, `go` plays the opening animations. */
@@ -26,7 +30,9 @@ export function useIntro(): IntroState {
   const [holding, setHolding] = useState(true);
 
   useEffect(() => {
-    if (phase !== 'reset') return;
+    if (phase !== 'reset') {
+      return undefined;
+    }
     const timer = window.setTimeout(() => setPhase('go'), RESTART_GAP_MS);
     return () => window.clearTimeout(timer);
   }, [phase]);
@@ -35,7 +41,7 @@ export function useIntro(): IntroState {
     const wait = run.startsAt - Date.now();
     if (wait <= 0) {
       setHolding(false);
-      return;
+      return undefined;
     }
     setHolding(true);
     const timer = window.setTimeout(() => setHolding(false), wait);
@@ -48,7 +54,7 @@ export function useIntro(): IntroState {
   }, []);
 
   const skipToVideo = useCallback(() => {
-    setRun((current) => ({ ...current, startsAt: Date.now() - 7000 }));
+    setRun((current) => ({ ...current, startsAt: Date.now() - SKIP_BACK_MS }));
   }, []);
 
   return { phase, buildStartsAt: run.startsAt, rebuild: run.rebuild, holding, replay, skipToVideo };
@@ -63,8 +69,10 @@ export function useElapsed(startsAt: number, untilSeconds: number): number {
     const timer = window.setInterval(() => {
       const current = Date.now();
       setNow(current);
-      if ((current - startsAt) / 1000 > untilSeconds) window.clearInterval(timer);
-    }, 50);
+      if ((current - startsAt) / 1000 > untilSeconds) {
+        window.clearInterval(timer);
+      }
+    }, TICK_MS);
     return () => window.clearInterval(timer);
   }, [startsAt, untilSeconds]);
 

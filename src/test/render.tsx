@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import type { ReactElement, ReactNode } from 'react';
-import { RevealProvider } from '../hooks/reveal';
-import { ThemeProvider } from '../hooks/theme';
+import { RevealProvider } from '../providers/RevealProvider';
+import { ThemeProvider } from '../providers/ThemeProvider';
 
 function Providers({ children }: { children: ReactNode }) {
   return (

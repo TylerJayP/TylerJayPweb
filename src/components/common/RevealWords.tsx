@@ -1,4 +1,4 @@
-import { revealDelay } from '../../hooks/reveal';
+import { revealDelay } from '../../hooks/useReveal';
 
 interface RevealWordsProps {
   text: string;

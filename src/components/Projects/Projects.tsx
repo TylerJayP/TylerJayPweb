@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import { projects } from '../../content/projects';
-import { wrapIndex } from '../../lib/format';
-import { initialPlacement, placeAll, placePart } from '../../lib/markBoard';
-import { revealDelay, useReveal } from '../../hooks/reveal';
+import { useReveal, revealDelay } from '../../hooks/useReveal';
+import { classNames } from '../../lib/classNames';
+import { boardReducer, initialBoard } from '../../lib/markBoard';
 import { RevealWords } from '../common/RevealWords';
 import { Lightbox } from './Lightbox';
 import { MarkBoard } from './MarkBoard';
@@ -12,40 +12,26 @@ import styles from './Projects.module.css';
 
 /** Selected Projects: open a project to snap its part of my mark into place. */
 export function Projects() {
-  const [current, setCurrent] = useState(0);
-  const [placed, setPlaced] = useState(initialPlacement);
-  const [shot, setShot] = useState(0);
+  const [board, dispatch] = useReducer(boardReducer, undefined, initialBoard);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const heading = useReveal('work-heading');
+  const detail = useReveal('project-detail');
 
-  const heading = useReveal('hwork');
-  const board = useReveal('board');
-  const parts = useReveal('parts');
-  const detail = useReveal('proj');
-
-  const project = projects[current]!;
+  const project = projects[board.current];
+  if (!project) {
+    return null;
+  }
   const shotCount = project.screenshots.length;
-
-  const open = (index: number) => {
-    setPlaced((before) => placePart(before, index));
-    if (index !== current) setShot(0);
-    setCurrent(index);
-  };
-
-  const reset = () => {
-    setCurrent(0);
-    setShot(0);
-    setPlaced(initialPlacement());
-  };
-
-  const selectShot = (index: number) => setShot(wrapIndex(index, shotCount));
+  const open = (index: number) => dispatch({ type: 'open', project: index });
+  const showShot = (shot: number) => dispatch({ type: 'showShot', shot, shotCount });
 
   return (
-    <section id="work" className={`page-section ${styles.section}`}>
-      <div ref={heading.ref} className={`rv ${heading.className} ${styles.heading}`}>
-        <h2 className={`display ${styles.title}`}>
+    <section id="work" className={classNames('page-section', styles.section)}>
+      <div ref={heading.ref} className={classNames(heading.className, styles.heading)}>
+        <h2 className={classNames('display', styles.title)}>
           <RevealWords text="Selected Projects" />
         </h2>
-        <p className={`rvi ${styles.lead}`} style={revealDelay(3)}>
+        <p className={classNames('rvi', styles.lead)} style={revealDelay(3)}>
           My mark comes in six parts, one for each project. Open a project and its part snaps into place. Open
           all six to put the mark together.
         </p>
@@ -54,31 +40,22 @@ export function Projects() {
       <div className={styles.bench}>
         <MarkBoard
           projects={projects}
-          placed={placed}
-          current={current}
+          placed={board.placed}
+          current={board.current}
           onPick={open}
-          onPlaceAll={() => setPlaced(placeAll())}
-          onReset={reset}
-          revealRef={board.ref}
-          revealClass={board.className}
+          onPlaceAll={() => dispatch({ type: 'placeAll' })}
+          onReset={() => dispatch({ type: 'reset' })}
         />
-        <PartsList
-          projects={projects}
-          placed={placed}
-          current={current}
-          onPick={open}
-          revealRef={parts.ref}
-          revealClass={parts.className}
-        />
+        <PartsList projects={projects} placed={board.placed} current={board.current} onPick={open} />
       </div>
 
-      <div ref={detail.ref} className={`rv rline ${detail.className} ${styles.details}`}>
+      <div ref={detail.ref} className={classNames(detail.className, 'rline', styles.details)}>
         <ProjectDetail
-          key={current}
+          key={board.current}
           project={project}
-          number={current + 1}
-          shot={shot}
-          onSelectShot={selectShot}
+          number={board.current + 1}
+          shot={board.shot}
+          onSelectShot={showShot}
           onOpenShots={() => setLightboxOpen(true)}
         />
       </div>
@@ -87,8 +64,8 @@ export function Projects() {
         open={lightboxOpen && shotCount > 0}
         projectName={project.name}
         screenshots={project.screenshots}
-        current={shot}
-        onStep={(delta) => selectShot(shot + delta)}
+        current={board.shot}
+        onStep={(delta) => showShot(board.shot + delta)}
         onClose={() => setLightboxOpen(false)}
       />
     </section>

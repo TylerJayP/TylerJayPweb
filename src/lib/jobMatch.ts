@@ -31,7 +31,9 @@ export function createJobMatcher(skills: readonly Skill[], gaps: readonly SkillG
   const unknown = compile(gaps);
 
   return function match(posting: string): MatchResult {
-    if (!posting.trim()) return { hits: [], gaps: [], percent: 0 };
+    if (!posting.trim()) {
+      return { hits: [], gaps: [], percent: 0 };
+    }
     // Padding lets patterns like "\bgo," see a boundary at either end.
     const text = ` ${posting.toLowerCase()} `;
     const mentions = <T>({ patterns }: Compiled<T>) => patterns.some((re) => re.test(text));

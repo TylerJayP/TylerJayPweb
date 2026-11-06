@@ -76,7 +76,8 @@
   line-height: 1.7;
 }
 
-.log p {
+/* :where keeps this reset at class-level specificity, so .command and .doneMessage can add spacing. */
+.log :where(p) {
   margin: 0;
 }
 
@@ -85,7 +86,7 @@
 }
 
 .command {
-  margin-bottom: clamp(4px, 1.39cqw, 14px) !important;
+  margin-bottom: clamp(4px, 1.39cqw, 14px);
 }
 
 .step {
@@ -126,7 +127,7 @@
 }
 
 .doneMessage {
-  margin-top: clamp(4px, 1.39cqw, 14px) !important;
+  margin-top: clamp(4px, 1.39cqw, 14px);
   color: var(--term-accent);
 }
 

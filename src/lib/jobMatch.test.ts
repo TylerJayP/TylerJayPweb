@@ -35,7 +35,7 @@ describe('createJobMatcher', () => {
 
   it('matches every skill in the .NET sample posting', () => {
     const real = createJobMatcher(skills, skillGaps);
-    const result = real(samplePostings[0]!.text);
+    const result = real(samplePostings[0]?.text ?? '');
     expect(result.hits.length).toBeGreaterThan(5);
     expect(result.percent).toBe(100);
   });

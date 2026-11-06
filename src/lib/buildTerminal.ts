@@ -3,9 +3,11 @@
  * and to render: given the seconds since it started, it says exactly what the terminal shows.
  */
 
-export const BUILD_SECONDS = 5;
+import { clamp, clamp01 } from './math';
+
+const BUILD_SECONDS = 5;
 /** When the video starts wiping in over the terminal, and when the terminal is fully covered. */
-export const PLAYER_AT = 5.6;
+const PLAYER_AT = 5.6;
 export const TERMINAL_GONE_AT = 6.3;
 
 const PROJECTS = ['TrulyOkay', 'Virtual Dyno', 'OBD2 Telemetry', 'RankQuest'];
@@ -38,50 +40,73 @@ export interface BuildFrame {
   showPlayer: boolean;
 }
 
-const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
+/** Typing and spinner timing. Each step starts at its index in seconds and finishes a second later. */
+const TIMING = { commandTyping: 0.35, firstStepAt: 0.4, stepTyping: 0.3, spinnerFrameMs: 90 };
 
 /** Types `full` out over `duration` seconds, starting at `from`. */
-const typed = (full: string, elapsed: number, from: number, duration: number) =>
-  full.slice(0, Math.max(0, Math.min(full.length, Math.floor(((elapsed - from) / duration) * full.length))));
+function typed(full: string, elapsed: number, from: number, duration: number): string {
+  const characters = Math.floor(((elapsed - from) / duration) * full.length);
+  return full.slice(0, clamp(characters, 0, full.length));
+}
 
-export function buildFrame(elapsed: number, rebuild: boolean, nowMs: number): BuildFrame {
-  const t = Math.max(0, elapsed);
-  const verb = rebuild ? 'rebuilding ' : 'building ';
-  const labels = [
-    ...PROJECTS.map((name) => verb + name),
+function stepLabels(rebuild: boolean): string[] {
+  const verb = rebuild ? 'rebuilding' : 'building';
+  return [
+    ...PROJECTS.map((name) => `${verb} ${name}`),
     rebuild ? 'restarting intro video' : 'starting intro video',
   ];
-  const spinner = SPINNER[Math.floor(nowMs / 90) % SPINNER.length] ?? '|';
+}
+
+/** The first step waits for the command to finish typing. */
+const stepStartsAt = (index: number) => (index === 0 ? TIMING.firstStepAt : index);
+
+interface StepContext {
+  elapsed: number;
+  total: number;
+  spinner: string;
+}
+
+function stepStatus(done: boolean, fullyTyped: boolean, spinner: string): string {
+  if (done) {
+    return 'ok';
+  }
+  return fullyTyped ? spinner : '';
+}
+
+function buildStep(label: string, index: number, { elapsed, total, spinner }: StepContext): BuildStep {
+  const text = typed(label, elapsed, stepStartsAt(index), TIMING.stepTyping);
+  const done = elapsed >= index + 1;
+  const fullyTyped = text.length >= label.length;
+  return {
+    number: total - index,
+    text,
+    active: !done,
+    done,
+    status: stepStatus(done, fullyTyped, spinner),
+    showLeader: fullyTyped,
+  };
+}
+
+/** Everything the terminal shows `elapsed` seconds into the build. `nowMs` drives the spinner. */
+export function buildFrame(elapsed: number, rebuild: boolean, nowMs: number): BuildFrame {
+  const t = Math.max(0, elapsed);
+  const labels = stepLabels(rebuild);
+  const spinner = SPINNER[Math.floor(nowMs / TIMING.spinnerFrameMs) % SPINNER.length] ?? '|';
+  const context = { elapsed: t, total: labels.length, spinner };
 
   const steps = labels
-    .map((label, i) => {
-      const from = i === 0 ? 0.4 : i;
-      const text = typed(label, t, from, 0.3);
-      const done = t >= i + 1;
-      const fullyTyped = text.length >= label.length;
-      return {
-        visible: t >= from,
-        step: {
-          number: labels.length - i,
-          text,
-          active: t >= from && !done,
-          done,
-          status: done ? 'ok' : fullyTyped ? spinner : '',
-          showLeader: fullyTyped,
-        },
-      };
-    })
-    .filter(({ visible }) => visible)
-    .map(({ step }) => step);
+    .map((label, index) => ({ label, index }))
+    .filter(({ index }) => t >= stepStartsAt(index))
+    .map(({ label, index }) => buildStep(label, index, context));
 
   const command = rebuild ? 'tjp rebuild --all' : 'tjp build --all';
   const remaining = Math.max(0, BUILD_SECONDS - t);
 
   return {
-    command: typed(command, t, 0, 0.35),
-    commandTyping: t < 0.4,
+    command: typed(command, t, 0, TIMING.commandTyping),
+    commandTyping: t < TIMING.firstStepAt,
     steps,
-    progress: labels.map((_, i) => clamp01(t - i)),
+    progress: labels.map((_, index) => clamp01(t - index)),
     clock: `00:0${remaining.toFixed(2)}`,
     built: t >= BUILD_SECONDS,
     doneMessage: rebuild

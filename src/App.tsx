@@ -8,9 +8,11 @@ import { JobMatch } from './components/JobMatch/JobMatch';
 import { Projects } from './components/Projects/Projects';
 import { ResumeDialog } from './components/Resume/ResumeDialog';
 import { site } from './content/site';
-import { RevealProvider, useRevealEnabled } from './hooks/reveal';
-import { ThemeProvider } from './hooks/theme';
 import { useIntro } from './hooks/useIntro';
+import { useRevealEnabled } from './hooks/useReveal';
+import { classNames } from './lib/classNames';
+import { RevealProvider } from './providers/RevealProvider';
+import { ThemeProvider } from './providers/ThemeProvider';
 import styles from './App.module.css';
 
 export function App() {
@@ -66,5 +68,5 @@ function Page() {
 /** Carries the classes the intro (`intro reset|go`) and the scroll reveals (`sr`) are styled from. */
 function PageRoot({ phase, children }: { phase: 'reset' | 'go'; children: ReactNode }) {
   const revealsOn = useRevealEnabled();
-  return <div className={`${styles.root} intro ${phase} ${revealsOn ? 'sr' : ''}`}>{children}</div>;
+  return <div className={classNames(styles.root, 'intro', phase, revealsOn && 'sr')}>{children}</div>;
 }

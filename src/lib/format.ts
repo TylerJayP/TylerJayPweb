@@ -8,6 +8,8 @@ export function formatClock(seconds: number): string {
 
 /** Keeps an index inside 0..length-1, wrapping around in both directions. */
 export function wrapIndex(index: number, length: number): number {
-  if (length <= 0) return 0;
+  if (length <= 0) {
+    return 0;
+  }
   return ((index % length) + length) % length;
 }
