@@ -1,0 +1,36 @@
+.footer {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding-inline: var(--page-pad);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-block: 32px 40px;
+  border-top: 1.5px solid var(--c-frame-strong);
+  font-size: 14px;
+  color: var(--c-muted);
+  text-align: center;
+}
+
+.mark {
+  color: var(--c-ink);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 22px;
+  font-weight: 600;
+}
+
+.links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  text-decoration: none;
+}

@@ -1,0 +1,324 @@
+.hero {
+  width: 100%;
+  max-width: var(--hero-w);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 16:9 stage; sizes inside scale with its width (cqw). */
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  container-type: inline-size;
+  background: var(--term-bg);
+  color: var(--term-text);
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: left;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px 16px;
+}
+
+.replay {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: var(--c-ink);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ── terminal (build and end screen) ── */
+.terminal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--term-bg);
+  font-family: var(--font-mono);
+}
+
+.titleBar {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: clamp(10px, 1.94cqw, 16px) clamp(14px, 3.05cqw, 28px);
+  border-bottom: 1px solid var(--term-line);
+  font-size: clamp(11px, 1.39cqw, 13px);
+  color: var(--term-dim);
+}
+
+.clock {
+  font-variant-numeric: tabular-nums;
+}
+
+.log {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: clamp(14px, 3.6cqw, 36px) clamp(14px, 4.16cqw, 44px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2px, 0.69cqw, 8px);
+  font-size: clamp(11px, 1.94cqw, 18px);
+  line-height: 1.7;
+}
+
+.log p {
+  margin: 0;
+}
+
+.prompt {
+  color: var(--term-dim);
+}
+
+.command {
+  margin-bottom: clamp(4px, 1.39cqw, 14px) !important;
+}
+
+.step {
+  display: flex;
+  align-items: baseline;
+}
+
+.stepNumber {
+  flex: 0 0 auto;
+  color: var(--term-dim);
+}
+
+.stepLabel {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.leader {
+  flex: 1 1 24px;
+  min-width: 16px;
+  margin: 0 12px;
+  align-self: center;
+  border-bottom: 2px dotted transparent;
+}
+
+.leaderOn {
+  border-bottom-color: var(--term-edge);
+}
+
+.status {
+  flex: 0 0 auto;
+  font-weight: 700;
+  color: var(--term-dim);
+}
+
+.statusDone {
+  color: var(--term-accent);
+}
+
+.doneMessage {
+  margin-top: clamp(4px, 1.39cqw, 14px) !important;
+  color: var(--term-accent);
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.1em;
+  margin-left: 2px;
+  vertical-align: -0.2em;
+  background: var(--term-text);
+  animation: blink 1s steps(1) infinite;
+}
+
+.progress {
+  display: flex;
+  gap: 6px;
+  padding: 0 clamp(14px, 4.16cqw, 44px) clamp(14px, 3.32cqw, 30px);
+}
+
+.segment {
+  flex: 1 1 0;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--term-line);
+  overflow: hidden;
+}
+
+.segmentFill {
+  height: 100%;
+  background: var(--term-bar);
+}
+
+/* ── end screen ── */
+.endBody {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: clamp(10px, 3.6cqw, 36px) clamp(14px, 4.16cqw, 44px);
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
+  gap: clamp(10px, 2.77cqw, 28px);
+  font-size: clamp(11px, 1.94cqw, 18px);
+  line-height: 1.6;
+}
+
+.endBody p {
+  margin: 0;
+}
+
+.finished {
+  color: var(--term-accent);
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px clamp(8px, 1.66cqw, 16px);
+}
+
+.choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  min-height: 44px;
+  padding: 0 clamp(12px, 2.22cqw, 22px);
+  border: 1.5px solid var(--term-edge);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--term-text);
+  font-family: var(--font-mono);
+  font-size: clamp(12px, 1.66cqw, 16px);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.choice:hover {
+  color: var(--term-text);
+}
+
+.choicePrimary {
+  border-color: var(--term-bar);
+  background: var(--term-bar);
+  color: var(--term-on-bar);
+  font-weight: 700;
+}
+
+.choicePrimary:hover {
+  color: var(--term-on-bar);
+}
+
+.choiceKey {
+  color: var(--term-dim);
+}
+
+.choicePrimary .choiceKey {
+  color: inherit;
+}
+
+/* ── transitions between terminal and video ── */
+.wipeIn {
+  animation: wipeIn 700ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+.wipeDown {
+  animation: wipeDown 700ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+.wipeLine,
+.wipeLineDown {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  margin-top: -1px;
+  background: var(--term-bar);
+  pointer-events: none;
+}
+
+.wipeLine {
+  animation: wipeLine 950ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+.wipeLineDown {
+  animation: wipeLineDown 950ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes wipeIn {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes wipeDown {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes wipeLine {
+  0% {
+    top: 100%;
+    opacity: 1;
+  }
+  73.7% {
+    top: 0;
+    opacity: 1;
+    animation-timing-function: ease;
+  }
+  100% {
+    top: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes wipeLineDown {
+  0% {
+    top: 0;
+    opacity: 1;
+  }
+  73.7% {
+    top: 100%;
+    opacity: 1;
+    animation-timing-function: ease;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor,
+  .wipeIn,
+  .wipeDown {
+    animation: none;
+  }
+
+  .wipeLine,
+  .wipeLineDown {
+    display: none;
+  }
+}

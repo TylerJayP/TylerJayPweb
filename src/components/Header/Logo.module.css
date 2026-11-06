@@ -1,0 +1,38 @@
+.logo {
+  position: relative;
+  display: block;
+  width: var(--logo-w);
+  aspect-ratio: 1037 / 635;
+}
+
+.logo svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.logo path {
+  fill: var(--c-ink);
+  stroke: var(--c-ink);
+}
+
+.foilWrap,
+.foil {
+  position: absolute;
+  inset: 0;
+}
+
+/* Foil masked to the mark: a moving sheen over a metallic gradient. */
+.foil {
+  mask: var(--mark-mask) center / contain no-repeat;
+  background-image: var(--foil-sheen), var(--foil-base);
+  background-repeat: no-repeat;
+  background-size:
+    320% 100%,
+    240% 100%;
+  background-position:
+    -30% 0,
+    50% 0;
+}

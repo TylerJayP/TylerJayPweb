@@ -1,0 +1,392 @@
+/*
+ * Design tokens. Every color in the app comes from here, so both themes stay in one place.
+ * The two palettes are the original design's light (pink #FF91F0) and dark (red #ED2F2F) themes.
+ */
+
+:root,
+:root[data-theme='light'] {
+  color-scheme: light;
+  --c-bg: #ffffff;
+  --c-panel: #f4f2f4;
+  --c-panel-edge: #e7e3e7;
+  --c-surface: #ffffff;
+  --c-surface-edge: #dcd7dc;
+  --c-ink: #1b1720;
+  --c-ink2: #3d3842;
+  --c-muted: #625c66;
+  --c-subtle: #a39da6;
+  --c-accent: #ff91f0;
+  --c-accent-text: #b0279a;
+  --c-accent-bright: #ff91f0;
+  --c-on-accent: #1b1720;
+  --c-track: #e7e3e7;
+  --c-grid: #e6e2e6;
+  --c-frame: #1b1720;
+  --c-lead: #1b1720;
+  --c-ghost: #ffffff;
+  --c-ghost-edge: #a39da6;
+  --c-on-ink-muted: #bdb6c0;
+  --c-piece-edge: #b0279a;
+  --c-ball-edge: #b0279a;
+  --c-frame-strong: #1b1720;
+  --c-card-back: #1b1720;
+  --c-card-back-text: #f4eff5;
+  --term--text: #eee9f0;
+  --term--dim: #9a93a0;
+  --term--line: #2e2833;
+  --term--edge: #4a4350;
+  --term--accent: #ff91f0;
+  --term--bar: #ff91f0;
+  --term--on-bar: #1b1720;
+  --term-bg: #1b1720;
+  /* interaction + effect colors that differ by theme */
+  --c-hover-edge: #b0279a;
+  --c-placeholder: #8e8892;
+  --c-scrim: rgba(27, 23, 32, 0.5);
+  --c-paper-shadow: 0 40px 90px -30px rgba(27, 23, 32, 0.55);
+  --c-window-shadow: 0 22px 44px -28px rgba(27, 23, 32, 0.5);
+  --c-hover-fill: #f4f2f4;
+  --c-dock: #ffffff;
+  --c-dock-edge: #e7e3e7;
+  --c-dock-sep: #e7e3e7;
+  --c-lightbox-accent: #ff91f0;
+  --foil-sheen: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0.85) 50%,
+    rgba(255, 255, 255, 0) 60%
+  );
+  --foil-base: linear-gradient(
+    115deg,
+    #b0279a 0%,
+    #e35bcf 18%,
+    #ff91f0 33%,
+    #ffd9f8 45%,
+    #fff6fd 50%,
+    #ffd9f8 55%,
+    #ff91f0 67%,
+    #e35bcf 82%,
+    #b0279a 100%
+  );
+  --card-foil: linear-gradient(
+    115deg,
+    #b0279a 0%,
+    #ff91f0 20%,
+    #fff0fc 36%,
+    #c9c3d6 50%,
+    #ff91f0 66%,
+    #b0279a 84%,
+    #ff91f0 100%
+  );
+  --card-gloss:
+    linear-gradient(
+      110deg,
+      rgba(255, 255, 255, 0) 35%,
+      rgba(255, 255, 255, 0.95) 50%,
+      rgba(255, 255, 255, 0) 65%
+    ),
+    linear-gradient(rgba(176, 39, 154, 0.1), rgba(176, 39, 154, 0.1));
+  --card-stock: #ffffff;
+  --card-stock-shadow: 0 30px 50px -30px rgba(27, 23, 32, 0.45);
+  --card-slab: #dcd7dc;
+  --card-dot: #ffffff;
+  --card-dot-edge: #b0279a;
+  --card-line: rgba(27, 23, 32, 0.38);
+  --card-plane: rgba(27, 23, 32, 0.22);
+  --card-label-bg: rgba(255, 255, 255, 0.8);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --c-bg: #141112;
+  --c-panel: #1e1a1b;
+  --c-panel-edge: #2e2829;
+  --c-surface: #272223;
+  --c-surface-edge: #3a3335;
+  --c-ink: #f4efef;
+  --c-ink2: #d9d1d2;
+  --c-muted: #ada3a5;
+  --c-subtle: #6e6466;
+  --c-accent: #ed2f2f;
+  --c-accent-text: #ff7272;
+  --c-accent-bright: #ed2f2f;
+  --c-on-accent: #160f10;
+  --c-track: #3a3335;
+  --c-grid: #2a2425;
+  --c-frame: #4f4547;
+  --c-lead: #cfc6c7;
+  --c-ghost: #272223;
+  --c-ghost-edge: #6e6466;
+  --c-on-ink-muted: #6a6062;
+  --c-piece-edge: none;
+  --c-ball-edge: #ed2f2f;
+  --c-frame-strong: #5a4f52;
+  --c-card-back: #f4efef;
+  --c-card-back-text: #141112;
+  --term--text: #f1ebec;
+  --term--dim: #9c9194;
+  --term--line: #2e2829;
+  --term--edge: #4f4547;
+  --term--accent: #ff7272;
+  --term--bar: #ed2f2f;
+  --term--on-bar: #160f10;
+  --term-bg: #1e1a1b;
+  --c-hover-edge: #ed2f2f;
+  --c-placeholder: #7d7375;
+  --c-scrim: rgba(0, 0, 0, 0.66);
+  --c-paper-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.9), 0 0 0 1px #2e2829;
+  --c-window-shadow: 0 22px 44px -28px rgba(0, 0, 0, 0.95);
+  --c-hover-fill: #272223;
+  --c-dock: #1e1a1b;
+  --c-dock-edge: #2e2829;
+  --c-dock-sep: #3a3335;
+  --c-lightbox-accent: #ff7272;
+  --foil-sheen: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0.75) 50%,
+    rgba(255, 255, 255, 0) 60%
+  );
+  --foil-base: linear-gradient(
+    115deg,
+    #8e1515 0%,
+    #c42222 18%,
+    #ed2f2f 33%,
+    #ffc4c4 45%,
+    #ffffff 50%,
+    #ffc4c4 55%,
+    #ed2f2f 67%,
+    #c42222 82%,
+    #8e1515 100%
+  );
+  --card-foil: linear-gradient(
+    115deg,
+    #8e1515 0%,
+    #ed2f2f 20%,
+    #ffd9d9 36%,
+    #c9c0c2 50%,
+    #ed2f2f 66%,
+    #8e1515 84%,
+    #ed2f2f 100%
+  );
+  --card-gloss:
+    linear-gradient(
+      110deg,
+      rgba(255, 255, 255, 0) 35%,
+      rgba(255, 255, 255, 0.75) 50%,
+      rgba(255, 255, 255, 0) 65%
+    ),
+    linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08));
+  --card-stock: #272223;
+  --card-stock-shadow: 0 30px 50px -30px rgba(0, 0, 0, 0.8);
+  --card-slab: #161213;
+  --card-dot: #141112;
+  --card-dot-edge: #ed2f2f;
+  --card-line: rgba(244, 239, 239, 0.34);
+  --card-plane: rgba(244, 239, 239, 0.22);
+  --card-label-bg: rgba(20, 17, 18, 0.7);
+}
+
+/* Typography and layout scale: phone first, then tablet, laptop and desktop. */
+:root {
+  --font-display: 'Archivo', system-ui, sans-serif;
+  --font-body: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  --page-max: 1240px;
+  --page-pad: clamp(20px, 4vw, 56px);
+
+  --ease-spring: cubic-bezier(0.3, 1.5, 0.5, 1);
+  --ease-spring-soft: cubic-bezier(0.2, 0.9, 0.25, 1.02);
+
+  --fs-display: 34px;
+  --fs-h2: 30px;
+  --fs-h3: 28px;
+  --fs-title: 26px;
+  --fs-h2s: 28px;
+  --fs-h4: 20px;
+  --fs-h5: 19px;
+  --fs-lead: 16.5px;
+  --fs-lead-s: 16px;
+  --fs-body: 15.5px;
+  --logo-w: 88px;
+  --fs-name: 11px;
+  --ls-name: 1.5px;
+  --hero-w: 100%;
+  --card-stage: 280px;
+}
+
+/* Springier curves where the browser supports linear() easing. */
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --ease-spring: linear(
+      0,
+      0.037,
+      0.133,
+      0.265,
+      0.412,
+      0.562,
+      0.702,
+      0.825,
+      0.927,
+      1.006,
+      1.063,
+      1.101,
+      1.12,
+      1.126,
+      1.122,
+      1.11,
+      1.093,
+      1.074,
+      1.055,
+      1.038,
+      1.022,
+      1.009,
+      0.999,
+      0.992,
+      0.987,
+      0.985,
+      0.984,
+      0.985,
+      0.986,
+      0.988,
+      0.991,
+      0.993,
+      0.995,
+      0.997,
+      0.999,
+      1,
+      1.001,
+      1.002,
+      1.002,
+      1.002,
+      1.002,
+      1.002,
+      1.001,
+      1.001,
+      1
+    );
+    --ease-spring-soft: linear(
+      0,
+      0.018,
+      0.064,
+      0.129,
+      0.206,
+      0.288,
+      0.373,
+      0.455,
+      0.533,
+      0.606,
+      0.672,
+      0.732,
+      0.784,
+      0.829,
+      0.868,
+      0.9,
+      0.927,
+      0.95,
+      0.967,
+      0.981,
+      0.992,
+      1,
+      1.006,
+      1.01,
+      1.013,
+      1.015,
+      1.015,
+      1.015,
+      1.014,
+      1.014,
+      1.012,
+      1.011,
+      1.01,
+      1.009,
+      1.007,
+      1.006,
+      1.005,
+      1.004,
+      1.004,
+      1.003,
+      1.002,
+      1.002,
+      1.001,
+      1.001,
+      1
+    );
+  }
+}
+
+@media (min-width: 641px) {
+  :root {
+    --fs-display: 42px;
+    --fs-h2: 36px;
+    --fs-h3: 32px;
+    --fs-title: 30px;
+    --fs-h2s: 30px;
+    --fs-h4: 22px;
+    --fs-h5: 20px;
+    --fs-lead: 17px;
+    --fs-lead-s: 16px;
+    --fs-body: 16px;
+    --logo-w: 120px;
+    --fs-name: 12.5px;
+    --ls-name: 2.4px;
+    --hero-w: min(100%, 680px, 89vh);
+    --card-stage: 380px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --fs-display: 48px;
+    --fs-h2: 38px;
+    --fs-h3: 34px;
+    --fs-title: 32px;
+    --fs-h2s: 32px;
+    --fs-h4: 23px;
+    --fs-lead-s: 16.5px;
+    --logo-w: 136px;
+    --fs-name: 13.5px;
+    --ls-name: 3px;
+    --hero-w: min(100%, 740px, 89vh);
+  }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --fs-display: 54px;
+    --fs-h2: 42px;
+    --fs-h3: 36px;
+    --fs-title: 34px;
+    --fs-h2s: 34px;
+    --fs-h4: 24px;
+    --fs-h5: 21px;
+    --fs-lead: 18px;
+    --fs-lead-s: 17px;
+    --logo-w: 150px;
+    --fs-name: 14px;
+    --ls-name: 3.2px;
+    --hero-w: min(100%, 780px, 89vh);
+  }
+}
+
+/* Short laptop screens: keep the intro above the fold. */
+@media (min-width: 1024px) and (max-height: 820px) {
+  :root {
+    --fs-display: 44px;
+    --fs-h2: 36px;
+    --fs-h3: 32px;
+    --fs-title: 30px;
+    --fs-h2s: 30px;
+    --logo-w: 120px;
+    --fs-name: 12.5px;
+    --ls-name: 2.6px;
+    --hero-w: min(100%, 680px, 86vh);
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 760px) {
+  :root {
+    --card-stage: 340px;
+  }
+}
