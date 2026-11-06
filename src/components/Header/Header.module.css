@@ -64,6 +64,8 @@
 
 .space {
   width: calc(0.24em + var(--ls-name));
+  /* A real space, so the name reads and copies as words; pre keeps it from collapsing. */
+  white-space: pre;
 }
 
 .themeToggle {

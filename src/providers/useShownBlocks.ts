@@ -9,6 +9,13 @@ const SETTLE_MS = 2800;
 interface Shown {
   stagger: number;
   scrollingUp: boolean;
+  instant: boolean;
+}
+
+export interface ShowOptions {
+  scrollingUp?: boolean;
+  /** Skip the entrance (keyboard focus moved into the block). */
+  instant?: boolean;
 }
 
 type Classes = Partial<Record<RevealKey, string>>;
@@ -55,13 +62,18 @@ export function useShownBlocks() {
     [flush],
   );
 
-  /** Shows a block. Returns false if it was already showing. */
+  /** Shows a block. Returns false if it was already showing (an instant show still cuts its entrance short). */
   const show = useCallback(
-    (key: RevealKey, scrollingUp: boolean) => {
-      if (shown.current.has(key)) {
+    (key: RevealKey, { scrollingUp = false, instant = false }: ShowOptions) => {
+      const current = shown.current.get(key);
+      if (current) {
+        if (instant && !current.instant) {
+          shown.current.set(key, { ...current, instant });
+          flush();
+        }
         return false;
       }
-      shown.current.set(key, { stagger: staggerStep(batchSize.current), scrollingUp });
+      shown.current.set(key, { stagger: staggerStep(batchSize.current), scrollingUp, instant });
       batchSize.current += 1;
       settleLater(key);
       flush();

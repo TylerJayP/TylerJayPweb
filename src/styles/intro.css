@@ -120,15 +120,15 @@
   animation: heroIn 700ms ease 1800ms both;
 }
 
+/*
+ * Reduced motion: everything just fades in. Swapping the animations out is enough, because with them gone the
+ * pieces fall back to their finished look (filled, no outline, no clip).
+ */
 @media (prefers-reduced-motion: reduce) {
   .intro.go :is(.logo-piece, .intro-char, .intro-nav, .intro-hero, .logo-foil-wrap) {
-    animation: fadeOnly 300ms ease both !important;
-    clip-path: none !important;
-    stroke-dashoffset: 0 !important;
-    fill-opacity: 1 !important;
-    stroke-opacity: 0 !important;
+    animation: fadeOnly 300ms ease both;
   }
   .intro.go .logo-foil {
-    animation: none !important;
+    animation: none;
   }
 }

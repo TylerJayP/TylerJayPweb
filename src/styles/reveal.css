@@ -454,3 +454,19 @@
 .rvb4 {
   --rvo: 320ms;
 }
+
+/*
+ * Shown because keyboard focus moved into it: the entrance is skipped, so focus never lands on something
+ * that is still invisible. !important because it has to beat every entrance rule above, whatever their
+ * specificity; the class stays until the block leaves the screen, so nothing replays when focus moves on.
+ */
+.sr .rvnow,
+.sr .rvnow::before,
+.sr .rvnow .rline::before,
+.sr .rvnow :is(.rvi, .rwi, .rty, .rfade, .rfp, .rline, .rseg span, .rlist li),
+.sr .rvnow :is(.rchips > span, .rchips button, .bm-piece, .bm-piece > path) {
+  animation: none !important;
+}
+.sr .rboard.rvnow {
+  mask-image: none;
+}

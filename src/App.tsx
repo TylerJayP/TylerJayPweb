@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState, type MouseEvent, type ReactNode } from 'react';
+import { useCallback, useRef, type ReactNode } from 'react';
 import { Contact } from './components/Contact/Contact';
 import { Experience } from './components/Experience/Experience';
 import { Footer } from './components/Footer/Footer';
@@ -8,6 +8,7 @@ import { JobMatch } from './components/JobMatch/JobMatch';
 import { Projects } from './components/Projects/Projects';
 import { ResumeDialog } from './components/Resume/ResumeDialog';
 import { site } from './content/site';
+import { useHashDialog } from './hooks/useHashDialog';
 import { useIntro } from './hooks/useIntro';
 import { useRevealEnabled } from './hooks/useReveal';
 import { classNames } from './lib/classNames';
@@ -26,24 +27,19 @@ export function App() {
 function Page() {
   const intro = useIntro();
   const introPlayer = useRef<IntroHandle>(null);
-  // A link straight to /#resume opens the resume.
-  const [resumeOpen, setResumeOpen] = useState(() => window.location.hash === '#resume');
-
-  const openResume = useCallback((event: MouseEvent) => {
-    event.preventDefault();
-    setResumeOpen(true);
-  }, []);
+  // An address ending in #resume opens the resume, so it can be linked to directly.
+  const resume = useHashDialog('#resume');
 
   const hearAt = useCallback((seconds: number) => introPlayer.current?.hearAt(seconds), []);
 
   return (
     <RevealProvider held={intro.holding}>
       <PageRoot phase={intro.phase}>
-        <h1 className="visually-hidden">
-          {site.name}, {site.role.toLowerCase()}
-        </h1>
-        <Header onOpenResume={openResume} />
+        <Header onOpenResume={resume.openFromLink} />
         <main>
+          <h1 className="visually-hidden">
+            {site.name}, {site.role.toLowerCase()}
+          </h1>
           <section aria-label="Introduction" className={styles.introSection}>
             <Intro
               ref={introPlayer}
@@ -55,11 +51,11 @@ function Page() {
             <JobMatch onHear={hearAt} />
           </section>
           <Projects />
-          <Experience onOpenResume={openResume} />
+          <Experience onOpenResume={resume.openFromLink} />
           <Contact />
         </main>
-        <Footer onOpenResume={openResume} />
-        <ResumeDialog open={resumeOpen} onClose={() => setResumeOpen(false)} />
+        <Footer onOpenResume={resume.openFromLink} />
+        <ResumeDialog open={resume.open} onClose={resume.close} />
       </PageRoot>
     </RevealProvider>
   );

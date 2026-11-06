@@ -39,7 +39,17 @@ describe('staggerStep', () => {
 
 describe('shownClasses', () => {
   it('marks the stagger, direction and whether it has settled', () => {
-    expect(shownClasses({ stagger: 0, scrollingUp: false, settled: false })).toBe('rvin rvb0');
-    expect(shownClasses({ stagger: 2, scrollingUp: true, settled: true })).toBe('rvin rvb2 rvup rvdone');
+    expect(shownClasses({ stagger: 0, scrollingUp: false, instant: false, settled: false })).toBe(
+      'rvin rvb0',
+    );
+    expect(shownClasses({ stagger: 2, scrollingUp: true, instant: false, settled: true })).toBe(
+      'rvin rvb2 rvup rvdone',
+    );
+  });
+
+  it('marks a block shown by keyboard focus so it skips its entrance', () => {
+    expect(shownClasses({ stagger: 0, scrollingUp: false, instant: true, settled: false })).toBe(
+      'rvin rvb0 rvnow',
+    );
   });
 });

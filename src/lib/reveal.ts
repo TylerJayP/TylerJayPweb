@@ -66,11 +66,19 @@ export function staggerStep(alreadyInBatch: number): number {
 export interface ShownBlock {
   stagger: number;
   scrollingUp: boolean;
+  /** Shown because keyboard focus moved into it, so it skips its entrance and appears at once. */
+  instant: boolean;
   /** Its animation has finished playing. */
   settled: boolean;
 }
 
 /** The classes a shown block carries (styled in styles/reveal.css). */
 export function shownClasses(block: ShownBlock): string {
-  return classNames('rvin', `rvb${block.stagger}`, block.scrollingUp && 'rvup', block.settled && 'rvdone');
+  return classNames(
+    'rvin',
+    `rvb${block.stagger}`,
+    block.scrollingUp && 'rvup',
+    block.instant && 'rvnow',
+    block.settled && 'rvdone',
+  );
 }

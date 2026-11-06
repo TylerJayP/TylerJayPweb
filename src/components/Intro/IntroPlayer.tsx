@@ -6,6 +6,7 @@ import { prefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { captionAt } from '../../lib/captions';
 import { classNames } from '../../lib/classNames';
 import { formatClock } from '../../lib/format';
+import { clamp } from '../../lib/math';
 import { MutedIcon, PauseIcon, PlayIcon, SoundIcon } from '../icons';
 import {
   INITIAL_PLAYBACK,
@@ -95,7 +96,12 @@ export function IntroPlayer({ ref, startAt, onEnded }: IntroPlayerProps) {
   };
   const togglePlay = () => withVideo(togglePlayback);
   const toggleMute = () => withVideo(toggleSound);
-  const seek = (seconds: number) => withVideo((element) => seekTo(element, seconds));
+  // Sync straight after seeking, so the slider shows the new position before React restores the old one.
+  const seek = (seconds: number) =>
+    withVideo((element) => {
+      seekTo(element, seconds);
+      sync();
+    });
 
   const caption = captionsOn && !state.ended ? captionAt(introCaptions, state.current) : '';
 
@@ -140,6 +146,15 @@ export function IntroPlayer({ ref, startAt, onEnded }: IntroPlayerProps) {
   );
 }
 
+/** Arrow keys on the seek bar jump this many seconds, like most video players. */
+const SEEK_STEP_SECONDS = 5;
+const SEEK_KEYS: Partial<Record<string, number>> = {
+  ArrowLeft: -SEEK_STEP_SECONDS,
+  ArrowDown: -SEEK_STEP_SECONDS,
+  ArrowRight: SEEK_STEP_SECONDS,
+  ArrowUp: SEEK_STEP_SECONDS,
+};
+
 interface PlayerControlsProps {
   playback: PlaybackState;
   captionsOn: boolean;
@@ -179,6 +194,13 @@ function PlayerControls({
         step={0.1}
         value={playback.current}
         onChange={(event) => onSeek(Number(event.target.value) || 0)}
+        onKeyDown={(event) => {
+          const delta = SEEK_KEYS[event.key];
+          if (delta !== undefined) {
+            event.preventDefault();
+            onSeek(clamp(playback.current + delta, 0, playback.duration));
+          }
+        }}
         aria-label="Seek"
         aria-valuetext={`${time} of ${total}`}
       />

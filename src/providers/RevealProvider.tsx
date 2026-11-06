@@ -2,7 +2,7 @@ import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } fro
 import { prefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import { isOnScreen, revealDecision, type RevealKey, type ScrollState } from '../lib/reveal';
 import { type Registration, RevealContext } from './revealContext';
-import { useShownBlocks } from './useShownBlocks';
+import { type ShowOptions, useShownBlocks } from './useShownBlocks';
 
 /**
  * Scroll reveals. The rules for when a block shows or hides live in lib/reveal.ts and the effects are
@@ -62,9 +62,10 @@ export function RevealProvider({ children, held }: ProviderProps) {
   const heldRef = useRef(held);
 
   const reveal = useCallback(
-    (key: RevealKey, scrollingUp: boolean) => {
-      const waitingForIntro = heldRef.current && nearTop();
-      if (!waitingForIntro && show(key, scrollingUp)) {
+    (key: RevealKey, options: ShowOptions = {}) => {
+      // Keyboard focus doesn't wait for the intro: a focused control must always be visible.
+      const waitingForIntro = heldRef.current && nearTop() && !options.instant;
+      if (!waitingForIntro && show(key, options)) {
         entries.current.get(key)?.onReveal?.();
       }
     },
@@ -98,9 +99,10 @@ export function RevealProvider({ children, held }: ProviderProps) {
     entries.current.forEach(({ element }, key) => {
       const decision = revealDecision(element.getBoundingClientRect(), scroll);
       if (decision === 'show') {
-        reveal(key, scroll.scrollingUp);
+        reveal(key, { scrollingUp: scroll.scrollingUp });
       }
-      if (decision === 'hide') {
+      // A block holding keyboard focus stays shown, even while the page is still scrolling it into view.
+      if (decision === 'hide' && !element.contains(document.activeElement)) {
         conceal(key);
       }
     });
@@ -109,7 +111,7 @@ export function RevealProvider({ children, held }: ProviderProps) {
   const revealEverythingOnScreen = useCallback(() => {
     entries.current.forEach(({ element }, key) => {
       if (isOnScreen(element.getBoundingClientRect(), window.innerHeight)) {
-        reveal(key, false);
+        reveal(key);
       }
     });
   }, [reveal]);
@@ -137,14 +139,20 @@ export function RevealProvider({ children, held }: ProviderProps) {
 
   const register = useCallback(
     (key: RevealKey, registration: Registration) => {
+      const { element } = registration;
+      // Tabbing into a block that hasn't played yet shows it straight away, so focus never lands on
+      // something invisible.
+      const showOnFocus = () => reveal(key, { instant: true });
       entries.current.set(key, registration);
+      element.addEventListener('focusin', showOnFocus);
       requestAnimationFrame(check);
       return () => {
+        element.removeEventListener('focusin', showOnFocus);
         entries.current.delete(key);
         forget(key);
       };
     },
-    [check, forget],
+    [check, forget, reveal],
   );
 
   const value = useMemo(

@@ -90,10 +90,9 @@ function TypedName() {
       {wordsWithPositions(site.name).map(({ word, start }) => (
         <span key={word}>
           {start > 0 && (
-            <span
-              className={classNames(styles.char, styles.space, 'intro-char')}
-              style={typedAt(start - 1)}
-            />
+            <span className={classNames(styles.char, styles.space, 'intro-char')} style={typedAt(start - 1)}>
+              {' '}
+            </span>
           )}
           {[...word].map((letter, i) => (
             <span key={i} className={classNames(styles.char, 'intro-char')} style={typedAt(start + i)}>

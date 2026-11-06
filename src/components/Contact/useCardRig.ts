@@ -148,6 +148,12 @@ export function useCardRig() {
     setView((v) => ({ ...v, highlighted: layer }));
   }, []);
 
+  // Repaint once a new view has rendered, so the leader lines follow it even when nothing is moving (with
+  // reduced motion the animation loop stops after a single frame, before the new view is in place).
+  useEffect(() => {
+    paint();
+  }, [view.exploded, view.pinned, paint]);
+
   // Only animate while the card is on screen.
   const { setPaused } = loop;
   useEffect(() => {
