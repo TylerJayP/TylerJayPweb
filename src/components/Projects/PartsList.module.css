@@ -1,0 +1,165 @@
+.parts {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.count {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
+.bars {
+  display: flex;
+  gap: 6px;
+}
+
+.bar {
+  flex: 1 1 0;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--c-track);
+  transition: background 450ms ease;
+}
+
+.barPlaced {
+  background: var(--c-ink);
+}
+
+.barCurrent {
+  background: var(--c-accent);
+}
+
+.list {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border-top: 1.5px solid var(--c-frame);
+}
+
+.list li {
+  border-bottom: 1px solid var(--c-surface-edge);
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 56px;
+  padding: 6px 12px;
+  border: 0;
+  background: transparent;
+  color: var(--c-ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.row:hover {
+  background: var(--c-panel);
+}
+
+.rowCurrent,
+.rowCurrent:hover {
+  background: var(--c-ink);
+  color: var(--c-bg);
+}
+
+.number {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.icon {
+  flex: 0 0 auto;
+}
+
+.icon path {
+  fill: none;
+  stroke: var(--c-ghost-edge);
+  stroke-width: 16;
+  stroke-dasharray: 30 20;
+}
+
+.iconPlaced path {
+  fill: var(--c-ink);
+  stroke: none;
+}
+
+.rowCurrent .icon path {
+  fill: var(--c-accent-bright);
+  stroke: none;
+}
+
+.text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-stretch: 112%;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.tick {
+  flex: 0 0 auto;
+  min-width: 60px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--c-muted);
+}
+
+.tickPlaced {
+  color: var(--c-accent-text);
+}
+
+.rowCurrent .tick {
+  color: var(--c-on-ink-muted);
+}
+
+.github {
+  align-self: flex-start;
+  margin-top: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    transition: none;
+  }
+}

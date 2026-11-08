@@ -1,0 +1,472 @@
+/*
+ * Scroll reveals.
+ *
+ * A block marked `.rv` (see useReveal) gets `.rvin` when it scrolls into view and loses it once it is
+ * completely off-screen, so it plays again on the way back. Its children opt into an effect by class:
+ *
+ *   .rvi     fade and rise               .rwi    a heading word rising out of its `.rw` mask
+ *   .rty     one typed character         .rcaret the caret after the typed email address
+ *   .rline   a top border drawn across   .rpanel a border traced around the panel, then filled
+ *   .rboard  the mark board opening      .rfade  fade only
+ *   .rfp     an SVG path drawn, then filled
+ *   .rseg / .rlist / .rchips  children that stagger in by position
+ *
+ * Children stagger with `--rvd` (set inline through `revealDelay()`); blocks that arrive together stagger
+ * with `.rvb1`–`.rvb4`. `.rvup` mirrors the motion when the page is scrolling up, and `.rvdone` marks a
+ * block whose animation has settled. None of this applies until the page root has `.sr`, so with
+ * JavaScript off or reduced motion on, everything is simply visible.
+ */
+
+@property --rvA {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@property --rvR {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+
+@keyframes rvFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes rvRise {
+  from {
+    transform: translateY(calc(22px * var(--rvy, 1)));
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes rvSlide {
+  from {
+    transform: translateX(-22px);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes rvWord {
+  from {
+    transform: translateY(calc(118% * var(--rvy, 1))) rotate(calc(5deg * var(--rvy, 1)));
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes rvPk {
+  from {
+    transform: translateY(calc(10px * var(--rvy, 1))) scale(0.88);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes rvBar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes rvLine {
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+  55% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+@keyframes rvBorderIn {
+  from {
+    border-top-color: transparent;
+  }
+}
+@keyframes rvTrace {
+  from {
+    --rvA: 0deg;
+  }
+  to {
+    --rvA: 360deg;
+  }
+}
+@keyframes rvTraceOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes rvFill {
+  from {
+    background-color: transparent;
+    border-color: transparent;
+  }
+}
+@keyframes rvOpen {
+  from {
+    --rvR: 0%;
+  }
+  to {
+    --rvR: 135%;
+  }
+}
+@keyframes rvPop {
+  from {
+    transform: scale(0.35) rotate(-14deg);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes rvCaret {
+  0%,
+  60% {
+    opacity: 1;
+  }
+  64% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+  76% {
+    opacity: 0;
+  }
+  82% {
+    opacity: 1;
+  }
+  88%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes rvType {
+  from {
+    max-width: 0;
+    opacity: 0;
+  }
+  to {
+    max-width: 2em;
+    opacity: 1;
+  }
+}
+@keyframes drawIn {
+  from {
+    stroke-opacity: 1;
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes fillIn {
+  from {
+    fill-opacity: 0;
+  }
+  to {
+    fill-opacity: 1;
+  }
+}
+@keyframes strokeOut {
+  from {
+    stroke-opacity: 1;
+  }
+  to {
+    stroke-opacity: 0;
+  }
+}
+
+/* Building blocks */
+.rw {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0.06em 0 0.16em;
+  margin: -0.06em 0 -0.16em;
+}
+.rwi {
+  display: inline-block;
+  transform-origin: 0 100%;
+}
+.rty {
+  display: inline-block;
+}
+.rline,
+.rpanel {
+  position: relative;
+}
+.rline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 1.5px;
+  background: var(--c-accent);
+  transform-origin: left center;
+  transform: scaleX(0);
+  opacity: 0;
+  pointer-events: none;
+}
+.rpanel::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1.5px solid var(--c-accent);
+  pointer-events: none;
+  opacity: 0;
+  mask: conic-gradient(from 0deg, #000 var(--rvA), transparent 0);
+}
+.rcaret {
+  display: inline-block;
+  width: 0.07em;
+  height: 0.92em;
+  margin: 0 -0.13em 0 0.06em;
+  vertical-align: -0.1em;
+  background: var(--c-accent);
+  opacity: 0;
+  user-select: none;
+  pointer-events: none;
+}
+.rseg span {
+  transform-origin: left center;
+}
+.rvup {
+  --rvy: -1;
+}
+.rvup .rwi {
+  transform-origin: 0 0;
+}
+.rfp {
+  stroke-dasharray: 1;
+  stroke-opacity: 0;
+}
+
+/* Waiting to come in */
+.sr .rv:not(.rvin) :is(.rvi, .rty, .rfade, .rchips > span, .rchips button, .rlist li) {
+  opacity: 0;
+}
+.sr .rv:not(.rvin) .rwi {
+  transform: translateY(118%);
+}
+.sr .rv:not(.rvin) .rseg span {
+  transform: scaleX(0);
+}
+.sr .rline.rv:not(.rvin),
+.sr .rv:not(.rvin) .rline {
+  border-top-color: transparent;
+}
+.sr .rpanel.rv:not(.rvin) {
+  background-color: transparent;
+  border-color: transparent;
+}
+.sr .rboard.rv:not(.rvin) {
+  mask-image: radial-gradient(circle at 50% 55%, #000 0%, transparent 0%);
+}
+.sr .rv:not(.rvin) .rty {
+  max-width: 0;
+}
+.sr .rboard.rv:not(.rvin) .bm-piece {
+  opacity: 0;
+}
+.sr .rv:not(.rvin) .rfp {
+  fill-opacity: 0;
+  stroke-opacity: 1;
+  stroke-dashoffset: 1;
+}
+
+/* Coming in */
+.sr .rvin .rvi {
+  animation:
+    rvFade 560ms ease-out backwards,
+    rvRise 1000ms var(--ease-spring-soft) backwards;
+  animation-delay: calc(var(--rvo, 0ms) + var(--rvd, 0ms));
+}
+.sr .rvin .rwi {
+  animation: rvWord 1000ms var(--ease-spring-soft) backwards;
+  animation-delay: calc(var(--rvo, 0ms) + var(--rvd, 0ms));
+}
+.sr .rvin :is(.rchips > span, .rchips button) {
+  animation:
+    rvFade 380ms ease-out backwards,
+    rvPk 800ms var(--ease-spring) backwards;
+  animation-delay: calc(var(--rvo, 0ms) + var(--rvd, 0ms));
+}
+.sr .rvin .rty {
+  animation: rvType 1ms linear backwards;
+  animation-delay: calc(var(--rvo, 0ms) + var(--rvd, 0ms));
+}
+.sr .rvin .rcaret {
+  animation: rvCaret 2600ms linear both;
+  animation-delay: calc(var(--rvo, 0ms) + var(--rvd, 0ms));
+}
+.sr .rvin .rseg span {
+  animation: rvBar 900ms var(--ease-spring-soft) backwards;
+  animation-delay: calc(var(--rvo, 0ms) + var(--rvd, 0ms));
+}
+.sr .rvin .rlist li {
+  animation:
+    rvFade 450ms ease-out backwards,
+    rvSlide 900ms var(--ease-spring-soft) backwards;
+  animation-delay: calc(var(--rvo, 0ms) + var(--rvd, 0ms));
+}
+.sr .rvin .rfade {
+  animation: rvFade 600ms ease-out backwards;
+  animation-delay: calc(var(--rvo, 0ms) + var(--rvd, 0ms));
+}
+.sr .rline.rvin::before,
+.sr .rvin .rline::before {
+  animation: rvLine 1150ms cubic-bezier(0.65, 0, 0.35, 1) backwards;
+  animation-delay: calc(var(--rvo, 0ms) + var(--rvd, 0ms));
+}
+.sr .rline.rvin,
+.sr .rvin .rline {
+  animation: rvBorderIn 380ms ease backwards;
+  animation-delay: calc(var(--rvo, 0ms) + var(--rvd, 0ms) + 620ms);
+}
+.sr .rpanel.rvin::before {
+  animation:
+    rvTrace 950ms cubic-bezier(0.65, 0, 0.35, 1) both,
+    rvTraceOut 600ms ease both;
+  animation-delay: calc(var(--rvo, 0ms) + var(--rvd, 0ms)), calc(var(--rvo, 0ms) + var(--rvd, 0ms) + 1000ms);
+}
+.sr .rpanel.rvin {
+  animation: rvFill 700ms ease backwards;
+  animation-delay: calc(var(--rvo, 0ms) + var(--rvd, 0ms) + 520ms);
+}
+.sr .rboard.rvin {
+  mask-image: radial-gradient(circle at 50% 55%, #000 var(--rvR), transparent calc(var(--rvR) + 12%));
+  animation: rvOpen 1300ms cubic-bezier(0.6, 0, 0.2, 1) both;
+  animation-delay: calc(var(--rvo, 0ms) + var(--rvd, 0ms));
+}
+.sr .rboard.rvin .bm-piece {
+  animation: rvFade 420ms ease-out backwards;
+  animation-delay: calc(var(--rvo, 0ms) + var(--rvd, 0ms));
+}
+.sr .rboard.rvin .bm-piece > path {
+  animation: rvPop 1000ms var(--ease-spring) backwards;
+  animation-delay: calc(var(--rvo, 0ms) + var(--rvd, 0ms));
+}
+.sr .rvin .rfp {
+  animation:
+    drawIn 800ms cubic-bezier(0.6, 0, 0.3, 1) backwards,
+    fillIn 350ms ease backwards,
+    strokeOut 450ms ease backwards;
+  animation-delay:
+    calc(var(--rvo, 0ms) + var(--rvd, 0ms)), calc(var(--rvo, 0ms) + var(--rvd, 0ms) + 700ms),
+    calc(var(--rvo, 0ms) + var(--rvd, 0ms) + 1250ms);
+}
+
+/* Settled: effects that only matter mid-animation end in their final state. */
+.sr .rboard.rvdone {
+  mask-image: none;
+  animation: none;
+}
+.sr .rvdone :is(.rty, .rfp, .rline),
+.sr .rline.rvdone,
+.sr .rvdone .bm-art .rvi {
+  animation: none;
+}
+
+/* Structural staggers */
+.rboard .bm-piece > path {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.rseg span:nth-child(1) {
+  --rvd: 160ms;
+}
+.rseg span:nth-child(2) {
+  --rvd: 230ms;
+}
+.rseg span:nth-child(3) {
+  --rvd: 300ms;
+}
+.rseg span:nth-child(4) {
+  --rvd: 370ms;
+}
+.rseg span:nth-child(5) {
+  --rvd: 440ms;
+}
+.rseg span:nth-child(6) {
+  --rvd: 510ms;
+}
+.rlist li:nth-child(1) {
+  --rvd: 220ms;
+}
+.rlist li:nth-child(2) {
+  --rvd: 290ms;
+}
+.rlist li:nth-child(3) {
+  --rvd: 360ms;
+}
+.rlist li:nth-child(4) {
+  --rvd: 430ms;
+}
+.rlist li:nth-child(5) {
+  --rvd: 500ms;
+}
+.rlist li:nth-child(6) {
+  --rvd: 570ms;
+}
+.rchips > span {
+  --rvd: 640ms;
+}
+.rchips button:nth-of-type(1) {
+  --rvd: 720ms;
+}
+.rchips button:nth-of-type(2) {
+  --rvd: 780ms;
+}
+.rchips button:nth-of-type(3) {
+  --rvd: 840ms;
+}
+.rchips button:nth-of-type(4) {
+  --rvd: 900ms;
+}
+.rvb1 {
+  --rvo: 80ms;
+}
+.rvb2 {
+  --rvo: 160ms;
+}
+.rvb3 {
+  --rvo: 240ms;
+}
+.rvb4 {
+  --rvo: 320ms;
+}
+
+/*
+ * Shown because keyboard focus moved into it: the entrance is skipped, so focus never lands on something
+ * that is still invisible. !important because it has to beat every entrance rule above, whatever their
+ * specificity; the class stays until the block leaves the screen, so nothing replays when focus moves on.
+ */
+.sr .rvnow,
+.sr .rvnow::before,
+.sr .rvnow .rline::before,
+.sr .rvnow :is(.rvi, .rwi, .rty, .rfade, .rfp, .rline, .rseg span, .rlist li),
+.sr .rvnow :is(.rchips > span, .rchips button, .bm-piece, .bm-piece > path) {
+  animation: none !important;
+}
+.sr .rboard.rvnow {
+  mask-image: none;
+}

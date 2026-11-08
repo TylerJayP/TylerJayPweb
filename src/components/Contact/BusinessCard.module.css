@@ -1,0 +1,418 @@
+/* The stage the 3D card sits in; labels slide in on the right when it is taken apart. */
+.stage {
+  position: relative;
+  width: 100%;
+  height: var(--card-stage);
+}
+
+.scene {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  perspective: 1500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: right 650ms cubic-bezier(0.3, 0.8, 0.2, 1);
+}
+
+.exploded .scene {
+  right: 176px;
+}
+
+.model {
+  position: relative;
+  width: 330px;
+  max-width: 72%;
+  aspect-ratio: 3.5 / 2;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: opacity 320ms ease;
+}
+
+.dimmed {
+  opacity: 0.12;
+}
+
+/* Dashed outline of a layer while exploded; solid and accented when hovered or pinned. */
+.plane {
+  position: absolute;
+  inset: -1px;
+  border-radius: 15px;
+  border: 1.5px dashed transparent;
+  pointer-events: none;
+  transition: border-color 300ms ease;
+}
+
+.exploded .plane {
+  border-color: var(--card-plane);
+}
+
+.active .plane {
+  border-style: solid;
+  border-color: var(--c-hover-edge);
+}
+
+.dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: var(--card-dot);
+  border: 2.5px solid var(--card-dot-edge);
+  opacity: 0;
+  transform: scale(0.4);
+  transition:
+    opacity 300ms ease,
+    transform 300ms ease;
+}
+
+.exploded .dot {
+  opacity: 1;
+  transform: none;
+  transition-delay: 450ms;
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  container-type: inline-size;
+}
+
+/* Layer 1: the back print, mirrored through the card when seen from the front. */
+.back {
+  background: var(--c-card-back);
+  color: var(--c-card-back-text);
+  backface-visibility: hidden;
+}
+
+.backFlipped {
+  transform: rotateY(180deg);
+}
+
+.backGhost {
+  height: 100%;
+  transform: scaleX(-1);
+  opacity: 0.22;
+}
+
+.backPrint {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 6% 7%;
+}
+
+.backHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.backName {
+  font-family: var(--font-display);
+  font-stretch: 112%;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: 5cqw;
+}
+
+.backMark {
+  width: 13%;
+  color: var(--c-accent);
+}
+
+.backGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.4cqw 3cqw;
+}
+
+.backItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4cqw;
+}
+
+.backKey {
+  font-family: var(--font-mono);
+  font-size: 2.4cqw;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.backValue {
+  font-size: 3.6cqw;
+  font-weight: 600;
+}
+
+/* Layer 2: card stock, with a little thickness and the size callouts. */
+.stock {
+  background: var(--card-stock);
+  box-shadow: var(--card-stock-shadow);
+}
+
+.slab {
+  background: var(--card-slab);
+}
+
+.dims {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 400ms ease;
+  stroke: var(--c-accent-text);
+  color: var(--c-accent-text);
+}
+
+.exploded .dims {
+  opacity: 1;
+  transition-delay: 600ms;
+}
+
+.flipped .dims {
+  opacity: 0;
+  transition-delay: 0ms;
+}
+
+.dimText {
+  fill: var(--c-accent-text);
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+}
+
+/* Layer 3: painted edge. */
+.edge {
+  border: 3px solid var(--c-accent);
+}
+
+/* Layer 4: ink. */
+.ink {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2.6cqw;
+  padding-bottom: 13%;
+  color: var(--c-ink);
+}
+
+.inkName {
+  font-family: var(--font-display);
+  font-stretch: 112%;
+  font-weight: 700;
+  font-size: 3.7cqw;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.inkTag {
+  font-family: var(--font-mono);
+  font-size: 2.9cqw;
+  color: var(--c-muted);
+}
+
+/* Layers 5 and 6: foil mark and spot gloss, both masked to the TJP mark. */
+.markSlot {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 9%;
+}
+
+.foil,
+.gloss {
+  display: block;
+  width: 34%;
+  aspect-ratio: 1037 / 635;
+  mask: var(--mark-mask) center / contain no-repeat;
+}
+
+.foil {
+  background-image: var(--card-foil);
+  background-size: 260% 100%;
+  background-position: 50% 50%;
+}
+
+.gloss {
+  background-image: var(--card-gloss);
+  background-repeat: no-repeat;
+  background-size:
+    300% 100%,
+    100% 100%;
+  background-position:
+    130% 0,
+    0 0;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+
+.exploded .gloss {
+  opacity: 1;
+  animation: glossSweep 3.8s ease-in-out infinite;
+}
+
+/* Leader lines and labels (exploded view, wide screens). */
+.lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.line {
+  fill: none;
+  stroke: var(--card-line);
+  stroke-width: 1.25;
+  stroke-linejoin: round;
+  transition:
+    stroke 200ms ease,
+    opacity 250ms ease;
+}
+
+.lineActive {
+  stroke: var(--c-hover-edge);
+  stroke-width: 2;
+}
+
+.labels {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 160px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 6px 9px;
+  border: 1.5px solid var(--c-panel-edge);
+  border-radius: 10px;
+  background: var(--card-label-bg);
+  color: var(--c-ink);
+  text-align: left;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(10px);
+  transition:
+    opacity 300ms ease,
+    transform 400ms cubic-bezier(0.3, 0.8, 0.2, 1),
+    border-color 200ms ease,
+    background-color 200ms ease;
+}
+
+.exploded .label {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+  transition-delay: 250ms, 250ms, 0ms, 0ms;
+}
+
+.labelActive {
+  border-color: var(--c-accent-text);
+  background: var(--c-surface);
+}
+
+.labelHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.labelNumber {
+  flex: 0 0 auto;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--c-ink);
+  color: var(--c-bg);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.labelPinned .labelNumber {
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+}
+
+.labelName {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.labelSpec {
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--c-muted);
+}
+
+@keyframes glossSweep {
+  0%,
+  42% {
+    background-position:
+      130% 0,
+      0 0;
+  }
+  82%,
+  100% {
+    background-position:
+      -30% 0,
+      0 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .labels,
+  .lines {
+    display: none;
+  }
+
+  .exploded .scene {
+    right: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exploded .gloss {
+    animation: none;
+  }
+}

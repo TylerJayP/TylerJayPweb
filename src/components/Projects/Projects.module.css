@@ -1,0 +1,47 @@
+.section {
+  padding-block: clamp(72px, 9vw, 128px) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 48px;
+}
+
+.title {
+  font-size: var(--fs-h2);
+  line-height: 1.05;
+}
+
+.lead {
+  margin: 0;
+  max-width: 32em;
+  font-size: var(--fs-lead-s);
+  color: var(--c-muted);
+}
+
+/* The mark board and the parts list sit side by side on wide screens. */
+.bench {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.details {
+  padding-top: 32px;
+  border-top: 1.5px solid var(--c-frame);
+}
+
+@media (min-width: 1024px) {
+  .bench {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 32px clamp(40px, 4vw, 56px);
+    align-items: stretch;
+  }
+}

@@ -1,0 +1,109 @@
+.section {
+  padding-block: clamp(72px, 9vw, 128px) 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(56px, 6vw, 88px);
+}
+
+.group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 48px;
+}
+
+/* Heading column; sticks beside the list on wide screens. */
+.side {
+  flex: 1 1 240px;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+}
+
+@media (min-width: 1024px) {
+  .side {
+    position: sticky;
+    top: 32px;
+  }
+}
+
+.title {
+  margin: 0;
+  font-size: var(--fs-h2s);
+  line-height: 1.1;
+}
+
+.list {
+  flex: 3 1 560px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.job {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-block: 24px;
+  border-top: 1px solid var(--c-surface-edge);
+}
+
+.job:last-child,
+.school:last-child {
+  border-bottom: 1px solid var(--c-surface-edge);
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 16px;
+}
+
+.role {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h5);
+  line-height: 1.25;
+}
+
+.date {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+}
+
+.current {
+  color: var(--c-accent-text);
+}
+
+.where {
+  margin: 0;
+  color: var(--c-muted);
+}
+
+.summary {
+  margin: 6px 0 0;
+  max-width: 62ch;
+  line-height: 1.6;
+  color: var(--c-ink2);
+}
+
+.school {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 16px;
+  padding-block: 22px;
+  border-top: 1px solid var(--c-surface-edge);
+}
+
+.school .where {
+  margin-top: 4px;
+}
