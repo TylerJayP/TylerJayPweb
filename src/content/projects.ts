@@ -253,6 +253,28 @@ export const projects: Project[] = [
           'Programs written in the course assembly language, assembled and run on the emulator: a prime finder, two Fibonacci programs and a remainder calculator.',
       },
       {
+        src: '/images/projects/emu4380-program-c-source.webp',
+        thumb: '/images/projects/emu4380-program-c-source-thumb.webp',
+        width: 2520,
+        height: 1400,
+        background: '#0f1115',
+        position: '50% 50%',
+        title: 'Program_C.asm · Recursive Fibonacci',
+        caption:
+          "The recursive Fibonacci function I wrote in the course assembly language. Each call builds its own stack frame: it saves the caller's frame pointer and registers, reads n from the stack, calls itself for n-1 and n-2, and writes the answer into a slot the caller set aside.",
+      },
+      {
+        src: '/images/projects/asm4380-second-pass.webp',
+        thumb: '/images/projects/asm4380-second-pass-thumb.webp',
+        width: 3240,
+        height: 1440,
+        background: '#0f1115',
+        position: '50% 50%',
+        title: 'asm4380 · Second pass',
+        caption:
+          'The assembler at work on Program C, with the source it was given on the right. Its second pass breaks each instruction into an operator, register numbers and an immediate, and swaps labels for addresses: FIB_RECURSE becomes 224 and FIB_RETURN 352.',
+      },
+      {
         src: '/images/projects/asm4380-assembler.webp',
         thumb: '/images/projects/asm4380-assembler-thumb.webp',
         width: 2800,
