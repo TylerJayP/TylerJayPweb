@@ -1,12 +1,63 @@
 # tylerjayp.com
 
-My portfolio site: an intro that "builds" itself and hands over to a video of me, a job-posting matcher,
-my projects as the six parts of my TJP mark, my experience, and a 3D business card you can take apart.
+My portfolio website: **[tylerjayp.com](https://www.tylerjayp.com)**
 
-Built with **React 19, TypeScript and Vite**, styled with **CSS Modules** on a shared set of design tokens,
-tested with **Vitest and Testing Library**, and deployed on **AWS Amplify**.
+I'm Tyler Jay Perkins, a software developer in Salt Lake City and a Master of Computer Science student at
+Utah Valley University. This site is where I show what I build and how I build it.
 
-## Running it
+![The top of the site: my TJP mark, the navigation and the intro video playing with captions](docs/home.webp)
+
+## What's on it
+
+- **An intro that builds itself.** My TJP mark draws itself in, a terminal "builds" my projects, and then
+  it hands over to a short video of me talking about my work, with captions on by default.
+- **Hiring? Paste your job posting.** Paste in a job description and the site shows which of its skills I
+  can back up, with the project or job that proves each one. Most come with a "Hear it" button that plays
+  the part of the video where I talk about that skill. It all runs in your browser; nothing is sent
+  anywhere.
+- **Selected Projects.** My mark is made of six parts, one for each project. Open a project and its part
+  snaps into place; open all six to put the mark together. Each project has screenshots, the stack it uses
+  and why I built it: TrulyOkay, Virtual Dyno, RankQuest, OBD2 Telemetry, my 32-bit Emulator & Assembler and
+  the HoneyABA Portal.
+- **Experience and Resume.** Where I've worked and studied, and my full resume, readable on the page or as a
+  PDF.
+- **A 3D business card.** Take it apart into its six print layers, flip it over, copy my email, save my
+  contact card to your phone, or write me a message that opens in your email app.
+- **Light and dark mode**, with pink as the accent in light mode and red in dark. It works on phones, with
+  the keyboard alone, and with reduced motion turned on.
+
+![Selected Projects in dark mode, with three of the six parts of the mark in place](docs/projects.webp)
+
+![The business card taken apart into its layers, next to the message form](docs/contact.webp)
+
+## How it's built
+
+**React 19, TypeScript and Vite**, styled with **CSS Modules** on a shared set of design tokens, tested with
+**Vitest and Testing Library**, linted with **ESLint and Prettier**, checked by **GitHub Actions** on every
+push and pull request, and hosted on **AWS Amplify** with DNS on Route 53.
+
+- **Content is data.** Everything the page says lives in `src/content` (projects, resume, skills, captions),
+  so adding a project or changing a skill is an edit to a list, not to a component.
+- **Logic is pure and tested.** The job matcher, the build terminal's timeline, the scroll-reveal rules and
+  the business card's spring physics are plain functions with unit tests, separate from the components that
+  draw them.
+- **No animation library and no backend.** The reveals and the card physics are written by hand, and
+  everything runs in the browser.
+- **Strict by default.** TypeScript in strict mode, braces on every `if`, no non-null assertions, a limit on
+  how complex a function can get, and Prettier checked in CI.
+
+```
+src/
+  content/      What the page says, as typed data
+  lib/          Pure logic with unit tests
+  providers/    The theme and scroll-reveal providers
+  hooks/        useTheme, useReveal, the intro sequence, dialogs, the animation loop
+  components/   One folder per section, each with its own CSS Module
+  styles/       Design tokens for both themes, base styles and the animations
+public/         Screenshots, the intro video, the resume PDF and icons
+```
+
+## Running it locally
 
 ```bash
 nvm use            # Node 22 (see .nvmrc)
@@ -14,79 +65,13 @@ npm ci
 npm run dev        # http://localhost:5173
 ```
 
-| Script               | What it does                           |
-| -------------------- | -------------------------------------- |
-| `npm run dev`        | Dev server with hot reload             |
-| `npm run build`      | Type-check, then build to `dist/`      |
-| `npm run preview`    | Serve the production build locally     |
-| `npm test`           | Run the unit and component tests once  |
-| `npm run test:watch` | Tests in watch mode                    |
-| `npm run lint`       | ESLint (TypeScript, React hooks rules) |
-| `npm run format`     | Prettier                               |
-| `npm run typecheck`  | TypeScript only, no build              |
+| Command           | What it does                                 |
+| ----------------- | -------------------------------------------- |
+| `npm run dev`     | Dev server that reloads as you save          |
+| `npm test`        | Runs the unit and component tests            |
+| `npm run lint`    | ESLint                                       |
+| `npm run build`   | Type-checks, then builds the site to `dist/` |
+| `npm run preview` | Serves that build at http://localhost:4173   |
 
-CI (`.github/workflows/ci.yml`) runs lint, the format check, the tests and the build on every push and pull
-request.
-
-## How it's organized
-
-```
-src/
-  content/      Everything the page says, as typed data (projects, resume, skills, captions, contact info)
-  lib/          Pure logic with unit tests: job matching, the build-terminal timeline, captions,
-                scroll-reveal rules, the projects board reducer, the contact email and vCard
-  providers/    The theme and scroll-reveal providers, and the contexts they share with their hooks
-  hooks/        useTheme, useReveal, the intro sequence, dialogs, the animation loop, reduced motion
-  components/   One folder per section, each with its own CSS Module
-  styles/       Design tokens (both themes), base styles, and the intro and reveal animations
-public/         Screenshots, the intro video, the resume PDF, icons and the link-preview image
-```
-
-A few decisions worth knowing about:
-
-- **Content is data.** Components only lay things out. To add a project, add an entry to
-  `src/content/projects.ts`; to change what the job matcher recognizes, edit `src/content/skills.ts`.
-- **Logic is pure where it can be.** The build terminal is a function of elapsed time (`lib/buildTerminal.ts`),
-  so the component just renders whatever frame it returns, and the tests can check any moment of it. The same
-  goes for when a block reveals (`lib/reveal.ts`), the projects board (`lib/markBoard.ts`, a reducer) and the
-  business card's spring physics (`components/Contact/cardPhysics.ts`).
-- **One source for color.** Both themes live in `styles/tokens.css` as CSS variables. Components never hard-code
-  a theme color, so switching themes is a single attribute on `<html>`.
-- **Animation without a library.** Scroll reveals (`providers/RevealProvider.tsx` + `styles/reveal.css`) are
-  a small provider that watches scroll position and toggles classes; the CSS does the motion. The business
-  card is split three ways: `cardPhysics.ts` (damped springs, no DOM), `cardElements.ts` (writes the state to
-  the DOM each frame) and `useCardRig.ts` (what each button does). React only re-renders when the mode changes.
-- **Open to extension.** The card's layers, the job matcher's skills and the projects are lists: adding one
-  is a new entry, not a change to the code that renders them.
-- **No backend.** The job matcher runs in the browser, and the contact form opens the visitor's email app
-  with the message filled in.
-
-## Code style
-
-The tools hold the style, so it stays the same everywhere without anyone checking by eye:
-
-- **Prettier** formats every file, and CI fails if anything isn't formatted. No hand alignment.
-- **ESLint** on top of the TypeScript and React hooks rules:
-  - every `if` and `else` has braces (`curly`), with no comma tricks (`no-sequences`), chained assignments
-    (`no-multi-assign`) or nested ternaries (`no-nested-ternary`)
-  - no `!` non-null assertions: missing values are handled, not asserted away
-  - no reassigned parameters, strict equality only, at most 4 parameters, cyclomatic complexity of 10 or
-    less and nesting 3 deep or less
-- **TypeScript strict**, with `noUncheckedIndexedAccess`, so array and record lookups have to deal with
-  `undefined`.
-- Conditional classes go through `classNames()` (`lib/classNames.ts`), and magic numbers get a named constant
-  with a comment saying what they are.
-
-## Accessibility
-
-- Every control is a real button or link with a label; dialogs trap focus, close on Escape and return focus
-  to whatever opened them.
-- `prefers-reduced-motion` turns off the reveals, the intro animation and the card physics, and the video
-  doesn't autoplay.
-- The intro video has captions (on by default), and the page works with the keyboard alone.
-
-## Deploying
-
-The site is hosted on AWS Amplify, connected to this repository's `main` branch, with DNS on Route 53.
-`amplify.yml` tells Amplify to use Node 22, run `npm ci` and `npm run build`, and publish `dist/`. Every push
-to `main` deploys.
+Every push to `main` deploys: `amplify.yml` tells Amplify to use Node 22, run `npm ci` and `npm run build`,
+and publish `dist/`.
