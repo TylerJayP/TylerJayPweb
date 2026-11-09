@@ -17,7 +17,7 @@ Utah Valley University. This site is where I show what I build and how I build i
   anywhere.
 - **Selected Projects.** My mark is made of six parts, one for each project. Open a project and its part
   snaps into place; open all six to put the mark together. Each project has screenshots, the stack it uses
-  and why I built it: TrulyOkay, Virtual Dyno, RankQuest, OBD2 Telemetry, my 32-bit Emulator & Assembler and
+  and why I built it: TrulyOkay, Virtual Dyno, RankQuest, Lockbox, my 32-bit Emulator & Assembler and
   the HoneyABA Portal.
 - **Experience and Resume.** Where I've worked and studied, and my full resume, readable on the page or as a
   PDF.

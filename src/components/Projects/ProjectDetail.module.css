@@ -89,6 +89,15 @@
   color: var(--c-ink2);
 }
 
+.links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .whyLabel {
   margin: 0 0 4px;
   font-family: var(--font-mono);

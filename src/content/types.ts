@@ -15,6 +15,12 @@ export interface Screenshot {
   caption: string;
 }
 
+/** A page about a project that lives somewhere else, like its code or a download. */
+export interface ProjectLink {
+  label: string;
+  url: string;
+}
+
 export interface Project {
   /** Which part of the TJP mark this project is ("T bar", "J hook", ...). */
   piece: string;
@@ -35,6 +41,8 @@ export interface Project {
   description: string;
   why: string;
   stack: string[];
+  /** Public links, shown under the description. Leave out for private projects. */
+  links?: ProjectLink[];
   screenshots: Screenshot[];
 }
 
