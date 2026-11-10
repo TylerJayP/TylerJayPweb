@@ -20,7 +20,7 @@ export const resume: Resume = {
       ],
       bullets: [
         'Grade, tutor and teach students across five undergraduate CS courses, one-on-one in person and over Teams.',
-        "Compile, run and test every submission against the spec, and hand back the student's own code corrected to show what failed.",
+        "Compile and run every submission against the spec, and hand back the student's own code corrected to show what failed.",
         'Work with several professors and TAs to keep grading consistent across sections and flag commonly missed requirements.',
       ],
     },
@@ -45,14 +45,12 @@ export const resume: Resume = {
         'TypeScript',
         'PostgreSQL (Neon)',
         'Microsoft Entra ID (MSAL)',
-        'Jest',
-        'Vitest',
       ],
       bullets: [
         'Built a role-based portal for an ABA therapy practice: RBTs submit requests, daily checklists and receipt-backed reimbursements from their phones, and admins review them in one queue.',
         "Designed a layered NestJS API on PostgreSQL where every status change is one guarded SQL update with its audit row, so two admins can't overwrite each other's decisions.",
         'Every signed-in screen updates live over Server-Sent Events, with optimistic updates and an offline queue that replays checklist work once the phone reconnects.',
-        'Microsoft-only sign-in through Entra ID with role-based access for owners, admins and RBTs, backed by 87 automated tests including concurrency and permission tests.',
+        'Microsoft-only sign-in through Entra ID with role-based access for owners, admins and RBTs.',
       ],
     },
     {
@@ -72,12 +70,11 @@ export const resume: Resume = {
     {
       name: 'Lockbox, an encrypted password manager',
       kind: 'Desktop app',
-      chips: ['C#', '.NET 10', 'Avalonia', 'libsodium', 'Velopack', 'xUnit', 'GitHub Actions'],
+      chips: ['C#', '.NET 10', 'Avalonia', 'libsodium', 'Velopack'],
       bullets: [
         'A local-first password manager: logins, cards, Wi-Fi networks and notes in one encrypted vault file, with no server or account.',
         'Unlocking takes a master password and a key file, with Argon2id key stretching and XChaCha20-Poly1305 encryption from libsodium.',
         'Saves are crash-safe and tamper-evident, and updates only install once their Ed25519 signature and SHA-256 hash check out.',
-        '98 xUnit tests over the crypto, vault, import, export and update signing, plus a headless end-to-end UI check in GitHub Actions.',
       ],
       note: 'Public on GitHub, with signed Windows releases',
     },
@@ -99,7 +96,7 @@ export const resume: Resume = {
       bullets: [
         'Row-wise and column-wise MPI decompositions of dense and sparse matrix multiplication, run as SLURM jobs on the Bridges-2 supercomputer.',
         'Handled uneven splits with MPI_Scatterv and MPI_Gatherv, and measured per-rank load imbalance on sparse inputs.',
-        'Both parallel versions match the sequential baseline bit for bit across 222 checks; traced a 5.9–7.1× column-wise speedup to cache behavior.',
+        'Timed each phase with MPI_Wtime and MPI_Reduce across 21 configurations, and traced a 5.9–7.1× column-wise speedup to cache behavior.',
       ],
       note: 'Available on request',
     },
@@ -118,8 +115,6 @@ export const resume: Resume = {
       chips: [
         'Git',
         'CMake',
-        'GoogleTest',
-        'xUnit',
         'React',
         'ASP.NET',
         'Avalonia',
