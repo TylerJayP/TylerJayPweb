@@ -109,6 +109,12 @@ export const projects: Project[] = [
       'Upload an engine datalog and get horsepower and torque curves back, without booking time on a real dyno.',
     why: "Years of datalogs from the car community let me make it as accurate as I could for my car and a few friends' cars.",
     stack: ['React', 'ASP.NET', 'C#'],
+    links: [
+      {
+        label: 'Code on GitHub',
+        url: 'https://github.com/TylerJayP/VirtualDyno',
+      },
+    ],
     screenshots: [
       {
         src: '/images/projects/virtual-dyno-dyno-sheet.webp',
@@ -211,15 +217,92 @@ export const projects: Project[] = [
       y: 40,
       rotate: -4,
     },
-    name: 'OBD2 Telemetry',
-    kind: 'Mobile app',
-    status: 'In development',
-    live: false,
+    name: 'Lockbox',
+    kind: 'Desktop app',
+    status: 'Released',
+    live: true,
     description:
-      "Reads live engine data from my 2012 Mazdaspeed3 over Bluetooth LE. Fast-moving sensors are polled more often than slow ones, and boost is corrected for Salt Lake's 4,300 ft elevation.",
-    why: "I wanted to see boost, AFR and more from my own car. It only supports Mazda for now, because that's what I drive.",
-    stack: ['.NET MAUI', 'Bluetooth LE', 'OBD2'],
-    screenshots: [],
+      'A password manager with no cloud and no account. Logins, cards, Wi-Fi networks and notes live in one encrypted file on your own computer, opening it takes a master password and a key file, and it only installs updates I have signed.',
+    why: 'I wanted my passwords somewhere I fully control. A few friends use it too, so it updates itself every time I ship something new.',
+    stack: ['C#', 'Avalonia', 'libsodium', 'Velopack', 'xUnit'],
+    links: [
+      {
+        label: 'Code on GitHub',
+        url: 'https://github.com/TylerJayP/Lockbox',
+      },
+      {
+        label: 'Download for Windows',
+        url: 'https://github.com/TylerJayP/Lockbox/releases/latest',
+      },
+    ],
+    screenshots: [
+      {
+        src: '/images/projects/lockbox-vault.webp',
+        thumb: '/images/projects/lockbox-vault-thumb.webp',
+        width: 2400,
+        height: 1560,
+        background: '#161a20',
+        position: '50% 0%',
+        title: 'Lockbox · Vault',
+        caption:
+          "A login open with its password history. Every time a password changes, the old one is kept in case the site's change didn't go through. Shown with made-up sample data.",
+      },
+      {
+        src: '/images/projects/lockbox-unlock.webp',
+        thumb: '/images/projects/lockbox-unlock-thumb.webp',
+        width: 2400,
+        height: 1560,
+        background: '#0f1115',
+        position: '50% 50%',
+        title: 'Lockbox · Unlock',
+        caption:
+          'Opening a vault takes two things: the master password and a key file, ideally kept on a USB stick. A lost key file can be typed back in from the emergency sheet printed when the vault was made.',
+      },
+      {
+        src: '/images/projects/lockbox-check-up.webp',
+        thumb: '/images/projects/lockbox-check-up-thumb.webp',
+        width: 2400,
+        height: 1560,
+        background: '#0f1115',
+        position: '50% 0%',
+        title: 'Lockbox · Security check-up',
+        caption:
+          'Finds reused and weak passwords and logins without two-factor, and lists them in the order to fix them. It all runs on the computer; nothing is sent anywhere.',
+      },
+      {
+        src: '/images/projects/lockbox-wi-fi.webp',
+        thumb: '/images/projects/lockbox-wi-fi-thumb.webp',
+        width: 2400,
+        height: 1560,
+        background: '#161a20',
+        position: '50% 0%',
+        title: 'Lockbox · Wi-Fi network',
+        caption:
+          'Wi-Fi networks are their own kind of item, with a QR code that guests scan with their phone camera to join.',
+      },
+      {
+        src: '/images/projects/lockbox-protected-item.webp',
+        thumb: '/images/projects/lockbox-protected-item-thumb.webp',
+        width: 2400,
+        height: 1560,
+        background: '#161a20',
+        position: '50% 0%',
+        title: 'Lockbox · Protected item',
+        caption:
+          "Items marked protected ask for the master password again before showing or copying anything, so someone at an unlocked computer still can't see them.",
+      },
+      {
+        src: '/images/projects/lockbox-import.webp',
+        thumb: '/images/projects/lockbox-import-thumb.webp',
+        width: 2400,
+        height: 1560,
+        background: '#0f1115',
+        position: '50% 0%',
+        title: 'Lockbox · Import',
+        caption:
+          'Bringing in passwords from an old text file. It reads most layouts, every login is reviewed before anything is saved, and the original file is shredded afterward.',
+      },
+    ],
   },
   {
     piece: 'P stem',

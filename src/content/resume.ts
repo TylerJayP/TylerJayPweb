@@ -70,6 +70,18 @@ export const resume: Resume = {
   ],
   projects: [
     {
+      name: 'Lockbox, an encrypted password manager',
+      kind: 'Desktop app',
+      chips: ['C#', '.NET 10', 'Avalonia', 'libsodium', 'Velopack', 'xUnit', 'GitHub Actions'],
+      bullets: [
+        'A local-first password manager: logins, cards, Wi-Fi networks and notes in one encrypted vault file, with no server or account.',
+        'Unlocking takes a master password and a key file, with Argon2id key stretching and XChaCha20-Poly1305 encryption from libsodium.',
+        'Saves are crash-safe and tamper-evident, and updates only install once their Ed25519 signature and SHA-256 hash check out.',
+        '98 xUnit tests over the crypto, vault, import, export and update signing, plus a headless end-to-end UI check in GitHub Actions.',
+      ],
+      note: 'Public on GitHub, with signed Windows releases',
+    },
+    {
       name: '32-bit Microprocessor Emulator & Assembler',
       kind: 'Systems',
       chips: ['C++', 'Python', 'GoogleTest', 'CMake'],
@@ -91,25 +103,6 @@ export const resume: Resume = {
       ],
       note: 'Available on request',
     },
-    {
-      name: 'TrulyOkay, a personal mood journal',
-      kind: 'Senior capstone',
-      chips: [
-        'React + Vite',
-        'ASP.NET Core',
-        'Entity Framework',
-        'MySQL',
-        'Azure',
-        'Google OAuth',
-        'Anthropic API',
-      ],
-      bullets: [
-        'A private, per-user mood journal with Anthropic API prompts tailored to the mood and intensity you pick.',
-        'JWT sign-in over HttpOnly cookies with hashed, database-stored tokens, plus Google OAuth 2.0.',
-        'Deployed the ASP.NET Core API and its MySQL database on Microsoft Azure.',
-      ],
-      note: 'Private repository (UVU policy), available on request',
-    },
   ],
   skills: [
     {
@@ -126,8 +119,10 @@ export const resume: Resume = {
         'Git',
         'CMake',
         'GoogleTest',
+        'xUnit',
         'React',
         'ASP.NET',
+        'Avalonia',
         'Entity Framework',
         'MSAL',
         'NestJS',

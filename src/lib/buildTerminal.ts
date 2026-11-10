@@ -10,7 +10,7 @@ const BUILD_SECONDS = 5;
 const PLAYER_AT = 5.6;
 export const TERMINAL_GONE_AT = 6.3;
 
-const PROJECTS = ['TrulyOkay', 'Virtual Dyno', 'OBD2 Telemetry', 'RankQuest'];
+const PROJECTS = ['TrulyOkay', 'Virtual Dyno', 'Lockbox', 'RankQuest'];
 const SPINNER = ['|', '/', '-', '\\'];
 
 export interface BuildStep {

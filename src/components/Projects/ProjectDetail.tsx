@@ -1,6 +1,7 @@
-import type { Project } from '../../content/types';
+import type { Project, ProjectLink } from '../../content/types';
 import { revealDelay } from '../../hooks/useReveal';
 import { classNames } from '../../lib/classNames';
+import { ExternalIcon } from '../icons';
 import { Gallery } from './Gallery';
 import styles from './ProjectDetail.module.css';
 
@@ -26,6 +27,7 @@ export function ProjectDetail({ project, number, shot, onSelectShot, onOpenShots
         </p>
         <h3 className={classNames('display', styles.name)}>{project.name}</h3>
         <p className={styles.description}>{project.description}</p>
+        {project.links && <ProjectLinks links={project.links} />}
       </div>
 
       {hasShots && (
@@ -55,5 +57,21 @@ export function ProjectDetail({ project, number, shot, onSelectShot, onOpenShots
         ))}
       </ul>
     </article>
+  );
+}
+
+/** Where to see more of a public project, like its code or a download. Each opens in a new tab. */
+function ProjectLinks({ links }: { links: readonly ProjectLink[] }) {
+  return (
+    <ul role="list" aria-label="Links" className={styles.links}>
+      {links.map((link) => (
+        <li key={link.url}>
+          <a className="pill-link" href={link.url} target="_blank" rel="noopener noreferrer">
+            {link.label}
+            <ExternalIcon />
+          </a>
+        </li>
+      ))}
+    </ul>
   );
 }

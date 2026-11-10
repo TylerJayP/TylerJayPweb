@@ -10,14 +10,14 @@ export const skills: Skill[] = [
     name: 'C#',
     patterns: ['c#', 'c sharp', 'csharp'],
     evidence:
-      'Virtual Dyno, OBD2 Telemetry and TrulyOkay are all C#. "I find myself to enjoy C# and creating APIs the most."',
+      'Virtual Dyno, Lockbox and TrulyOkay are all C#. "I find myself to enjoy C# and creating APIs the most."',
     clipAt: 147.51,
   },
   {
     name: '.NET / ASP.NET',
     patterns: ['\\.net', 'asp\\.net', 'dotnet', 'maui'],
     evidence:
-      'ASP.NET Web API at my Treehouse internship, ASP.NET in Virtual Dyno, .NET MAUI in OBD2 Telemetry.',
+      "ASP.NET Web API at my Treehouse internship, ASP.NET in Virtual Dyno, .NET 10 in Lockbox, and .NET MAUI in an OBD2 app I'm building for my car.",
   },
   {
     name: 'Entity Framework',
@@ -99,26 +99,37 @@ export const skills: Skill[] = [
     name: 'Embedded / hardware',
     patterns: ['embedded', 'firmware', 'microcontroller', 'stm32', 'hardware', '\\becu\\b', 'can bus', 'iot'],
     evidence:
-      'My graduate project is my own ECU, with an STM32 board as a virtual motor. OBD2 Telemetry talks to a car over Bluetooth LE.',
+      "My graduate project is my own ECU, with an STM32 board as a virtual motor, and I'm building an OBD2 app that talks to my car over Bluetooth LE.",
     clipAt: 157.92,
   },
   {
     name: 'Bluetooth LE',
     patterns: ['bluetooth', '\\bble\\b'],
-    evidence: 'OBD2 Telemetry reads live engine data over Bluetooth LE.',
+    evidence: "I'm building an OBD2 app that reads live engine data from my car over Bluetooth LE.",
     clipAt: 65.59,
   },
   {
     name: 'Mobile',
     patterns: ['mobile', 'maui', 'android', '\\bios\\b'],
-    evidence: 'OBD2 Telemetry is a .NET MAUI mobile app.',
+    evidence: 'My OBD2 app, still in development, is a .NET MAUI mobile app.',
     clipAt: 65.59,
+  },
+  {
+    name: 'Desktop apps',
+    patterns: ['desktop', '\\bwpf\\b', 'winforms', 'avalonia', '\\bxaml\\b', '\\bmvvm\\b'],
+    evidence: 'Lockbox is a Windows desktop app built with Avalonia and MVVM, and it updates itself.',
   },
   {
     name: 'Auth / OAuth',
     patterns: ['oauth', 'authentication', '\\bauth\\b', 'sso', 'role-based', 'rbac', 'permissions'],
     evidence:
       'Google sign-in on TrulyOkay, and Microsoft sign-in (MSAL) with role-based access for owners, admins and RBTs in HoneyABA.',
+  },
+  {
+    name: 'Security / cryptography',
+    patterns: ['\\bsecurity\\b', 'secure coding', 'cryptograph', 'encrypt', '\\bappsec\\b', 'owasp'],
+    evidence:
+      'Lockbox encrypts its vault with Argon2id and XChaCha20-Poly1305 from libsodium, needs a key file as a second factor, and only installs updates signed with my Ed25519 key.',
   },
   {
     name: 'AI / LLMs',
@@ -137,6 +148,34 @@ export const skills: Skill[] = [
     name: 'Git / GitHub',
     patterns: ['\\bgit\\b', 'github', 'version control'],
     evidence: 'My projects live on GitHub under TylerJayP.',
+  },
+  {
+    name: 'Testing',
+    patterns: [
+      'unit test',
+      'testing',
+      'automated test',
+      '\\btdd\\b',
+      'xunit',
+      'nunit',
+      'jest',
+      'googletest',
+      'vitest',
+    ],
+    evidence:
+      'Lockbox has 98 xUnit tests, the emulator has a GoogleTest suite, and the HoneyABA portal has 87 automated tests in Jest and Vitest.',
+  },
+  {
+    name: 'CI/CD',
+    patterns: [
+      '\\bci\\b',
+      'ci/cd',
+      'continuous integration',
+      'continuous delivery',
+      'continuous deployment',
+      'github actions',
+    ],
+    evidence: 'Lockbox and this site build and run their tests in GitHub Actions.',
   },
   {
     name: 'Assembly / compilers',
