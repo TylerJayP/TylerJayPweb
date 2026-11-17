@@ -10,6 +10,7 @@ import { ResumeDialog } from './components/Resume/ResumeDialog';
 import { site } from './content/site';
 import { useHashDialog } from './hooks/useHashDialog';
 import { useIntro } from './hooks/useIntro';
+import { useLinkedSection } from './hooks/useLinkedSection';
 import { useRevealEnabled } from './hooks/useReveal';
 import { classNames } from './lib/classNames';
 import { RevealProvider } from './providers/RevealProvider';
@@ -29,6 +30,8 @@ function Page() {
   const introPlayer = useRef<IntroHandle>(null);
   // An address ending in #resume opens the resume, so it can be linked to directly.
   const resume = useHashDialog('#resume');
+  // An address ending in #work, #experience or #contact opens the page at that section.
+  useLinkedSection();
 
   const hearAt = useCallback((seconds: number) => introPlayer.current?.hearAt(seconds), []);
 
